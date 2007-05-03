@@ -1,0 +1,54 @@
+This project requires a recent version of SIP (tested with 4.5.2 and 4.6), Qt4 and PyQt4.
+
+First, you need build a customized version of
+libQGLViewer. For this download a version of the sources:
+http://artis.imag.fr/~Gilles.Debunne/QGLViewer/download.html
+for linux, archive is:
+http://artis.imag.fr/Members/Gilles.Debunne/QGLViewer/src/libQGLViewer-2.2.5-1.tar.gz
+and for windows
+http://artis.imag.fr/Members/Gilles.Debunne/QGLViewer/src/libQGLViewer-2.2.5-1.zip
+
+Unzip the archive on your disk. For instance
+> tar xvzf libQGLViewer-2.2.5-1.tar.gz
+
+A directory libQGLViewer-2.2.5-1 should be created
+
+The patch file libQGLViewer-2.2.5-1-py.patch can been found in PyQGLViewer/src dir. 
+
+For info, it has been build with the following command
+> diff -abur libQGLViewer-2.2.5.1 libQGLViewer-2.2.5.1-py > libQGLViewer-2.2.5-1-py.patch
+
+To apply this patch , you should invoke the command
+> patch -p 0 < libQGLViewer-2.2.5-1-py.patch
+
+Source are now ready to compile. Instr
+Go into libQGLViewer-2.2.5-1/QGLViewer dir
+> qmake-qt4 QGLViewer.pro
+> make (or nmake)
+> make install (you should be root on linux)
+On windows to install the lib you should copy the QGLViewer225.dll
+in library repository such as C:\WINDOWS\system32
+
+To have designer plugin, you should go to libQGLViewer-2.2.5-1/designerPlugin
+and invoke similar command
+> qmake-qt4 designerPlugin.pro
+> make (or nmake)
+> make install (you should be root on linux)
+
+libQGLViewer is now compiled and usable. Python wrapper can be build.
+For this, you should simply do the following command
+> python configure.py 
+You should be root on linux to make it work. You can specify the 
+source repository of libQGLViewer-2.2.5-1 with -Q option.
+For instance 
+> python configure.py -Q ../libQGLViewer-2.2.5-1
+Then you simply have to compile and install with
+> make (or nmake)
+> make install (or nmake install, you should be root)
+
+You can then test the new module with all examples
+that you can find in the directory PyQGLViewer/examples.
+
+Good luck,
+
+Fred
