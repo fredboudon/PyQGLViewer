@@ -272,6 +272,7 @@ def setup_qglviewer_build(configuration, options, package):
     extra_py_files = glob.glob(os.path.join('src', 'python', '*.py'))
                 
     # do we compile and link the sources of Qwt statically into PyQwt?
+    # This part of the code is not used...
     if options.qglviewer_sources:
         extra_sources += glob.glob(os.path.join(
             options.qglviewer_sources, 'src', '*.cpp'))
@@ -282,6 +283,7 @@ def setup_qglviewer_build(configuration, options, package):
             text = open(header).read()
             if re.compile(r'^\s*Q_OBJECT', re.M).search(text):
                 extra_moc_headers.append(header)
+
 
     # add the interface to the numerical Python extensions
     extra_sources += glob.glob(os.path.join(os.pardir, 'support', '*.cpp'))
@@ -339,7 +341,7 @@ def setup_qglviewer_build(configuration, options, package):
                    [os.path.basename(f) for f in extra_moc_headers])
     
     # fix the typedefs (work around a bug in SIP-4.5.x)
-    fix_typedefs(glob.glob(os.path.join(tmp_dir, 'sipQwt*.cpp')))
+    # fix_typedefs(glob.glob(os.path.join(tmp_dir, 'sipQwt*.cpp')))
 
     # copy lazily to the build directory to speed up recompilation
     if not os.path.exists(build_dir):
@@ -376,10 +378,18 @@ def setup_qglviewer_build(configuration, options, package):
     sip_files = [ os.path.abspath(i) for i in sip_files ]
     installs.append( [sip_files, sip_install_dir])
         
-    if sys.platform == 'win32':
+    if options.qglviewer_sources:
+        qgl_src= options.qglviewer_sources
+        options.extra_include_dirs.append(qgl_src)
+        qgl_lib_dir= os.path.join(qgl_src,'QGLViewer','release')
+        options.extra_lib_dirs.append(qgl_lib_dir)
+    elif sys.platform == 'win32':
+       # Fred hack...
        options.extra_include_dirs.append(os.path.join(os.pardir,os.pardir,os.pardir,'libQGLViewer-2.2.5-1'))
-       options.extra_libs.append('QGLViewer2')
        options.extra_lib_dirs.append(os.path.join(os.pardir,os.pardir,os.pardir,'libQGLViewer-2.2.5-1','QGLViewer','release'))
+
+    if sys.platform == 'win32':
+       options.extra_libs.append('QGLViewer2')
     else:
        options.extra_libs.append('QGLViewer')
     
