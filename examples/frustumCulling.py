@@ -93,22 +93,22 @@ class Box:
         if visible:
             if entirely:
                 self.draw()
-        else:
-            if len(self.child) > 0 :
-	            for i in range(8):
-	                self.child[i].drawIfAllChildrenAreVisible(camera)
             else:
-	            self.draw()
+                if len(self.child) > 0 :
+	                for child in self.child:
+	                    child.drawIfAllChildrenAreVisible(camera)
+                else:
+	                self.draw()
     def buildBoxHierarchy(self,l):
         self.level = l
         middle = (self.p1+self.p2) / 2.0;
-        self.child = [None for i in range(8)]
+        self.child = []
         for i in range(0,8):
             # point in one of the 8 box corners
             point = corner(i,self.p1,self.p2)
             if self.level > 0:
-	            self.child[i] = Box(point, middle)
-	            self.child[i].buildBoxHierarchy(l-1)
+	            self.child.append(Box(point, middle))
+	            self.child[-1].buildBoxHierarchy(l-1)
 
  
 class MyViewer(QGLViewer):
@@ -127,12 +127,11 @@ class MyViewer(QGLViewer):
             ogl.glColor4f(1.0, 1.0, 1.0, 0.5)
             self.cullingCamera.draw()
     def init(self):
-        self.restoreStateFromFile()
+        # self.restoreStateFromFile()
         if self.cullingCamera != self.camera():
             # Observer viewer configuration
             ogl.glEnable(ogl.GL_BLEND)
             ogl.glBlendFunc(ogl.GL_SRC_ALPHA, ogl.GL_ONE_MINUS_SRC_ALPHA)
-            self.help()
         ogl.glDisable(ogl.GL_LIGHTING)
     def helpString(self):
         return helpstr
@@ -148,7 +147,7 @@ def main():
     # Create octree AABBox hierarchy
     p = Vec(1.0, 0.7, 1.3)
     Box.Root = Box(-p, p)
-    Box.Root.buildBoxHierarchy(4)
+    Box.Root.buildBoxHierarchy(3)
   
     # Instantiate the two viewers.
     hSplit  = QSplitter(Qt.Vertical)
@@ -159,6 +158,7 @@ def main():
     c = viewer.camera()
     cc = CullingCamera()
     viewer.setCamera(cc)
+    viewer.showEntireScene()
     del c
 
     # Both viewers share the culling camera
@@ -171,9 +171,10 @@ def main():
     observer.showEntireScene()
 
     # Make sure every culling Camera movement updates the outer viewer
-    # QObject.connect(viewer.camera().frame(), SIGNAL("manipulated()"), observer.updateGL())
-    # QObject.connect(viewer.camera().frame(), SIGNAL("spun()"), observer.updateGL())
-  
+    QObject.connect(viewer.camera().frame(), SIGNAL("manipulated()"), observer.updateGL)
+    QObject.connect(viewer.camera().frame(), SIGNAL("spun()"), observer.updateGL)
+    
+    viewer.help()
     hSplit.setWindowTitle("frustumCulling")
     hSplit.show()
     qapp.exec_()

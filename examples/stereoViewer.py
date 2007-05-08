@@ -1,0 +1,37 @@
+from PyQt4.QtGui import *
+from PyQGLViewer import *
+from qgllogo import *
+import OpenGL.GL as ogl
+
+helpstr = """<h2>S t e r e o V i e w e r</h2>
+You can display in stereo with no change to your application, provided that your hardware supports stereo display.<br><br>  
+If you get a <b>Stereo not supported on this display</b> error message, check that 
+your machine supports stereo (search for quad-buffer in <i>glxinfo</i> and find stereo glasses !).<br><br>  
+You can then toggle the stereo display by pressing <b>S</b> in any application."""
+
+class MyViewer(QGLViewer):
+    def __init__(self):
+        QGLViewer.__init__(self)
+    def draw(self):
+        draw_qgl_logo()
+    def init(self):
+        self.restoreStateFromFile()
+        # Activate the stereo display. Press 'S' to toggle.
+        self.setStereoDisplay(True)
+        self.help()
+    def helpString(self):
+        return helpstr
+    def closeEvent(self,event):
+        helpwidget = self.helpWidget()
+        if helpwidget.isVisible() :
+            helpwidget.hide()
+        QGLViewer.closeEvent(self,event)
+
+def main():
+    qapp = QApplication([])
+    viewer = MyViewer()
+    viewer.setWindowTitle("stereoViewer")
+    viewer.show()
+    qapp.exec_()
+
+main()

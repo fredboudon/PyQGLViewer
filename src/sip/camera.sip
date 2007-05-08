@@ -287,8 +287,8 @@ public:
 			PyTuple_SetItem(sipRes,i,PyFloat_FromDouble(res[i]));
 	}	
 %End
-    void convertClickToLine(const QPoint& pixel, Vec& orig, Vec& dir) const;
-    Vec pointUnderPixel(const QPoint& pixel, bool& found) const;
+    void convertClickToLine(const QPoint& pixel /In/, Vec& orig /Out/, Vec& dir /Out/) const;
+    Vec pointUnderPixel(const QPoint& pixel /In/, bool& found /Out/) const;
 
 
   public:
