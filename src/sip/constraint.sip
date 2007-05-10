@@ -37,11 +37,11 @@ class Constraint
 #include <QGLViewer/constraint.h>
 using qglviewer::Constraint;
 %End
-
+public:
     virtual ~Constraint();
 
-    virtual void constrainTranslation(Vec& translation, const Frame * frame) ;
-    virtual void constrainRotation(Quaternion& rotation, const Frame * frame);
+    virtual void constrainTranslation(Vec& translation /In, Out/,  const Frame * frame /In/) ;
+    virtual void constrainRotation(Quaternion& rotation /In, Out/, const Frame * frame /In/);
   };
 
 
@@ -57,20 +57,20 @@ using qglviewer::AxisPlaneConstraint;
     AxisPlaneConstraint();
     virtual ~AxisPlaneConstraint() ;
     enum Type { FREE, AXIS, PLANE, FORBIDDEN };
-    virtual void constrainTranslation(Vec& translation, const Frame* frame) ;
+    virtual void constrainTranslation(Vec& translation /In, Out/, const Frame* frame /In/) ;
 
-    void setTranslationConstraint(Type type, const Vec& direction);
+    void setTranslationConstraint(Type type, const Vec& direction /In/);
     void setTranslationConstraintType(Type type) ;
-    void setTranslationConstraintDirection(const Vec& direction);
+    void setTranslationConstraintDirection(const Vec& direction /In/);
 
     Type translationConstraintType() const;
     Vec translationConstraintDirection() const ;
 
-    virtual void constrainRotation(Quaternion& rotation, const Frame* frame);
+    virtual void constrainRotation(Quaternion& rotation /In, Out/, const Frame* frame /In/);
 
-    void setRotationConstraint(Type type, const Vec& direction);
+    void setRotationConstraint(Type type, const Vec& direction /In/);
     void setRotationConstraintType(Type type);
-    void setRotationConstraintDirection(const Vec& direction);
+    void setRotationConstraintDirection(const Vec& direction /In/);
 
     Type rotationConstraintType() const;
     Vec rotationConstraintDirection() const;
@@ -87,8 +87,8 @@ using qglviewer::LocalConstraint;
   public:
     virtual ~LocalConstraint();
 
-    virtual void constrainTranslation(Vec&     translation, const Frame* frame);
-    virtual void constrainRotation   (Quaternion& rotation, const Frame* frame);
+    virtual void constrainTranslation(Vec&     translation /In, Out/, const Frame* frame /In/);
+    virtual void constrainRotation   (Quaternion& rotation /In, Out/, const Frame* frame /In/);
 };
 
 
@@ -102,8 +102,8 @@ using qglviewer::WorldConstraint;
   public:
     virtual ~WorldConstraint();
 
-    virtual void constrainTranslation(Vec&     translation, const Frame* frame);
-    virtual void constrainRotation   (Quaternion& rotation, const Frame* frame);
+    virtual void constrainTranslation(Vec&     translation /In, Out/, const Frame* frame /In/);
+    virtual void constrainRotation   (Quaternion& rotation /In, Out/, const Frame* frame /In/);
 };
 
 
@@ -117,11 +117,11 @@ using qglviewer::CameraConstraint;
 using qglviewer::Camera;
 %End
 public:
-    CameraConstraint(const Camera* camera);
+    CameraConstraint(const Camera* camera /Transfer/);
     virtual ~CameraConstraint();
 
-    virtual void constrainTranslation(Vec&     translation, const Frame* frame);
-    virtual void constrainRotation   (Quaternion& rotation, const Frame* frame);
+    virtual void constrainTranslation(Vec&     translation /In, Out/, const Frame* frame /In/);
+    virtual void constrainRotation   (Quaternion& rotation /In, Out/, const Frame* frame /In/);
 
     const Camera* camera() const ;
 

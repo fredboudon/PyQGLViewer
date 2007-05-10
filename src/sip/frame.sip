@@ -87,7 +87,7 @@ public:
     public:
 
     const Frame* referenceFrame() const ;
-    void setReferenceFrame(const Frame* refFrame);
+    void setReferenceFrame(const Frame* refFrame /Transfer/);
     bool settingAsReferenceFrameWillCreateALoop(const Frame* frame);
 
     void translate(Vec& t /In, Out/); 
@@ -331,12 +331,6 @@ public:
 
     Constraint* constraint() const ;
     void setConstraint(Constraint* constraint /Transfer/) ;
-%MethodCode
-        Constraint* currentConstraint = sipCpp->constraint();
-        sipCpp->setConstraint(a0);
-        // Release the ownership of previous constraint to python.
-        PyObject * pyCurrentConstraint = sipConvertFromInstance(currentConstraint,sipClass_Constraint,Py_None);
-%End
 
   public:
     SIP_PYOBJECT matrix() const;
@@ -387,8 +381,8 @@ public:
     Frame worldInverse() const;
 
   public:
-    virtual QDomElement domElement(const QString& name, QDomDocument& document) const;
+    virtual QDomElement domElement(const QString& name /In/, QDomDocument& document /In/) const;
   public slots:
-    virtual void initFromDOMElement(const QDomElement& element);
+    virtual void initFromDOMElement(const QDomElement& element /In/);
 };
 

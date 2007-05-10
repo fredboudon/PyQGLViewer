@@ -33,7 +33,7 @@ def nextRotationConstraintType(consttype):
     return RotationConstraintTypeDict.get(consttype,AxisPlaneConstraint.FREE)
 
 
-class MyViewer(QGLViewer):
+class Viewer(QGLViewer):
     def __init__(self):
         QGLViewer.__init__(self)
     def draw(self):
@@ -141,7 +141,7 @@ class MyViewer(QGLViewer):
         
 def main():
     qapp = QApplication([])
-    viewer = MyViewer()
+    viewer = Viewer()
     viewer.setWindowTitle("constrainedFrame")
     viewer.show()
     qapp.exec_()

@@ -40,7 +40,7 @@ using qglviewer::Camera;
 
   public:
     Vec revolveAroundPoint() const;
-    void setRevolveAroundPoint(const Vec& revolveAroundPoint) ; 
+    void setRevolveAroundPoint(const Vec& revolveAroundPoint /In/) ; 
 
   public slots:
     void setFlySpeed(float speed) ;
@@ -51,17 +51,17 @@ using qglviewer::Camera;
     Vec flyUpVector() const ;
 
   protected:
-    virtual void mouseReleaseEvent(QMouseEvent* event, Camera* camera);
-    virtual void mouseMoveEvent   (QMouseEvent* event, Camera* camera);
-    virtual void wheelEvent       (QWheelEvent* event, Camera* camera);
+    virtual void mouseReleaseEvent(QMouseEvent* event /In/, Camera* camera /In/);
+    virtual void mouseMoveEvent   (QMouseEvent* event /In/, Camera* camera /In/);
+    virtual void wheelEvent       (QWheelEvent* event /In/, Camera* camera /In/);
 
   protected slots:
     virtual void spin();
 
   public:
-    virtual QDomElement domElement(const QString& name, QDomDocument& document) const;
+    virtual QDomElement domElement(const QString& name /In/, QDomDocument& document /In/) const;
   public slots:
-    virtual void initFromDOMElement(const QDomElement& element);
+    virtual void initFromDOMElement(const QDomElement& element /In/);
 
   protected:
     virtual void startAction(int ma, bool withConstraint=true); 
@@ -71,8 +71,8 @@ using qglviewer::Camera;
 
   private:
     void updateFlyUpVector();
-    Quaternion turnQuaternion(int x, const Camera* camera);
-    Quaternion pitchYawQuaternion(int x, int y, const Camera* camera);
+    Quaternion turnQuaternion(int x, const Camera* camera /In/);
+    Quaternion pitchYawQuaternion(int x, int y, const Camera* camera /In/);
 
 };
 

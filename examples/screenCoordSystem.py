@@ -13,7 +13,7 @@ The arrows are drawned using this method. The screen projection coordinates
 of the objects is determined using <code>camera()->projectedCoordinatesOf()</code>, 
 thus <i>attaching</i> the 2D arrows to 3D objects."""
 
-class MyViewer(QGLViewer):
+class Viewer(QGLViewer):
     def __init__(self):
         QGLViewer.__init__(self)
         self.nbSaucers = 10
@@ -80,9 +80,10 @@ class MyViewer(QGLViewer):
 
 def main():
     qapp = QApplication([])
-    viewer = MyViewer()
+    viewer = Viewer()
     viewer.setWindowTitle("screenCoordSystem")
     viewer.show()
     qapp.exec_()
 
-main()
+if __name__ == '__main__':
+    main()

@@ -38,11 +38,8 @@ using qglviewer::KeyFrameInterpolator;
     void endReached();
 
   public slots:
-    void addKeyFrame(const Frame& frame);
-    void addKeyFrame(const Frame& frame, float time);
-
-    void addKeyFrame(const Frame* frame);
-    void addKeyFrame(const Frame* frame, float time);
+    void addKeyFrame(const Frame* frame /Transfer/);
+    void addKeyFrame(const Frame* frame /Transfer/, float time);
 
     void deletePath();
 
@@ -50,7 +47,7 @@ using qglviewer::KeyFrameInterpolator;
     Frame* frame() const;
 
   public slots:
-    void setFrame(Frame* frame);
+    void setFrame(Frame* frame /Transfer/);
 
   public:
     Frame keyFrame(int index) const;
@@ -86,8 +83,8 @@ using qglviewer::KeyFrameInterpolator;
     virtual void drawPath(int mask=1, int nbFrames=6, float scale=1.0);
 
   public:
-    virtual QDomElement domElement(const QString& name, QDomDocument& document) const;
-    virtual void initFromDOMElement(const QDomElement& element);
+    virtual QDomElement domElement(const QString& name /In/, QDomDocument& document /In/) const;
+    virtual void initFromDOMElement(const QDomElement& element /In/);
 
   private slots:
     virtual void update();

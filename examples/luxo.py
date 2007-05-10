@@ -130,7 +130,7 @@ class Luxo :
             ogl.glColor3f(0.9, 0.9, 0.9)
 
 
-class MyViewer(QGLViewer):
+class Viewer(QGLViewer):
     def __init__(self):
         QGLViewer.__init__(self)
         self.luxo = Luxo()
@@ -197,9 +197,10 @@ class MyViewer(QGLViewer):
 
 def main():
 	qapp = QApplication([])
-	viewer = MyViewer()
+	viewer = Viewer()
 	viewer.setWindowTitle("luxo")
 	viewer.show()
 	qapp.exec_()
 
-main()
+if __name__ == '__main__':
+    main()

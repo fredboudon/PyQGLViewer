@@ -111,7 +111,7 @@ class Box:
 	            self.child[-1].buildBoxHierarchy(l-1)
 
  
-class MyViewer(QGLViewer):
+class Viewer(QGLViewer):
     def __init__(self,parent = None):
         QGLViewer.__init__(self,parent)
     def setCullingCamera(self,cc):
@@ -151,15 +151,13 @@ def main():
   
     # Instantiate the two viewers.
     hSplit  = QSplitter(Qt.Vertical)
-    viewer = MyViewer(hSplit)
-    observer = MyViewer(hSplit)
+    viewer = Viewer(hSplit)
+    observer = Viewer(hSplit)
     
     # Give v a cullingCamera;
-    c = viewer.camera()
     cc = CullingCamera()
     viewer.setCamera(cc)
     viewer.showEntireScene()
-    del c
 
     # Both viewers share the culling camera
     viewer.setCullingCamera(cc)
@@ -180,4 +178,5 @@ def main():
     qapp.exec_()
 
 
-main()
+if __name__ == '__main__':
+    main()

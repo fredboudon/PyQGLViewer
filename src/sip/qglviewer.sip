@@ -50,8 +50,8 @@ public:
     ManipulatedFrame* manipulatedFrame() const;
     
     MouseGrabber* mouseGrabber() const;
-    void setMouseGrabberIsEnabled(const MouseGrabber * mouseGrabber, bool enabled=true);
-    bool mouseGrabberIsEnabled(const MouseGrabber* mouseGrabber);
+    void setMouseGrabberIsEnabled(const MouseGrabber * mouseGrabber /In/, bool enabled=true);
+    bool mouseGrabberIsEnabled(const MouseGrabber* mouseGrabber /In/);
     
     float aspectRatio() const;
     float currentFPS();
@@ -73,9 +73,9 @@ public:
   int width() const;
   int height() const;
   virtual void updateGL();
-  static QImage convertToGLFormat(const QImage & image);
-  void qglColor(const QColor& color) const;
-  void qglClearColor(const QColor& color) const;
+  static QImage convertToGLFormat(const QImage & image /In/);
+  void qglColor(const QColor& color /In/) const;
+  void qglClearColor(const QColor& color /In/) const;
   bool isValid() const;
   bool isSharing() const;
   virtual void makeCurrent();
@@ -105,6 +105,51 @@ public:
   int selectRegionWidth() const;
   int selectRegionHeight() const;
   // GLuint* selectBuffer();
+  SIP_PYOBJECT getMultipleSelection() const;
+%MethodCode
+  // Flush GL buffers
+  glFlush();
+
+  // Get the number of objects that were seen through the pick matrix frustum. Reset GL_RENDER mode.
+  GLint nbHits = glRenderMode(GL_RENDER);
+
+  if (nbHits > 0)
+    {
+      sipRes = PyList_New(nbHits);
+      // Interpret results : each object created 4 values in the selectBuffer().
+      // (selectBuffer())[4*i+3] is the id pushed on the stack.
+      GLuint * buffer = sipCpp->selectBuffer();
+      GLuint names;
+      float zmax, zmin;
+      GLuint id;
+      for (int i=0; i<nbHits; ++i)
+      {
+        names = *buffer; ++buffer;
+        zmin = (float)*buffer; ++buffer;
+        zmax = (float)*buffer; ++buffer;
+        PyObject * item = PyTuple_New(3);
+        PyList_SetItem(sipRes,i,item);
+        PyTuple_SetItem(item,0,PyFloat_FromDouble(zmin));
+        PyTuple_SetItem(item,1,PyFloat_FromDouble(zmax));
+        if (names <= 1){
+            id = *buffer; ++buffer;
+            PyTuple_SetItem(item,2,PyLong_FromUnsignedLong(id));
+        }
+        else {
+            PyObject * py_ids = PyList_New(names);
+            for(unsigned int j = 0 ; j < names ; j++){
+                id = *buffer; ++buffer;
+                PyList_SetItem(py_ids,j,PyLong_FromUnsignedLong(id));
+            }
+            PyTuple_SetItem(item,2,py_ids);
+        }
+      }
+    }
+    else { 
+        sipRes = Py_None;
+        Py_INCREF(sipRes);
+    }
+%End
 
   Qt::Key keyFrameKey(int index) const;
   Qt::KeyboardModifiers playKeyFramePathStateKey() const;
@@ -133,7 +178,7 @@ public:
 
  
   QString stateFileName() const;
-  virtual QDomElement domElement(const QString& name, QDomDocument& document) const;
+  virtual QDomElement domElement(const QString& name /In/, QDomDocument& document /In/) const;
 
   static const QList<QGLViewer*>& QGLViewerPool() ;
   static int QGLViewerIndex(const QGLViewer* viewer);
@@ -154,18 +199,18 @@ public slots:
 	void toggleTextIsEnabled();
 	void toggleCameraIsEdited();
 	
-	void setBackgroundColor(const QColor& color);
-	void setForegroundColor(const QColor& color);
+	void setBackgroundColor(const QColor& color /In/);
+	void setForegroundColor(const QColor& color /In/);
 
 	virtual void setSceneRadius(float radius);
-    virtual void setSceneCenter(const Vec& center);
-    void setSceneBoundingBox(const Vec& min, const Vec& max);
+    virtual void setSceneCenter(const Vec& center /In/);
+    void setSceneBoundingBox(const Vec& min /In/, const Vec& max /In/);
 	void showEntireScene();
 	
     void setCamera(Camera* camera /Transfer/);
-    void setManipulatedFrame(ManipulatedFrame* frame);
+    void setManipulatedFrame(ManipulatedFrame* frame /Transfer/);
 	
-   void setMouseGrabber(MouseGrabber* mouseGrabber );
+   void setMouseGrabber(MouseGrabber* mouseGrabber /Transfer/);
 	
 	void setFullScreen(bool fullScreen=true);
 	void setStereoDisplay(bool stereo=true);
@@ -176,9 +221,9 @@ public slots:
   virtual void setMouseTracking(bool enable);
 	
   void saveSnapshot(bool automatic=true, bool overwrite=false);	
-  void saveSnapshot(const QString& fileName, bool overwrite=false);
-  void setSnapshotFileName(const QString& name);
-  void setSnapshotFormat(const QString& format);
+  void saveSnapshot(const QString& fileName /In/, bool overwrite=false);
+  void setSnapshotFileName(const QString& name /In/);
+  void setSnapshotFormat(const QString& format /In/);
   void setSnapshotCounter(int counter);
   void setSnapshotQuality(int quality);
   bool openSnapshotFormatDialog();
@@ -195,8 +240,8 @@ public slots:
   virtual void help();
   virtual void aboutQGLViewer();
   
-  virtual void select(const QMouseEvent* event);
-  virtual void select(const QPoint& point);
+  virtual void select(const QMouseEvent* event /In/);
+  virtual void select(const QPoint& point /In/);
 
   void setSelectBufferSize(int size);
   void setSelectRegionWidth(int width);
@@ -211,15 +256,16 @@ public slots:
   virtual void setPlayPathKeyboardModifiers(Qt::KeyboardModifiers modifiers);
   virtual void setAddKeyFrameKeyboardModifiers(Qt::KeyboardModifiers modifiers);
 
-  virtual void initFromDOMElement(const QDomElement& element);
+  virtual void initFromDOMElement(const QDomElement& element /In/);
   virtual void saveStateToFile(); 
   virtual bool restoreStateFromFile();
-  void setStateFileName(const QString& name) ;
+  void setStateFileName(const QString& name /In/) ;
 
-  void saveToFile(const QString& fileName=QString::null);
-  bool restoreFromFile(const QString& fileName=QString::null);
+  void saveToFile(const QString& fileName /In/ =QString::null);
+  bool restoreFromFile(const QString& fileName /In/ =QString::null);
 
   virtual void resetVisualHints();
+
 
 signals:
   void viewerInitialized();
@@ -233,10 +279,11 @@ signals:
   void textIsEnabledChanged(bool enabled);
   void cameraIsEditedChanged(bool edited);
   void stereoChanged(bool on);
-  void pointSelected(const QMouseEvent* e);
-  void mouseGrabberChanged(MouseGrabber* mouseGrabber);
+  void pointSelected(const QMouseEvent* e /In/);
+  void mouseGrabberChanged(MouseGrabber* mouseGrabber /In/);
  
-protected:
+
+ protected:
   virtual void drawLight(GLenum light, float scale = 1.0) const;
     
   bool autoBufferSwap() const;
@@ -256,18 +303,18 @@ protected:
   virtual void fastDraw();
   virtual void postDraw();
 
-  virtual void mousePressEvent(QMouseEvent *);
-  virtual void mouseMoveEvent(QMouseEvent *);
-  virtual void mouseReleaseEvent(QMouseEvent *);
-  virtual void mouseDoubleClickEvent(QMouseEvent *);
-  virtual void wheelEvent(QWheelEvent *);
-  virtual void keyPressEvent(QKeyEvent *);
-  virtual void timerEvent(QTimerEvent *);
-  virtual void closeEvent(QCloseEvent *);
-  virtual void beginSelection(const QPoint& point);
+  virtual void mousePressEvent(QMouseEvent * event /In/);
+  virtual void mouseMoveEvent(QMouseEvent * event /In/);
+  virtual void mouseReleaseEvent(QMouseEvent * event /In/);
+  virtual void mouseDoubleClickEvent(QMouseEvent * event /In/);
+  virtual void wheelEvent(QWheelEvent * event /In/);
+  virtual void keyPressEvent(QKeyEvent * event /In/);
+  virtual void timerEvent(QTimerEvent * event /In/);
+  virtual void closeEvent(QCloseEvent * event /In/);
+  virtual void beginSelection(const QPoint& point /In/);
   virtual void drawWithNames();
-  virtual void endSelection(const QPoint& point);
-  virtual void postSelection(const QPoint& point) ;
+  virtual void endSelection(const QPoint& point /In/);
+  virtual void postSelection(const QPoint& point /In/) ;
   
     enum KeyboardAction { 
 	DRAW_AXIS, 

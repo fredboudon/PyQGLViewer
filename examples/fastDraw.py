@@ -34,7 +34,7 @@ def drawSpiral(simplified = False):
 	            ogl.glVertex3fv(list(center+shift*0.2))
         ogl.glEnd()
 
-class MyViewer(QGLViewer):
+class Viewer(QGLViewer):
     def __init__(self):
         QGLViewer.__init__(self)
     def draw(self):
@@ -52,9 +52,10 @@ class MyViewer(QGLViewer):
 
 def main():
 	qapp = QApplication([])
-	viewer = MyViewer()
+	viewer = Viewer()
 	viewer.setWindowTitle("fastDraw")
 	viewer.show()
 	qapp.exec_()
 
-main()
+if __name__ == '__main__':
+    main()

@@ -13,7 +13,7 @@ Standard functions allow you to convert from any local frame to any other,
 the world/camera conversion presented here simply being an illustration.<br><br>
 See <i>examples/frameTransform.html</i> for an explanation of the meaning of these weird lines."""
 
-class MyViewer(QGLViewer):
+class Viewer(QGLViewer):
     def __init__(self):
         QGLViewer.__init__(self)
     def draw(self):
@@ -48,9 +48,10 @@ class MyViewer(QGLViewer):
 
 def main():
 	qapp = QApplication([])
-	viewer = MyViewer()
+	viewer = Viewer()
 	viewer.setWindowTitle("frameTransform")
 	viewer.show()
 	qapp.exec_()
 
-main()
+if __name__ == '__main__':
+    main()

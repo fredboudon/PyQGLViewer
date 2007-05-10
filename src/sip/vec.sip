@@ -65,9 +65,9 @@ public:
   void projectOnAxis(const Vec& direction);
   void projectOnPlane(const Vec& normal);
 
-  explicit Vec(const QDomElement& element);
-  QDomElement domElement(const QString& name, QDomDocument& document) const;
-  void initFromDOMElement(const QDomElement& element);
+  explicit Vec(const QDomElement& element /In/);
+  QDomElement domElement(const QString& name /In/, QDomDocument& document /In/) const;
+  void initFromDOMElement(const QDomElement& element /In/);
 
    int __len__() const;
 %MethodCode

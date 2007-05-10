@@ -36,7 +36,7 @@ using qglviewer::Camera;
     virtual ~MouseGrabber();
 
   public:
-    virtual void checkIfGrabsMouse(int x, int y, const Camera* camera) = 0;
+    virtual void checkIfGrabsMouse(int x, int y, const Camera* camera /In/) = 0;
     bool grabsMouse() const ;
 
   protected:
@@ -51,11 +51,11 @@ using qglviewer::Camera;
     void clearMouseGrabberPool(bool autoDelete=false);
 
   protected:
-    virtual void mousePressEvent(QMouseEvent* event, Camera* camera) ;
-    virtual void mouseDoubleClickEvent(QMouseEvent* event, Camera* camera) ;
-    virtual void mouseReleaseEvent(QMouseEvent* event, Camera* camera) ;
-    virtual void mouseMoveEvent(QMouseEvent* event, Camera* camera) ;
-    virtual void wheelEvent(QWheelEvent* event, Camera* camera) ;
+    virtual void mousePressEvent       (QMouseEvent* event /In/, Camera* camera /In/) ;
+    virtual void mouseDoubleClickEvent (QMouseEvent* event /In/, Camera* camera /In/) ;
+    virtual void mouseReleaseEvent     (QMouseEvent* event /In/, Camera* camera /In/) ;
+    virtual void mouseMoveEvent        (QMouseEvent* event /In/, Camera* camera /In/) ;
+    virtual void wheelEvent            (QWheelEvent* event /In/, Camera* camera /In/) ;
 
   private:
     MouseGrabber(const MouseGrabber&);

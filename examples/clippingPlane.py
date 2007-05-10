@@ -11,7 +11,7 @@ and position (right button) and to interactively see the clipped result.<br><br>
 Since the plane equation is defined with respect to the current modelView matrix, a constant equation (normal
 along the Z axis) can be used since we transformed the coordinates system using the <b>matrix()</b> method."""
 
-class MyViewer(pq.QGLViewer):
+class Viewer(pq.QGLViewer):
 	def __init__(self):
 		pq.QGLViewer.__init__(self)
 	def draw(self):
@@ -38,10 +38,11 @@ class MyViewer(pq.QGLViewer):
 
 def main():
 	qapp = QApplication([])
-	viewer = MyViewer()
-	viewer.setWindowTitle("simpleViewer")
+	viewer = Viewer()
+	viewer.setWindowTitle("clippingPlane")
 	viewer.show()
 	qapp.exec_()
 
-main()
+if __name__ == '__main__':
+    main()
 

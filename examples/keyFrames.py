@@ -14,7 +14,7 @@ frames, and then press <b>Fx</b> to make the camera follow the path. Press <b>C<
 Use the left and right arrows to change the manipulated KeyFrame. 
 Press <b>Control</b> to move it or simply hover over it."""
 
-class MyViewer(QGLViewer):
+class Viewer(QGLViewer):
     def __init__(self):
         QGLViewer.__init__(self)
         self.restoreStateFromFile()
@@ -86,9 +86,10 @@ class MyViewer(QGLViewer):
 
 def main():
     qapp = QApplication([])
-    viewer = MyViewer()
+    viewer = Viewer()
     viewer.setWindowTitle("keyFrames")
     viewer.show()
     qapp.exec_()
 
-main()
+if __name__ == '__main__':
+    main()

@@ -9,7 +9,7 @@ If you get a <b>Stereo not supported on this display</b> error message, check th
 your machine supports stereo (search for quad-buffer in <i>glxinfo</i> and find stereo glasses !).<br><br>  
 You can then toggle the stereo display by pressing <b>S</b> in any application."""
 
-class MyViewer(QGLViewer):
+class Viewer(QGLViewer):
     def __init__(self):
         QGLViewer.__init__(self)
     def draw(self):
@@ -29,9 +29,10 @@ class MyViewer(QGLViewer):
 
 def main():
     qapp = QApplication([])
-    viewer = MyViewer()
+    viewer = Viewer()
     viewer.setWindowTitle("stereoViewer")
     viewer.show()
     qapp.exec_()
 
-main()
+if __name__ == '__main__':
+    main()

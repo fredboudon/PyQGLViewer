@@ -28,10 +28,10 @@ class DomUtils
 #include <QGLViewer/domUtils.h>
 %End
 public:
-  static float floatFromDom(const QDomElement& e, const QString& attribute, float defValue);
-  static int intFromDom(const QDomElement& e, const QString& attribute, int defValue);
-  static bool boolFromDom(const QDomElement& e, const QString& attribute, bool defValue);
-  static QDomElement QColorDomElement(const QColor& color, const QString& name, QDomDocument& doc);
-  static QColor QColorFromDom(const QDomElement& e);
+  static float floatFromDom(const QDomElement& e /In/, const QString& attribute /In/, float defValue);
+  static int intFromDom(const QDomElement& e /In/, const QString& attribute /In/, int defValue);
+  static bool boolFromDom(const QDomElement& e /In/, const QString& attribute /In/, bool defValue);
+  static QDomElement QColorDomElement(const QColor& color /In/, const QString& name /In/, QDomDocument& doc /In/);
+  static QColor QColorFromDom(const QDomElement& e /In/);
 };
 

@@ -11,7 +11,7 @@ light source (sphere). The representation color, position and shape matches the 
 Hover over the point light or the spot light to manipulate it using the mouse (right 
 button translates and left button rotates)."""
 
-class MyViewer(pq.QGLViewer):
+class Viewer(pq.QGLViewer):
 	def __init__(self):
 		pq.QGLViewer.__init__(self)
 		self.light1 = pq.ManipulatedFrame()
@@ -87,9 +87,10 @@ class MyViewer(pq.QGLViewer):
 
 def main():
 	qapp = QApplication([])
-	viewer = MyViewer()
-	viewer.setWindowTitle("simpleViewer")
+	viewer = Viewer()
+	viewer.setWindowTitle("drawLight")
 	viewer.show()
 	qapp.exec_()
 
-main()
+if __name__ == '__main__':
+    main()

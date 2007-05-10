@@ -385,8 +385,8 @@ def setup_qglviewer_build(configuration, options, package):
         options.extra_lib_dirs.append(qgl_lib_dir)
     elif sys.platform == 'win32':
        # Fred hack...
-       options.extra_include_dirs.append(os.path.join(os.pardir,os.pardir,os.pardir,'libQGLViewer-2.2.5-1'))
-       options.extra_lib_dirs.append(os.path.join(os.pardir,os.pardir,os.pardir,'libQGLViewer-2.2.5-1','QGLViewer','release'))
+       options.extra_include_dirs.append(os.path.join(os.pardir,os.pardir,'libQGLViewer-2.2.5-1'))
+       options.extra_lib_dirs.append(os.path.join(os.pardir,os.pardir,'libQGLViewer-2.2.5-1','QGLViewer','release'))
 
     if sys.platform == 'win32':
        options.extra_libs.append('QGLViewer2')

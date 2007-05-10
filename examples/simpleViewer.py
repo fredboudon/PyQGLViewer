@@ -19,7 +19,7 @@ A left button double click while holding right button pressed defines the camera
 See the <b>Mouse</b> tab and the documentation web pages for details.<br><br>
 Press <b>Escape</b> to exit the viewer."""
 
-class MyViewer(QGLViewer):
+class Viewer(QGLViewer):
     def __init__(self):
         QGLViewer.__init__(self)
     def draw(self):
@@ -37,9 +37,10 @@ class MyViewer(QGLViewer):
 
 def main():
     qapp = QApplication([])
-    viewer = MyViewer()
+    viewer = Viewer()
     viewer.setWindowTitle("simpleViewer")
     viewer.show()
     qapp.exec_()
 
-main()
+if __name__ == '__main__':
+    main()

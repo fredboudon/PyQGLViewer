@@ -203,20 +203,20 @@ public:
 %End
 
 
-  static Quaternion slerp(const Quaternion& a, const Quaternion& b, float t, bool allowFlip=true);
-  static Quaternion squad(const Quaternion& a, const Quaternion& tgA, const Quaternion& tgB, const Quaternion& b, float t);
-  static double dot(const Quaternion& a, const Quaternion& b);
+  static Quaternion slerp(const Quaternion& a /In/, const Quaternion& b /In/, float t, bool allowFlip=true);
+  static Quaternion squad(const Quaternion& a /In/, const Quaternion& tgA /In/, const Quaternion& tgB /In/, const Quaternion& b /In/, float t);
+  static double dot(const Quaternion& a /In/, const Quaternion& b /In/);
 
   Quaternion log();
   Quaternion exp();
   
-  static Quaternion lnDif(const Quaternion& a, const Quaternion& b);
-  static Quaternion squadTangent(const Quaternion& before, const Quaternion& center, const Quaternion& after);
+  static Quaternion lnDif(const Quaternion& a /In/, const Quaternion& b /In/);
+  static Quaternion squadTangent(const Quaternion& before /In/, const Quaternion& center /In/, const Quaternion& after /In/);
 
   static Quaternion randomQuaternion();
 
-  explicit Quaternion(const QDomElement& element);
-  QDomElement domElement(const QString& name, QDomDocument& document) const;
+  explicit Quaternion(const QDomElement& element /In/);
+  QDomElement domElement(const QString& name /In/, QDomDocument& document /In/) const;
   void initFromDOMElement(const QDomElement& element);
 
    int __len__() const;

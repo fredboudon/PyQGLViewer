@@ -16,7 +16,7 @@ In this example, we defined the <b>F</b> and <b>W</b> keys and the right mouse b
 See the keyboard and mouse tabs in this help window for the complete bindings description.<br><br>
 By the way, exit shortcut has been binded to <b>Ctrl+Q</b>."""
 
-class MyViewer(QGLViewer):
+class Viewer(QGLViewer):
     def __init__(self):
         QGLViewer.__init__(self)
         self.__wireframe = False
@@ -115,9 +115,10 @@ class MyViewer(QGLViewer):
 
 def main():
     qapp = QApplication([])
-    viewer = MyViewer()
+    viewer = Viewer()
     viewer.setWindowTitle("keyboardAndMouse")
     viewer.show()
     qapp.exec_()
 
-main()
+if __name__ == '__main__':
+    main()

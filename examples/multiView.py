@@ -53,4 +53,5 @@ def main():
     hSplit.show()
     qapp.exec_()
 
-main()
+if __name__ == '__main__':
+    main()

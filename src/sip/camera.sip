@@ -71,21 +71,21 @@ public:
 %End
 
   public slots:
-    void setPosition(const Vec& pos) ;
-    void setOrientation(const Quaternion& q);
+    void setPosition(const Vec& pos /In/) ;
+    void setOrientation(const Quaternion& q /In/);
     void setOrientation(float theta, float phi);
-    void setUpVector(const Vec& up, bool noMove=true);
-    void setViewDirection(const Vec& direction);
+    void setUpVector(const Vec& up /In/, bool noMove=true);
+    void setViewDirection(const Vec& direction /In/);
 
-    void lookAt(const Vec& target);
+    void lookAt(const Vec& target /In/);
     void showEntireScene();
-    void fitSphere(const Vec& center, float radius);
-    void fitBoundingBox(const Vec& min, const Vec& max);
-    void fitScreenRegion(const QRect& rectangle);
+    void fitSphere(const Vec& center /In/, float radius);
+    void fitBoundingBox(const Vec& min /In/, const Vec& max /In/);
+    void fitScreenRegion(const QRect& rectangle /In/);
     void centerScene();
-    void interpolateToZoomOnPixel(const QPoint& pixel);
+    void interpolateToZoomOnPixel(const QPoint& pixel /In/);
     void interpolateToFitScene();
-    void interpolateTo(const Frame& fr, float duration);
+    void interpolateTo(const Frame& fr /In/, float duration);
 
 public:
     Type type() const;
@@ -146,13 +146,13 @@ public:
     
   public slots:
     void setSceneRadius(float radius);
-    void setSceneCenter(const Vec& center);
-    bool setSceneCenterFromPixel(const QPoint& pixel);
-    void setSceneBoundingBox(const Vec& min, const Vec& max);
+    void setSceneCenter(const Vec& center /In/);
+    bool setSceneCenterFromPixel(const QPoint& pixel /In/);
+    void setSceneBoundingBox(const Vec& min /In/, const Vec& max /In/);
 
  public slots:
-    void setRevolveAroundPoint(const Vec& rap);
-    bool setRevolveAroundPointFromPixel(const QPoint& pixel);
+    void setRevolveAroundPoint(const Vec& rap /In/);
+    bool setRevolveAroundPointFromPixel(const QPoint& pixel /In/);
 
  public:
     Vec revolveAroundPoint() const;
@@ -161,14 +161,12 @@ public:
     ManipulatedCameraFrame* frame() const;
  public slots:
     void setFrame(ManipulatedCameraFrame* mcf /Transfer/);
- 
 
  public:
     KeyFrameInterpolator* keyFrameInterpolator(int i) const;
 
  public slots:
     void setKeyFrameInterpolator(int i, KeyFrameInterpolator* kfi /Transfer/);
-
     virtual void addKeyFrameToPath(int i);
     virtual void playPath(int i);
     virtual void deletePath(int i);
@@ -248,10 +246,10 @@ public:
 %End
 
   public:
-    Vec projectedCoordinatesOf(const Vec& src, const Frame* frame=NULL) const;
-    Vec unprojectedCoordinatesOf(const Vec& src, const Frame* frame=NULL) const;
-    // void getProjectedCoordinatesOf(const float src[3], float res[3], const Frame* frame=NULL) const;
-	SIP_PYOBJECT getProjectedCoordinatesOf(SIP_PYOBJECT, const Frame* frame=NULL) const;
+    Vec projectedCoordinatesOf(const Vec& src /In/ , const Frame* frame /In/ =NULL ) const;
+    Vec unprojectedCoordinatesOf(const Vec& src /In/, const Frame* frame /In/ =NULL) const;
+    // void getProjectedCoordinatesOf(const float src[3], float res[3], const Frame* frame /In/ =NULL) const;
+	SIP_PYOBJECT getProjectedCoordinatesOf(SIP_PYOBJECT, const Frame* frame /In/ =NULL) const;
 %MethodCode
 	int isSequence = PySequence_Check(a0);
 	if (!isSequence || PySequence_Size(a0) != 3)
@@ -270,7 +268,7 @@ public:
 %End
     
     // void getUnprojectedCoordinatesOf(const float src[3], float res[3], const Frame* frame=NULL) const;
-	SIP_PYOBJECT getUnprojectedCoordinatesOf(SIP_PYOBJECT, const Frame* frame=NULL) const;
+	SIP_PYOBJECT getUnprojectedCoordinatesOf(SIP_PYOBJECT, const Frame* frame /In/ =NULL) const;
 %MethodCode
 	int isSequence = PySequence_Check(a0);
 	if (!isSequence || PySequence_Size(a0) != 3)
@@ -309,7 +307,7 @@ public:
     void setFocusDistance(float distance);
 
   public:
-    virtual QDomElement domElement(const QString& name, QDomDocument& document) const;
+    virtual QDomElement domElement(const QString& name /In/, QDomDocument& document /In/) const;
   public slots:
-    virtual void initFromDOMElement(const QDomElement& element);
+    virtual void initFromDOMElement(const QDomElement& element /In/);
 };

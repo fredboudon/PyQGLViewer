@@ -13,7 +13,7 @@ are the same than for the camera. Spinning is possible.<br><br>
 Default key bindings have been changed in this example : press <b>Control</b>
 while moving the mouse to move the camera instead of the ManipulatedFrame."""
 
-class MyViewer(QGLViewer):
+class Viewer(QGLViewer):
     def __init__(self):
         QGLViewer.__init__(self)
     def draw(self):
@@ -46,10 +46,7 @@ class MyViewer(QGLViewer):
         ogl.glEnable(ogl.GL_RESCALE_NORMAL)
         
         # Add a manipulated frame to the viewer.
-        # If you are not "using namespace qglqglviewer", you need
-        # to specify: new qglviewer::ManipulatedFrame().
-        self.mf = ManipulatedFrame()
-        self.setManipulatedFrame(self.mf)
+        self.setManipulatedFrame(ManipulatedFrame())
 
         self.restoreStateFromFile()
         self.help()
@@ -66,9 +63,10 @@ class MyViewer(QGLViewer):
 
 def main():
     qapp = QApplication([])
-    viewer = MyViewer()
-    viewer.setWindowTitle("simpleViewer")
+    viewer = Viewer()
+    viewer.setWindowTitle("manipulatedFrame")
     viewer.show()
     qapp.exec_()
 
-main()
+if __name__ == '__main__':
+    main()

@@ -33,7 +33,7 @@ application. Once the animation is started, <i>animate()</i> and <i>draw()</i>
 are called in an infinite loop, at a frequency that can be fixed.<br><br>
 Press <b>Return</b> to start/stop the animation."""
  
-class MyViewer(QGLViewer):
+class Viewer(QGLViewer):
 	def __init__(self):
 		QGLViewer.__init__(self)
 		self.particles = []
@@ -58,9 +58,10 @@ class MyViewer(QGLViewer):
 
 def main(argv = []):
 	app = QApplication(argv)
-	viewer = MyViewer()
+	viewer = Viewer()
 	viewer.setWindowTitle("animation")
 	viewer.show()
 	app.exec_()
 
-main()
+if __name__ == '__main__':
+    main()

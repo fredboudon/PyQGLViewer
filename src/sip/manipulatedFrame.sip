@@ -58,7 +58,7 @@ using qglviewer::Camera;
     Quaternion spinningQuaternion() const ;
 
   public slots:
-    void setSpinningQuaternion(const Quaternion& spinningQuaternion);
+    void setSpinningQuaternion(const Quaternion& spinningQuaternion /In/);
     virtual void startSpinning(int updateInterval);
     virtual void stopSpinning() ;
   protected slots:
@@ -66,28 +66,28 @@ using qglviewer::Camera;
   private slots:
     void spinUpdate();
   protected:
-    virtual void mousePressEvent      (QMouseEvent* event, Camera* camera); 
-    virtual void mouseMoveEvent       (QMouseEvent* event, Camera* camera);
-    virtual void mouseReleaseEvent    (QMouseEvent* event, Camera* camera);
-    virtual void mouseDoubleClickEvent(QMouseEvent* event, Camera* camera);
-    virtual void wheelEvent           (QWheelEvent* event, Camera* camera);
+    virtual void mousePressEvent      (QMouseEvent* event /In/, Camera* camera /In/); 
+    virtual void mouseMoveEvent       (QMouseEvent* event /In/, Camera* camera /In/);
+    virtual void mouseReleaseEvent    (QMouseEvent* event /In/, Camera* camera /In/);
+    virtual void mouseDoubleClickEvent(QMouseEvent* event /In/, Camera* camera /In/);
+    virtual void wheelEvent           (QWheelEvent* event /In/, Camera* camera /In/);
 
   public:
     bool isManipulated() const;
 
   public:
-    virtual void checkIfGrabsMouse(int x, int y, const Camera* camera);
+    virtual void checkIfGrabsMouse(int x, int y, const Camera* camera /In/);
 
   public:
-    virtual QDomElement domElement(const QString& name, QDomDocument& document) const;
+    virtual QDomElement domElement(const QString& name /In/, QDomDocument& document /In/) const;
   public slots:
-    virtual void initFromDOMElement(const QDomElement& element);
+    virtual void initFromDOMElement(const QDomElement& element /In/);
 
   protected:
-    Quaternion deformedBallQuaternion(int x, int y, float cx, float cy, const Camera* camera);
+    Quaternion deformedBallQuaternion(int x, int y, float cx, float cy, const Camera* camera /In/);
     virtual void startAction(int ma, bool withConstraint=true); 
-    void computeMouseSpeed(const QMouseEvent* e);
-    int mouseOriginalDirection(const QMouseEvent* e);
+    void computeMouseSpeed(const QMouseEvent* e /In/);
+    int mouseOriginalDirection(const QMouseEvent* e /In/);
 
   };
 

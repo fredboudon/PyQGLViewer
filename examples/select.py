@@ -12,7 +12,7 @@ To add object selection in your viewer, all you need to do is to define the <i>d
 It gives a name to each selectable object and selection is then performed using the OpenGL <i>GL_SELECT</i> render mode.<br><br>
 Feel free to cut and paste this implementation in your own applications."""
 
-class MyViewer(QGLViewer):
+class Viewer(QGLViewer):
     def __init__(self):
         QGLViewer.__init__(self)
         self.nb = 10
@@ -80,9 +80,10 @@ class MyViewer(QGLViewer):
 
 def main():
     qapp = QApplication([])
-    viewer = MyViewer()
-    viewer.setWindowTitle("simpleViewer")
+    viewer = Viewer()
+    viewer.setWindowTitle("select")
     viewer.show()
     qapp.exec_()
 
-main()
+if __name__ == '__main__':
+    main()
