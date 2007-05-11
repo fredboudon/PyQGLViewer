@@ -20,8 +20,8 @@ See the <b>Mouse</b> tab and the documentation web pages for details.<br><br>
 Press <b>Escape</b> to exit the viewer."""
 
 class Viewer(QGLViewer):
-    def __init__(self):
-        QGLViewer.__init__(self)
+    def __init__(self,parent = None):
+        QGLViewer.__init__(self,parent)
     def draw(self):
         draw_qgl_logo()
     def init(self):
