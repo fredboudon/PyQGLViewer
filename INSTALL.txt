@@ -42,6 +42,10 @@ You should be root on linux to make it work. You can specify the
 source repository of libQGLViewer-2.2.5-1 with -Q option.
 For instance 
 > python configure.py -Q ../libQGLViewer-2.2.5-1
+
+NOTE - on windows you may have to specify the include and lib directories also, using absolute paths
+> python configure.py -Q ../libQGLViewer-2.2.5-1 -I c:\path_to_libQGLViewer-2.2.5-1 -L c:\path_to_libQGLViewer-2.2.5-1\QGLViewer\release
+
 Then you simply have to compile and install with
 > make (or nmake)
 > make install (or nmake install, you should be root)
