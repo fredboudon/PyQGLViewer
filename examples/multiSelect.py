@@ -34,12 +34,12 @@ class ManipulatedFrameSetConstraint (Constraint):
         self.objects = []
     def clearSet(self):
         self.objects = []
-    def addObjectToSet(object):
+    def addObjectToSet(self,object):
         self.objects.append(object)
-    def constrainTranslation(translation, frame):
+    def constrainTranslation(self,translation, frame):
         for i in self.objects:
             i.frame.translate(translation)
-    def constrainRotation(rotation, frame):
+    def constrainRotation(self,rotation, frame):
         # A little bit of math. Easy to understand, hard to guess (tm).
         # rotation is expressed in the frame local coordinates system. Convert it back to world coordinates.
         worldAxis = frame.inverseTransformOf(rotation.axis())
@@ -49,7 +49,6 @@ class ManipulatedFrameSetConstraint (Constraint):
 	        # Rotation has to be expressed in the object local coordinates system.
 	        qObject = Quaternion(it.frame.transformOf(worldAxis), angle)
 	        it.frame.rotate(qObject);
-
 	        # Comment these lines only rotate the objects
 	        qWorld = Quaternion(worldAxis, angle)
 	        # Rotation around frame world position (pos)
@@ -80,19 +79,16 @@ class Viewer(QGLViewer):
         ogl.glColor3f(0.9, 0.3, 0.3)
         for it in self.__selection:
             self.__objects[it].draw()
-
         # Draws all the objects. Selected ones are not repainted because of GL depth test.
         ogl.glColor3f(0.8, 0.8, 0.8);
         for obj in self.__objects:
             obj.draw()
-
         # Draws manipulatedFrame (the set's rotation center)
         if self.manipulatedFrame().isManipulated():
             ogl.glPushMatrix();
             ogl.glMultMatrixd(self.manipulatedFrame().matrix())
             self.drawAxis(0.5);
             ogl.glPopMatrix()
-  
         # Draws rectangular selection area. Could be done in postDraw() instead.
         if self.__selectionMode != Viewer.NONE:
             self.__drawSelectionRectangle()
@@ -100,7 +96,6 @@ class Viewer(QGLViewer):
         # A ManipulatedFrameSetConstraint will apply displacements to the selection
         self.setManipulatedFrame(ManipulatedFrame())
         self.manipulatedFrame().setConstraint(ManipulatedFrameSetConstraint())
-  
         # Used to display semi-transparent relection rectangle
         ogl.glBlendFunc(ogl.GL_ONE, ogl.GL_ONE)
         
@@ -127,9 +122,8 @@ class Viewer(QGLViewer):
             elif self.__selectionMode == Viewer.REMOVE : 
 	            self.removeIdFromSelection(id)
         self.__selectionMode = Viewer.NONE;
-
-    # Mouse events functions
     def mousePressEvent(self,e):
+        """ Mouse events functions """
         selection = self.getMultipleSelection()
         # Start selection. Mode is ADD with Shift key and TOGGLE with Alt key.
         self.__rectangle = QRect(e.pos(), e.pos())
@@ -164,14 +158,13 @@ class Viewer(QGLViewer):
             QGLViewer.mouseReleaseEvent(self,e)
     def __startManipulation(self):
         averagePosition = Vec ()
-        mfsc = manipulatedFrame().constraint()
+        mfsc = self.manipulatedFrame().constraint()
         mfsc.clearSet()
         for it in self.__selection:
             mfsc.addObjectToSet(self.__objects[it])
             averagePosition += self.__objects[it].frame.position()
-
-        if self.__selection.size() > 0:
-            self.manipulatedFrame().setPosition(averagePosition / self.__selection.size())
+        if len(self.__selection) > 0:
+            self.manipulatedFrame().setPosition(averagePosition / len(self.__selection))
     def __drawSelectionRectangle(self):
         self.startScreenCoordinatesSystem()
         ogl.glDisable(ogl.GL_LIGHTING)
