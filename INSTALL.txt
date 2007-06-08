@@ -21,7 +21,7 @@ For info, it has been build with the following command
 To apply this patch , you should invoke the command
 > patch -p 0 < libQGLViewer-2.2.5-1-py.patch
 
-Source are now ready to compile. Instr
+Source are now ready to compile. 
 Go into libQGLViewer-2.2.5-1/QGLViewer dir
 > qmake-qt4 QGLViewer.pro
 > make (or nmake)
