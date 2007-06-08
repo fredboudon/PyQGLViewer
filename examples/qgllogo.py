@@ -13,7 +13,6 @@ def draw_qgl_logo(nbSteps = 200.0, specialColor = False):
         alt = ratio - 0.5
         nor = 0.5
         up = math.sqrt(1.0-nor*nor)
-        ogl.glColor3f(1.0-ratio, 0.2 , ratio)
         if specialColor:
             ogl.glColor3f(1.0-ratio, .8 , ratio/2.0);
         else:
