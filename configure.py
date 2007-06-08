@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #
 # Generate the build trees and Makefiles for PyQGLViewer.
-# This file is inspired from PyQwt configure.py
+# This file is inspired from PyQGLViewer configure.py
 
 import compileall
 import glob
@@ -220,7 +220,7 @@ def check_os(configuration, options):
 
 
 def check_sip(configuration, options):
-    """Check if PyQwt can be built with SIP.
+    """Check if PyQGLViewer can be built with SIP.
     """
     version = configuration.sip_version
     version_str = configuration.sip_version_str
@@ -228,7 +228,7 @@ def check_sip(configuration, options):
     print "Found SIP-%s." % version_str
 
     if 0x040500 > version:
-        raise Die, 'PyQwt requires at least SIP-4.5.x.'
+        raise Die, 'PyQGLViewer requires at least SIP-4.5.x.'
 
     return options
 
@@ -271,7 +271,7 @@ def setup_qglviewer_build(configuration, options, package):
     extra_moc_headers = []
     extra_py_files = glob.glob(os.path.join('src', 'python', '*.py'))
                 
-    # do we compile and link the sources of Qwt statically into PyQwt?
+    # do we compile and link the sources of QGLViewer statically into PyQGLViewer?
     # This part of the code is not used...
     if options.qglviewer_sources:
         extra_sources += glob.glob(os.path.join(
@@ -341,7 +341,7 @@ def setup_qglviewer_build(configuration, options, package):
                    [os.path.basename(f) for f in extra_moc_headers])
     
     # fix the typedefs (work around a bug in SIP-4.5.x)
-    # fix_typedefs(glob.glob(os.path.join(tmp_dir, 'sipQwt*.cpp')))
+    # fix_typedefs(glob.glob(os.path.join(tmp_dir, 'sipQGLViewer*.cpp')))
 
     # copy lazily to the build directory to speed up recompilation
     if not os.path.exists(build_dir):
@@ -415,7 +415,7 @@ def setup_qglviewer_build(configuration, options, package):
     makefile.generate()
 
 
-# setup_qwt5_build()
+# setup_QGLViewer5_build()
 
 
 def setup_parent_build(configuration, options):
@@ -446,19 +446,19 @@ def parse_args():
     common_options.add_option(
         '-Q', '--qglviewer-sources', default='', action='store',
         type='string', metavar='/sources/of/qglviewer',
-        help=('compile and link the Qwt source files in'
+        help=('compile and link the QGLViewer source files in'
               ' /sources/of/qglviewer statically into PyQGLViewer'))
     common_options.add_option(
         '-I', '--extra-include-dirs', default=[], action='append',
-        type='string', metavar='/usr/lib/qt4/include/qglviewer',
+        type='string', metavar='/usr/lib/qglviewer/include',
         help=('add an extra directory to search for headers'
-              ' (the compiler must be able to find the Qwt headers'
+              ' (the compiler must be able to find the QGLViewer headers'
               ' without the -Q option)'))
     common_options.add_option(
         '-L', '--extra-lib-dirs', default=[], action='append',
-        type='string', metavar='/usr/lib/qt4/lib',
+        type='string', metavar='/usr/lib/qglviewer/lib',
         help=('add an extra directory to search for libraries'
-              ' (the linker must be able to find the Qwt library'
+              ' (the linker must be able to find the QGLViewer library'
               ' without the -Q option)'))
     common_options.add_option(
         '-j', '--jobs', default=0, action='store',
