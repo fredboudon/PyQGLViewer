@@ -13,7 +13,7 @@ setup(
   name = 'PyQGLViewer',
   versione = '0.1',
   ext_modules=[
-    Extension("PyQGLViewer", ["src/sip/QGLViewermod.sip","src/sip/qglviewer.sip"]),
+    Extension("PyQGLViewer", ["src/sip/QGLViewerModule.sip"]),
     ],
   include_dirs= include_dirs,
   cmdclass = {'build_ext': sipdistutils.build_ext}
