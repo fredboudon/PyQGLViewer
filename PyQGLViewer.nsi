@@ -61,7 +61,7 @@ Click Next to continue."
 # Define the product name and installer executable.
 Name "PyQGLViewer"
 Caption "${PYQGLVIEWER_NAME} Setup"
-OutFile "PyQGLViewer-${PYQGLVIEWER_VERSION}-Py2.${PYQGLVIEWER_PYTHON_MINOR}-Qt${PYQGLVIEWER_QT_VERS}-QGLView${PYQGLVIEWER_QGLVIEWER_VERS}.exe"
+OutFile "PyQGLViewer-${PYQGLVIEWER_VERSION}-Py2.${PYQGLVIEWER_PYTHON_MINOR}-Qt${PYQGLVIEWER_QT_VERS}-QGLViewer${PYQGLVIEWER_QGLVIEWER_VERS}.exe"
 
 
 # Set the install directory, from the registry if possible.

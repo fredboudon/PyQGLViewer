@@ -33,6 +33,7 @@ del required
 def get_pyqt_configuration(options):
     """Return the PyQt configuration for Qt4.
     """
+    required = 'At least PyQt-4.1 and its development tools are required.'
     try:
         import PyQt4.pyqtconfig as pyqtconfig
     except ImportError:
@@ -86,8 +87,8 @@ def compile_qt_program(name, configuration,
     if not os.access(exe, os.X_OK):
         return None
 
-    if sys.platform == 'win32':
-        exe = './' + exe
+    #if sys.platform == 'win32':
+    #    exe = './' + exe
 
     return exe
 
@@ -194,13 +195,10 @@ def lazy_copy_file(source, target):
 def check_compiler(configuration, options):
     """Check compiler specifics.
     """
-    print 'Do not get upset by error messages in the next 3 compiler checks:'
-    
-    makefile = sipconfig.Makefile(configuration)
-    generator = makefile.optional_string('MAKEFILE_GENERATOR', 'UNIX')
-    if generator in ['MSVC', 'MSVC.NET']:
-        options.extra_cxxflags.extend(['-GR'])
-    
+    # makefile = sipconfig.Makefile(configuration)
+    # generator = makefile.optional_string('MAKEFILE_GENERATOR', 'UNIX')
+    # if generator in ['MSVC', 'MSVC.NET']:
+    #    options.extra_cxxflags.extend(['-GR'])    
     return options
 
 
@@ -239,17 +237,72 @@ def check_sip(configuration, options):
 def check_qglviewer(configuration, options):
     """Check qglviewer module specifics.
     """
+    for name in glob.glob('qglviewer_version_info*'):
+        try:
+            os.remove(name)
+        except OSError:
+            pass
+
+    program = os.linesep.join([
+        r'#include <stdio.h>',
+        r'#include <QGLViewer/config.h>',
+        r'',
+        r'int main(int, char **)',
+        r'{',
+        r'    FILE *file;',
+        r'',
+        r'    if (!(file = fopen("qglviewer_version_info.py", "w"))) {',
+        r'        fprintf(stderr, "Failed to create qglviewer_version_info.py\n");',
+        r'        return 1;',
+        r'    }',
+        r'',
+        r'    fprintf(file, "QGLVIEWER_VERSION = %#08x\n", QGLVIEWER_VERSION);',
+        r'    fprintf(file, "QGLVIEWER_VERSION_STR = \"%i.%i.%i\"\n", (QGLVIEWER_VERSION & 0xff0000) >> 16,(QGLVIEWER_VERSION & 0x00ff00) >> 8, (QGLVIEWER_VERSION  & 0x0000ff) );',
+        r'',
+        r'    fclose(file);',
+        r'',
+        r'    return 0;',
+        r'}',
+        r'',
+        r'// Local Variables:',
+        r'// mode: C++',
+        r'// c-file-style: "stroustrup"',
+        r'// End:',
+        r'',
+        ])
+
+    open('qglviewer_version_info.cpp', 'w').write(program)
+
     extra_include_dirs = []
     extra_include_dirs.append(os.path.join(configuration.qt_inc_dir, 'Qt'))
-    #FIXME: options.extra_include_dirs.extend(extra_include_dirs)
+        #FIXME: options.extra_include_dirs.extend(extra_include_dirs)
     if options.qglviewer_sources:
-        extra_include_dirs.append(os.path.join(options.qglviewer_sources, 'src'))
+        extra_include_dirs.append(options.qglviewer_sources)
     if options.extra_include_dirs:
         extra_include_dirs.extend(options.extra_include_dirs)
-    options.modules.append('QGLViewer')
-    options.qglviewer_sipfile = os.path.join( 'src', 'sip', 'QGLViewerModule.sip')
-    return options
 
+    exe = compile_qt_program('qglviewer_version_info.cpp', configuration,
+                             extra_include_dirs = extra_include_dirs)
+    if not exe:
+        raise Die, 'Failed to build the qglviewer_version_info tool.'
+
+    os.system(exe)
+
+    try:
+        from qglviewer_version_info import QGLVIEWER_VERSION, QGLVIEWER_VERSION_STR
+    except ImportError:
+        raise Die, 'Failed to import qwt_version_info.'
+    
+    options.timelines.append('-t QGLViewer_'+QGLVIEWER_VERSION_STR.replace('.','_'))
+    print ('Found libQGLViewer-%s.' % QGLVIEWER_VERSION_STR)
+ 
+    for name in glob.glob('qglviewer_version_info*'):
+        try:
+            os.remove(name)
+        except OSError:
+            pass
+ 
+    return options
     
 
 
@@ -385,10 +438,6 @@ def setup_qglviewer_build(configuration, options, package):
         options.extra_include_dirs.append(qgl_src)
         qgl_lib_dir= os.path.join(qgl_src,'QGLViewer','release')
         options.extra_lib_dirs.append(qgl_lib_dir)
-    elif sys.platform == 'win32':
-       # Fred hack...
-       options.extra_include_dirs.append(os.path.join(os.pardir,os.pardir,'libQGLViewer-2.2.5-1'))
-       options.extra_lib_dirs.append(os.path.join(os.pardir,os.pardir,'libQGLViewer-2.2.5-1','QGLViewer','release'))
 
     if sys.platform == 'win32':
        options.extra_libs.append('QGLViewer2')
@@ -446,7 +495,7 @@ def parse_args():
 
     common_options = optparse.OptionGroup(parser, 'Common options')
     common_options.add_option(
-        '-Q', '--qglviewer-sources', default='', action='store',
+        '-Q', '--qglviewer-sources', default='../libQGLViewer-2.2.5-1', action='store',
         type='string', metavar='/sources/of/qglviewer',
         help=('compile and link the QGLViewer source files in'
               ' /sources/of/qglviewer statically into PyQGLViewer'))
@@ -552,6 +601,9 @@ def parse_args():
 
     options.modules = []
     options.subdirs = ['build']
+    
+    if options.qglviewer_sources:
+        options.qglviewer_sources = os.path.abspath(options.qglviewer_sources)
     
     return options, args
 
