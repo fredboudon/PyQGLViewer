@@ -315,6 +315,7 @@ def setup_qglviewer_build(configuration, options, package):
          '-I', configuration.pyqt_sip_dir.replace('\\', '/'),
          '-b', build_file,
          '-c', tmp_dir,
+         #'-m', 'PyQGLViewer.xml',
          options.jobs,
          options.trace,
          pyqt_sip_flags,
@@ -379,7 +380,8 @@ def setup_qglviewer_build(configuration, options, package):
     installs.append( [sip_files, sip_install_dir])
         
     if options.qglviewer_sources:
-        qgl_src= options.qglviewer_sources
+        print "libQGLViewer sources specified"
+        qgl_src= os.path.abspath(options.qglviewer_sources)
         options.extra_include_dirs.append(qgl_src)
         qgl_lib_dir= os.path.join(qgl_src,'QGLViewer','release')
         options.extra_lib_dirs.append(qgl_lib_dir)

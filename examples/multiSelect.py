@@ -124,7 +124,6 @@ class Viewer(QGLViewer):
         self.__selectionMode = Viewer.NONE;
     def mousePressEvent(self,e):
         """ Mouse events functions """
-        selection = self.getMultipleSelection()
         # Start selection. Mode is ADD with Shift key and TOGGLE with Alt key.
         self.__rectangle = QRect(e.pos(), e.pos())
         if e.button() == Qt.LeftButton and e.modifiers() == Qt.ShiftModifier:

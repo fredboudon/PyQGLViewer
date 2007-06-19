@@ -61,7 +61,7 @@ Click Next to continue."
 # Define the product name and installer executable.
 Name "PyQGLViewer"
 Caption "${PYQGLVIEWER_NAME} Setup"
-OutFile "PyQGLViewer-${PYQGLVIEWER_VERSION}-Py2.${PYQGLVIEWER_PYTHON_MINOR}-Qt${PYQGLVIEWER_QT_VERS}-QGL${PYQGLVIEWER_QGLVIEWER_VERS}.exe"
+OutFile "PyQGLViewer-${PYQGLVIEWER_VERSION}-Py2.${PYQGLVIEWER_PYTHON_MINOR}-Qt${PYQGLVIEWER_QT_VERS}-QGLView${PYQGLVIEWER_QGLVIEWER_VERS}.exe"
 
 
 # Set the install directory, from the registry if possible.
@@ -149,6 +149,8 @@ Section "Developer tools" SecTools
     File .\src\sip\camera.sip
     File .\src\sip\qglviewer.sip
     File .\src\sip\domUtils.sip
+    SetOutPath $INSTDIR\include\QGLViewer
+    File ..\libQGLViewer-2.2.5-1\QGLViewer\*.h
 
 SectionEnd
 
@@ -219,8 +221,8 @@ Section "Uninstall"
     ReadRegStr $INSTDIR HKLM "Software\PyQGLViewer" ""
 
     # The modules section.
-    Delete $INSTDIR\Lib\site-packages\sip.pyd
     Delete  $INSTDIR\Lib\site-packages\PyQGLViewer.pyd
+    Delete  $INSTDIR\Lib\site-packages\QGLViewer2.dll
 
     # The shortcuts section.
     RMDir /r "$SMPROGRAMS\${PYQGLVIEWER_NAME}"
