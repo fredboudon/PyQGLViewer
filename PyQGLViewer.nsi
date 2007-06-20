@@ -26,7 +26,7 @@
 !define PYQGLVIEWER_LICENSE_LC     "gpl"
 !define PYQGLVIEWER_PYTHON_MINOR   "4"
 !define PYQGLVIEWER_QT_VERS        "4.2.2"
-!define PYQGLVIEWER_QGLVIEWER_VERS "2.5.1-c"
+!define PYQGLVIEWER_QGLVIEWER_VERS "2.2.5-1"
 !define PYQGLVIEWER_COMPILER       "MinGW"
 
 # These are all derived from the above.
@@ -35,6 +35,7 @@
 !define PYQGLVIEWER_PYTHON_VERS    "2.${PYQGLVIEWER_PYTHON_MINOR}"
 !define PYQGLVIEWER_PYTHON_HKLM    "Software\Python\PythonCore\${PYQGLVIEWER_PYTHON_VERS}\InstallPath"
 !define PYQGLVIEWER_QT_HKLM        "Software\OpenAlea\Versions\${PYQGLVIEWER_QT_VERS}"
+!define PYQGLVIEWER_QGLVIEWER_SRCDIR     "..\libQGLViewer-${PYQGLVIEWER_QGLVIEWER_VERS}"
 
 
 # Tweak some of the standard pages.
@@ -150,7 +151,7 @@ Section "Developer tools" SecTools
     File .\src\sip\qglviewer.sip
     File .\src\sip\domUtils.sip
     SetOutPath $INSTDIR\include\QGLViewer
-    File ..\libQGLViewer-2.2.5-1\QGLViewer\*.h
+    File ${PYQGLVIEWER_QGLVIEWER_SRCDIR}\QGLViewer\*.h
 
 SectionEnd
 
@@ -168,8 +169,11 @@ Section "Examples and tutorial" SecExamples
 
     SetOverwrite on
 
-    SetOutPath $PROGRAMFILES\PyQGLViewer
-    File /r .\examples
+    IfFileExists "$PROGRAMFILES\PyQGLViewer\examples" 0 +2
+        CreateDirectory $PROGRAMFILES\PyQGLViewer\examples
+
+    SetOutPath $PROGRAMFILES\PyQGLViewer\examples
+    File .\examples\*.py
 SectionEnd
 
 Section "Start Menu shortcuts" SecShortcuts
@@ -179,14 +183,14 @@ Section "Start Menu shortcuts" SecShortcuts
     RMDir /r "$SMPROGRAMS\${PYQGLVIEWER_NAME}"
     CreateDirectory "$SMPROGRAMS\${PYQGLVIEWER_NAME}"
 
-    IfFileExists "$PROGRAMFILES\PyQGLViewer\doc" 0 +3
+    IfFileExists "$PROGRAMFILES\PyQGLViewer\doc" 0 +2
         CreateShortCut "$SMPROGRAMS\${PYQGLVIEWER_NAME}\Web Site.lnk" "http://pyqglviewer.gforge.inria.fr/"
 
-    IfFileExists "$PROGRAMFILES\PyQGLViewer\examples" 0 +5
-	SetOutPath $PROGRAMFILES\PyQt4\examples
+    IfFileExists "$PROGRAMFILES\PyQGLViewer\examples" 0 +3
+	SetOutPath $PROGRAMFILES\PyQGLViewer\examples
         CreateShortCut "$SMPROGRAMS\${PYQGLVIEWER_NAME}\Examples Source.lnk" "$PROGRAMFILES\PyQGLViewer\examples"
 
-    CreateShortCut "$SMPROGRAMS\${PYQGLVIEWER_NAME}\Uninstall PyQGLViewer.lnk" "$PROGRAMFILES\PyQtGLViewer\Uninstall.exe"
+    CreateShortCut "$SMPROGRAMS\${PYQGLVIEWER_NAME}\Uninstall PyQGLViewer.lnk" "$PROGRAMFILES\PyQGLViewer\Uninstall.exe"
 SectionEnd
 
 Section -post
@@ -223,6 +227,10 @@ Section "Uninstall"
     # The modules section.
     Delete  $INSTDIR\Lib\site-packages\PyQGLViewer.pyd
     Delete  $INSTDIR\Lib\site-packages\QGLViewer2.dll
+    
+    # The Developer section    
+    RMDir /r  $INSTDIR\sip\QGLViewer
+    RMDir /r  $INSTDIR\include\QGLViewer
 
     # The shortcuts section.
     RMDir /r "$SMPROGRAMS\${PYQGLVIEWER_NAME}"
