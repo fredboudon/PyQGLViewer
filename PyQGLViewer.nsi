@@ -1,22 +1,22 @@
-# PyQt4 NSIS installer script.
+# PyQGLViewer NSIS installer script.
 #
 # Copyright (c) 2006
 # 	Riverbank Computing Limited <info@riverbankcomputing.co.uk>
 # 
-# This file is part of PyQt.
+# This file is part of PyQGLViewer.
 # 
-# This copy of PyQt is free software; you can redistribute it and/or modify it
+# This copy of PyQGLViewer is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the Free
 # Software Foundation; either version 2, or (at your option) any later
 # version.
 # 
-# PyQt is supplied in the hope that it will be useful, but WITHOUT ANY
+# PyQGLViewer is supplied in the hope that it will be useful, but WITHOUT ANY
 # WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 # FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
 # details.
 # 
 # You should have received a copy of the GNU General Public License along with
-# PyQt; see the file LICENSE.  If not, write to the Free Software Foundation,
+# PyQGLViewer; see the file LICENSE.  If not, write to the Free Software Foundation,
 # Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
@@ -83,8 +83,17 @@ SetCompressor /SOLID lzma
 # We want the user to confirm they want to cancel.
 !define MUI_ABORTWARNING
 
+Var QTPLUGINS_FOLDER
+Var PYQGLVIEWER_INSTDIR
 
 Function .onInit
+    # Check where Qt has been installed.
+    ReadEnvStr $QTPLUGINS_FOLDER QTDIR
+    StrCmp $QTPLUGINS_FOLDER "" 0 +2
+        StrCpy $QTPLUGINS_FOLDER "C:\Qt\${PYQGLVIEWER_QT_VERS}"
+    
+    StrCpy $PYQGLVIEWER_INSTDIR "$PROGRAMFILES\PyQGLViewer"
+    
     # Check the right version of Python has been installed.
     ReadRegStr $0 HKLM "${PYQGLVIEWER_PYTHON_HKLM}" ""
 
@@ -104,7 +113,17 @@ FunctionEnd
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "doc/LICENSE.txt"
 !insertmacro MUI_PAGE_COMPONENTS
+!define MUI_DIRECTORYPAGE_TEXT_DESTINATION "Python repository"
 !insertmacro MUI_PAGE_DIRECTORY
+
+!define MUI_DIRECTORYPAGE_TEXT_DESTINATION "Qt repository"
+!define MUI_DIRECTORYPAGE_VARIABLE $QTPLUGINS_FOLDER
+!insertmacro MUI_PAGE_DIRECTORY
+
+!define MUI_DIRECTORYPAGE_TEXT_DESTINATION "PyQGLViewer repository"
+!define MUI_DIRECTORYPAGE_VARIABLE $PYQGLVIEWER_INSTDIR
+!insertmacro MUI_PAGE_DIRECTORY
+
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
   
@@ -122,8 +141,8 @@ Section "Extension modules" SecModules
     SectionIn 1 2 RO
 
     # Make sure this is clean and tidy.
-    RMDir /r $PROGRAMFILES\PyQGLViewer
-    CreateDirectory $PROGRAMFILES\PyQGLViewer
+    RMDir /r $PYQGLVIEWER_INSTDIR
+    CreateDirectory $PYQGLVIEWER_INSTDIR
 
     SetOverwrite on
 
@@ -131,13 +150,8 @@ Section "Extension modules" SecModules
     SetOutPath $INSTDIR\Lib\site-packages
     File .\build\PyQGLViewer.pyd
     File ${PYQGLVIEWER_QGLVIEWER_SRCDIR}\QGLViewer\release\QGLViewer2.dll
-    ReadEnvStr $0 QTDIR
-    IfErrors 0 +2
-        MessageBox MB_OK "Cannot find QTDIR environnement variable"
-        Goto done
-    SetOutPath $0\plugins\designer
+    SetOutPath $QTPLUGINS_FOLDER\plugins\designer
     File ${PYQGLVIEWER_QGLVIEWER_SRCDIR}\designerPlugin\release\qglviewerplugin.dll
-    done:
     
 SectionEnd
 
@@ -168,7 +182,7 @@ Section "Documentation" SecDocumentation
 
     SetOverwrite on
 
-    SetOutPath $PROGRAMFILES\PyQGLViewer
+    SetOutPath $PYQGLVIEWER_INSTDIR
     File /r .\doc
 SectionEnd
 
@@ -177,10 +191,10 @@ Section "Examples and tutorial" SecExamples
 
     SetOverwrite on
 
-    IfFileExists "$PROGRAMFILES\PyQGLViewer\examples" 0 +2
-        CreateDirectory $PROGRAMFILES\PyQGLViewer\examples
+    IfFileExists "$PYQGLVIEWER_INSTDIR\examples" 0 +2
+        CreateDirectory $PYQGLVIEWER_INSTDIR\examples
 
-    SetOutPath $PROGRAMFILES\PyQGLViewer\examples
+    SetOutPath $PYQGLVIEWER_INSTDIR\examples
     File .\examples\*.py
 SectionEnd
 
@@ -191,34 +205,39 @@ Section "Start Menu shortcuts" SecShortcuts
     RMDir /r "$SMPROGRAMS\${PYQGLVIEWER_NAME}"
     CreateDirectory "$SMPROGRAMS\${PYQGLVIEWER_NAME}"
 
-    IfFileExists "$PROGRAMFILES\PyQGLViewer\doc" 0 +2
+    IfFileExists "$PYQGLVIEWER_INSTDIR\doc" 0 +2
         CreateShortCut "$SMPROGRAMS\${PYQGLVIEWER_NAME}\Web Site.lnk" "http://pyqglviewer.gforge.inria.fr/"
 
-    IfFileExists "$PROGRAMFILES\PyQGLViewer\examples" 0 +3
-	SetOutPath $PROGRAMFILES\PyQGLViewer\examples
-        CreateShortCut "$SMPROGRAMS\${PYQGLVIEWER_NAME}\Examples Source.lnk" "$PROGRAMFILES\PyQGLViewer\examples"
+    IfFileExists "$PYQGLVIEWER_INSTDIR\examples" 0 +2
+        CreateShortCut "$SMPROGRAMS\${PYQGLVIEWER_NAME}\Examples Source.lnk" "$PYQGLVIEWER_INSTDIR\examples"
 
-    CreateShortCut "$SMPROGRAMS\${PYQGLVIEWER_NAME}\Uninstall PyQGLViewer.lnk" "$PROGRAMFILES\PyQGLViewer\Uninstall.exe"
+    CreateShortCut "$SMPROGRAMS\${PYQGLVIEWER_NAME}\Uninstall PyQGLViewer.lnk" "$PYQGLVIEWER_INSTDIR\Uninstall.exe"
 SectionEnd
 
 Section -post
     # Tell Windows about the package.
-    WriteRegExpandStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\PyQtGLViewer" "UninstallString" '"$PROGRAMFILES\PyQGLViewer\Uninstall.exe"'
-    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\PyQtGLViewer" "DisplayName" "${PYQGLVIEWER_NAME}"
-    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\PyQtGLViewer" "DisplayVersion" "${PYQGLVIEWER_VERSION}"
-    WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\PyQtGLViewer" "NoModify" "1"
-    WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\PyQtGLViewer" "NoRepair" "1"
+    WriteRegExpandStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\PyQGLViewer" "UninstallString" '"$PYQGLVIEWER_INSTDIR\Uninstall.exe"'
+    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\PyQGLViewer" "DisplayName" "${PYQGLVIEWER_NAME}"
+    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\PyQGLViewer" "DisplayVersion" "${PYQGLVIEWER_VERSION}"
+    WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\PyQGLViewer" "NoModify" "1"
+    WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\PyQGLViewer" "NoRepair" "1"
 
     # Save the installation directory for the uninstaller.
-    WriteRegStr HKLM "Software\PyQtGLViewer" "" $INSTDIR
+    WriteRegStr HKLM "Software\PyQGLViewer\" "Python" $INSTDIR
+    WriteRegStr HKLM "Software\PyQGLViewer\" "QtPlugins" $QTPLUGINS_FOLDER
+    WriteRegStr HKLM "Software\PyQGLViewer\" "PyQGLViewer" $PYQGLVIEWER_INSTDIR
 
     # Create the uninstaller.
-    WriteUninstaller "$PROGRAMFILES\PyQtGLViewer\Uninstall.exe"
+    WriteUninstaller "$PYQGLVIEWER_INSTDIR\Uninstall.exe"
 SectionEnd
 
 
 # Section description text.
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
+!insertmacro MUI_DESCRIPTION_TEXT ${SecModules} \
+"The PyQGLViewer binaries."
+!insertmacro MUI_DESCRIPTION_TEXT ${SecTools} \
+"The PyQGLViewer developper tools (.sip and .h files)."
 !insertmacro MUI_DESCRIPTION_TEXT ${SecDocumentation} \
 "The PyQGLViewer documentation."
 !insertmacro MUI_DESCRIPTION_TEXT ${SecExamples} \
@@ -230,11 +249,15 @@ SectionEnd
 
 Section "Uninstall"
     # Get the install directory.
-    ReadRegStr $INSTDIR HKLM "Software\PyQGLViewer" ""
+    ReadRegStr $INSTDIR HKLM "Software\PyQGLViewer" "Python"
+    ReadRegStr $QTPLUGINS_FOLDER HKLM "Software\PyQGLViewer" "QtPlugins"
+    ReadRegStr $PYQGLVIEWER_INSTDIR HKLM "Software\PyQGLViewer" "PyQGLViewer"
 
     # The modules section.
     Delete  $INSTDIR\Lib\site-packages\PyQGLViewer.pyd
     Delete  $INSTDIR\Lib\site-packages\QGLViewer2.dll
+    # The designer plugins
+    Delete $QTPLUGINS_FOLDER\plugins\designer\qglviewerplugin.dll
     
     # The Developer section    
     RMDir /r  $INSTDIR\sip\QGLViewer
@@ -243,9 +266,8 @@ Section "Uninstall"
     # The shortcuts section.
     RMDir /r "$SMPROGRAMS\${PYQGLVIEWER_NAME}"
 
-
     # The examples section and the installer itself.
-    RMDir /r "$PROGRAMFILES\PyQGLViewer"
+    RMDir /r "$PYQGLVIEWER_INSTDIR"
 
     # Clean the registry.
     DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\PyQGLViewer"
