@@ -62,7 +62,7 @@ Click Next to continue."
 # Define the product name and installer executable.
 Name "PyQGLViewer"
 Caption "${PYQGLVIEWER_NAME} Setup"
-OutFile "PyQGLViewer-${PYQGLVIEWER_VERSION}-Py2.${PYQGLVIEWER_PYTHON_MINOR}-Qt${PYQGLVIEWER_QT_VERS}-QGLViewer${PYQGLVIEWER_QGLVIEWER_VERS}.exe"
+OutFile "PyQGLViewer-${PYQGLVIEWER_VERSION}-${PYQGLVIEWER_QGLVIEWER_VERS}-Py2.${PYQGLVIEWER_PYTHON_MINOR}-Qt${PYQGLVIEWER_QT_VERS}.exe"
 
 
 # Set the install directory, from the registry if possible.
@@ -131,6 +131,14 @@ Section "Extension modules" SecModules
     SetOutPath $INSTDIR\Lib\site-packages
     File .\build\PyQGLViewer.pyd
     File ${PYQGLVIEWER_QGLVIEWER_SRCDIR}\QGLViewer\release\QGLViewer2.dll
+    ReadEnvStr $0 QTDIR
+    IfErrors 0 +2
+        MessageBox MB_OK "Cannot find QTDIR environnement variable"
+        Goto done
+    SetOutPath $0\plugins\designer
+    File ${PYQGLVIEWER_QGLVIEWER_SRCDIR}\designerPlugin\release\qglviewerplugin.dll
+    done:
+    
 SectionEnd
 
 Section "Developer tools" SecTools
