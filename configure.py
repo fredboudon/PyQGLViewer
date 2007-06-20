@@ -263,14 +263,14 @@ def check_qglviewer(configuration, options):
     exe = compile_qt_program('qglviewer_version_info.cpp', configuration,
                              extra_include_dirs = extra_include_dirs)
     if not exe:
-        raise Die, 'Failed to build the qglviewer_version_info tool.'
+        raise Die, 'Failed to build the qglviewer_version_info tool. Cannot find libQGLViewer. Use -Q to specify.'
 
     os.system(exe)
 
     try:
         from qglviewer_version_info import QGLVIEWER_VERSION, QGLVIEWER_VERSION_STR
     except ImportError:
-        raise Die, 'Failed to import qwt_version_info.'
+        raise Die, 'Failed to import qglviewer_version_info.'
     
     options.timelines.append('-t QGLViewer_'+QGLVIEWER_VERSION_STR.replace('.','_'))
     print ('Found libQGLViewer-%s.' % QGLVIEWER_VERSION_STR)
