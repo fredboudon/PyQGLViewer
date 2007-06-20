@@ -273,7 +273,10 @@ def check_qglviewer(configuration, options):
         raise Die, 'Failed to import qglviewer_version_info.'
     
     options.timelines.append('-t QGLViewer_'+QGLVIEWER_VERSION_STR.replace('.','_'))
-    print ('Found libQGLViewer-%s.' % QGLVIEWER_VERSION_STR)
+    if options.qglviewer_sources:
+        print ("Found libQGLViewer-%s in '%s'." % (QGLVIEWER_VERSION_STR, options.qglviewer_sources))
+    else:
+        print ('Found libQGLViewer-%s.' % QGLVIEWER_VERSION_STR)
  
     for name in glob.glob('qglviewer_version_info*'):
         try:
@@ -573,7 +576,10 @@ def parse_args():
     if options.qglviewer_sources:
         options.qglviewer_sources = os.path.abspath(options.qglviewer_sources)        
         options.extra_include_dirs.append(options.qglviewer_sources)
-        qgl_lib_dir= os.path.join(options.qglviewer_sources,'QGLViewer','release')
+        if sys.platform == 'win32':
+            qgl_lib_dir= os.path.join(options.qglviewer_sources,'QGLViewer','release')
+        else:
+            qgl_lib_dir= os.path.join(options.qglviewer_sources,'QGLViewer')
         options.extra_lib_dirs.append(qgl_lib_dir)
     
     if sys.platform == 'win32':
