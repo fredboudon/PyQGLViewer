@@ -196,6 +196,7 @@ Section "Examples and tutorial" SecExamples
 
     SetOutPath $PYQGLVIEWER_INSTDIR\examples
     File .\examples\*.py
+    File .\examples\*.ui
 SectionEnd
 
 Section "Start Menu shortcuts" SecShortcuts
