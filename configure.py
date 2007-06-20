@@ -87,8 +87,8 @@ def compile_qt_program(name, configuration,
     if not os.access(exe, os.X_OK):
         return None
 
-    #if sys.platform == 'win32':
-    #    exe = './' + exe
+    if sys.platform != 'win32':
+        exe = './' + exe
 
     return exe
 
@@ -189,32 +189,18 @@ def lazy_copy_file(source, target):
         
     return False
 
-# lazy_copy_file()
-
-
-def check_compiler(configuration, options):
-    """Check compiler specifics.
-    """
-    # makefile = sipconfig.Makefile(configuration)
-    # generator = makefile.optional_string('MAKEFILE_GENERATOR', 'UNIX')
-    # if generator in ['MSVC', 'MSVC.NET']:
-    #    options.extra_cxxflags.extend(['-GR'])    
-    return options
-
 
 
 def check_os(configuration, options):
     """Check operating system specifics.
     """
     print "Found '%s' operating system:" % os.name
-    print sys.version
+    print "Found Python " + sys.version
 
     if os.name == 'nt':
         options.extra_defines.append('WIN32')
 
     return options
-
-# check_os()
 
 
 def check_sip(configuration, options):
@@ -229,8 +215,6 @@ def check_sip(configuration, options):
         raise Die, 'PyQGLViewer requires at least SIP-4.5.x.'
 
     return options
-
-# check_sip
 
 
 
@@ -250,17 +234,13 @@ def check_qglviewer(configuration, options):
         r'int main(int, char **)',
         r'{',
         r'    FILE *file;',
-        r'',
         r'    if (!(file = fopen("qglviewer_version_info.py", "w"))) {',
         r'        fprintf(stderr, "Failed to create qglviewer_version_info.py\n");',
         r'        return 1;',
         r'    }',
-        r'',
         r'    fprintf(file, "QGLVIEWER_VERSION = %#08x\n", QGLVIEWER_VERSION);',
         r'    fprintf(file, "QGLVIEWER_VERSION_STR = \"%i.%i.%i\"\n", (QGLVIEWER_VERSION & 0xff0000) >> 16,(QGLVIEWER_VERSION & 0x00ff00) >> 8, (QGLVIEWER_VERSION  & 0x0000ff) );',
-        r'',
         r'    fclose(file);',
-        r'',
         r'    return 0;',
         r'}',
         r'',
@@ -275,7 +255,6 @@ def check_qglviewer(configuration, options):
 
     extra_include_dirs = []
     extra_include_dirs.append(os.path.join(configuration.qt_inc_dir, 'Qt'))
-        #FIXME: options.extra_include_dirs.extend(extra_include_dirs)
     if options.qglviewer_sources:
         extra_include_dirs.append(options.qglviewer_sources)
     if options.extra_include_dirs:
@@ -301,7 +280,6 @@ def check_qglviewer(configuration, options):
             os.remove(name)
         except OSError:
             pass
- 
     return options
     
 
@@ -311,9 +289,7 @@ def check_qglviewer(configuration, options):
 def setup_qglviewer_build(configuration, options, package):
     """Setup the qglviewer module build
     """
-    if 'QGLViewer' not in options.modules:
-        return
-    
+   
     print 'Setup the qglviewer package build.'
 
     build_dir = 'build'
@@ -326,21 +302,17 @@ def setup_qglviewer_build(configuration, options, package):
                 
     # do we compile and link the sources of QGLViewer statically into PyQGLViewer?
     # This part of the code is not used...
-    if options.qglviewer_sources:
-        extra_sources += glob.glob(os.path.join(
-            options.qglviewer_sources, 'src', '*.cpp'))
-        extra_headers += glob.glob(os.path.join(
-            options.qglviewer_sources, 'src', '*.h'))
-        extra_moc_headers = []
-        for header in extra_headers:
-            text = open(header).read()
-            if re.compile(r'^\s*Q_OBJECT', re.M).search(text):
-                extra_moc_headers.append(header)
+    #if options.qglviewer_sources:
+    #    extra_sources += glob.glob(os.path.join(
+    #        options.qglviewer_sources, 'QGLViewer', '*.cpp'))
+    #    extra_headers += glob.glob(os.path.join(
+    #        options.qglviewer_sources, 'QGLViewer', '*.h'))
+    #    extra_moc_headers = []
+    #    for header in extra_headers:
+    #        text = open(header).read()
+    #        if re.compile(r'^\s*Q_OBJECT', re.M).search(text):
+    #            extra_moc_headers.append(header)
 
-
-    # add the interface to the numerical Python extensions
-    extra_sources += glob.glob(os.path.join(os.pardir, 'support', '*.cpp'))
-    extra_headers += glob.glob(os.path.join(os.pardir, 'support', '*.h'))
 
     # zap the temporary directory
     try:
@@ -368,7 +340,7 @@ def setup_qglviewer_build(configuration, options, package):
          '-I', configuration.pyqt_sip_dir.replace('\\', '/'),
          '-b', build_file,
          '-c', tmp_dir,
-         #'-m', 'PyQGLViewer.xml',
+         #'-m', 'PyQGLViewer.xml', # Forgenerating xml doc tree
          options.jobs,
          options.trace,
          pyqt_sip_flags,
@@ -379,9 +351,10 @@ def setup_qglviewer_build(configuration, options, package):
         # SIP assumes POSIX style path separators
         + [options.qglviewer_sipfile.replace('\\', '/')]
         )
-
-    print 'sip invokation:'
-    pprint.pprint(cmd)
+    
+    if options.verbose_config:
+        print 'sip invokation:'
+        pprint.pprint(cmd)
     if os.path.exists(build_file):
         os.remove(build_file)
     os.system(cmd)
@@ -409,7 +382,8 @@ def setup_qglviewer_build(configuration, options, package):
         for source in glob.glob(os.path.join(tmp_dir, pattern)):
             target = os.path.join(build_dir, os.path.basename(source))
             if lazy_copy_file(source, target):
-                print 'Copy %s -> %s.' % (source, target)
+                if options.verbose_config:
+                    print 'Copy %s -> %s.' % (source, target)
                 lazy_copies += 1
     print '%s file(s) lazily copied.' % lazy_copies
 
@@ -432,17 +406,6 @@ def setup_qglviewer_build(configuration, options, package):
     sip_files = [ os.path.abspath(i) for i in sip_files ]
     installs.append( [sip_files, sip_install_dir])
         
-    if options.qglviewer_sources:
-        print "libQGLViewer sources specified"
-        qgl_src= os.path.abspath(options.qglviewer_sources)
-        options.extra_include_dirs.append(qgl_src)
-        qgl_lib_dir= os.path.join(qgl_src,'QGLViewer','release')
-        options.extra_lib_dirs.append(qgl_lib_dir)
-
-    if sys.platform == 'win32':
-       options.extra_libs.append('QGLViewer2')
-    else:
-       options.extra_libs.append('QGLViewer')
     
     # module makefile
     makefile = sipconfig.SIPModuleMakefile(
@@ -517,6 +480,10 @@ def parse_args():
         help=('concatenate the SIP generated code into N files'
               ' [default 1 per class] (to speed up make by running '
               ' simultaneous jobs on multiprocessor systems)'))
+    common_options.add_option(
+        '-v','--verbose-config', default=False, action='store_true',
+        help=('enable verbose configuration'
+              ' [default disabled]'))
     parser.add_option_group(common_options)
 
     make_options = optparse.OptionGroup(parser, 'Make options')
@@ -598,12 +565,21 @@ def parse_args():
         options.trace = '-r'
     else:
         options.trace = ''
-
-    options.modules = []
+    
     options.subdirs = ['build']
     
+    options.qglviewer_sipfile = os.path.join('src','sip','QGLViewerModule.sip')
+    
     if options.qglviewer_sources:
-        options.qglviewer_sources = os.path.abspath(options.qglviewer_sources)
+        options.qglviewer_sources = os.path.abspath(options.qglviewer_sources)        
+        options.extra_include_dirs.append(options.qglviewer_sources)
+        qgl_lib_dir= os.path.join(options.qglviewer_sources,'QGLViewer','release')
+        options.extra_lib_dirs.append(qgl_lib_dir)
+    
+    if sys.platform == 'win32':
+       options.extra_libs.append('QGLViewer2')
+    else:
+       options.extra_libs.append('QGLViewer')
     
     return options, args
 
@@ -613,25 +589,24 @@ def main():
     """
     options, args = parse_args()
     
-    print 'Command line options:'
-    pprint.pprint(options.__dict__)
-    print
+    if options.verbose_config:
+        print 'Command line options:'
+        pprint.pprint(options.__dict__)
+        print
 
     configuration = get_pyqt_configuration(options)
     
     options = check_sip(configuration, options)
     options = check_os(configuration, options)
-    options = check_compiler(configuration, options)
     options = check_qglviewer(configuration, options)
     if not options.module_install_path:
         options.module_install_path = os.path.abspath( os.path.join( configuration.pyqt_mod_dir, os.path.pardir))
 
-    print
-    print 'Extended command line options:'
-    pprint.pprint(options.__dict__)
-    print
-    print 'The following modules will be built: %s.' % options.modules
-    print
+    if options.verbose_config:
+        print
+        print 'Extended command line options:'
+        pprint.pprint(options.__dict__)
+        print
     print
     setup_qglviewer_build(configuration, options, 'PyQGLViewer')
     print
@@ -639,8 +614,6 @@ def main():
     print
     print 'Great, run make or nmake to build and install PyQGLViewer.'
 
-# main()
-    
 
 if __name__ == '__main__':
     try:
