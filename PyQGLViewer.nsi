@@ -182,8 +182,8 @@ Section "Documentation" SecDocumentation
 
     SetOverwrite on
 
-    SetOutPath $PYQGLVIEWER_INSTDIR
-    File /r .\doc
+    SetOutPath $PYQGLVIEWER_INSTDIR\doc
+    File .\doc\*
 SectionEnd
 
 Section "Examples and tutorial" SecExamples
