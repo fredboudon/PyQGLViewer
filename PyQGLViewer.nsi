@@ -24,8 +24,8 @@
 !define PYQGLVIEWER_VERSION        "0.1.0"
 !define PYQGLVIEWER_LICENSE        "GPL"
 !define PYQGLVIEWER_LICENSE_LC     "gpl"
-!define PYQGLVIEWER_PYTHON_MINOR   "4"
-!define PYQGLVIEWER_QT_VERS        "4.2.2"
+!define PYQGLVIEWER_PYTHON_MINOR   "5"
+!define PYQGLVIEWER_QT_VERS        "4.2.3"
 !define PYQGLVIEWER_QGLVIEWER_VERS "2.2.5-1"
 !define PYQGLVIEWER_COMPILER       "MinGW"
 
@@ -35,7 +35,7 @@
 !define PYQGLVIEWER_PYTHON_VERS    "2.${PYQGLVIEWER_PYTHON_MINOR}"
 !define PYQGLVIEWER_PYTHON_HKLM    "Software\Python\PythonCore\${PYQGLVIEWER_PYTHON_VERS}\InstallPath"
 !define PYQGLVIEWER_QT_HKLM        "Software\OpenAlea\Versions\${PYQGLVIEWER_QT_VERS}"
-!define PYQGLVIEWER_QGLVIEWER_SRCDIR     "..\libQGLViewer-${PYQGLVIEWER_QGLVIEWER_VERS}"
+!define PYQGLVIEWER_QGLVIEWER_SRCDIR     "..\..\libQGLViewer-${PYQGLVIEWER_QGLVIEWER_VERS}"
 
 
 # Tweak some of the standard pages.
@@ -130,7 +130,7 @@ Section "Extension modules" SecModules
     # We have to take the SIP files from where they should have been installed.
     SetOutPath $INSTDIR\Lib\site-packages
     File .\build\PyQGLViewer.pyd
-    File .\QGLViewer2.dll
+    File ${PYQGLVIEWER_QGLVIEWER_SRCDIR}\QGLViewer\release\QGLViewer2.dll
 SectionEnd
 
 Section "Developer tools" SecTools
