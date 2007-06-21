@@ -340,7 +340,20 @@ public:
         sipIsErr = 1;
     else
     {
-		
+		PyObject * res = PyTuple_New(16);
+		for(int i = 0; i < 16; ++i)
+			PyTuple_SetItem(res,i,PyFloat_FromDouble(mat[i]));
+		sipRes = res;
+    }	
+%End
+
+    SIP_PYOBJECT getMatrix() const;
+%MethodCode
+	const GLdouble * mat = sipCpp->matrix();
+    if (mat == NULL)
+        sipIsErr = 1;
+    else
+    {		
 		PyObject * res = PyTuple_New(16);
 		for(int i = 0; i < 16; ++i)
 			PyTuple_SetItem(res,i,PyFloat_FromDouble(mat[i]));
@@ -355,7 +368,6 @@ public:
         sipIsErr = 1;
     else
     {
-		
 		PyObject * res = PyTuple_New(16);
 		for(int i = 0; i < 16; ++i)
 			PyTuple_SetItem(res,i,PyFloat_FromDouble(mat[i]));
@@ -363,18 +375,51 @@ public:
     }	
 %End
 
-	void setFromMatrix(SIP_PYOBJECT);
+    SIP_PYOBJECT getWorldMatrix() const;
 %MethodCode
-	int isSequence = PySequence_Check(a0);
-	if (!isSequence || PySequence_Size(a0) != 16)
+	const GLdouble * mat = sipCpp->worldMatrix();
+    if (mat == NULL)
         sipIsErr = 1;
     else
     {
-		GLdouble values[16];
-		for (int i = 0; i < 16; ++i)
-			values[i] = PyFloat_AsDouble(PySequence_GetItem(a0,i));
-		sipCpp->setFromMatrix(values);
-	}	
+		PyObject * res = PyTuple_New(16);
+		for(int i = 0; i < 16; ++i)
+			PyTuple_SetItem(res,i,PyFloat_FromDouble(mat[i]));
+		sipRes = res;
+    }	
+%End
+
+
+	void setFromMatrix(SIP_PYOBJECT);
+%MethodCode
+	int isSequence = PySequence_Check(a0);
+	if (!isSequence )
+        sipIsErr = 1;     
+    else
+    {
+        int len = PySequence_Size(a0);
+        if (len != 4 && len != 16)
+            sipIsErr = 1;
+        else {
+		    double src[4][4];
+		    if (len == 16){
+		        for (int i = 0; i < 4; ++i)
+		            for (int j = 0; j < 4; ++j)
+			            src[i][j] = PyFloat_AsDouble(PySequence_GetItem(a0,4*i+j));
+			 }
+			 else {
+		        for (int i = 0; i < 4; ++i){
+		            PyObject * row = PySequence_GetItem(a0,i);
+		            if (! PySequence_Check(row) && PySequence_Size(row) == 4){
+		                for (int j = 0; j < 4; ++j){
+			                src[i][j] = PyFloat_AsDouble(PySequence_GetItem(row,j));
+			            }
+			        }
+			     }
+			 }
+		    if (!sipIsErr) sipCpp->setFromMatrix(src);
+		}
+    }
 %End
 	
     Frame inverse() const;

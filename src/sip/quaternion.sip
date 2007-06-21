@@ -114,6 +114,15 @@ public:
   // void getMatrix(GLdouble m[4][4]) const;
   // void getMatrix(GLdouble m[16]) const;
   // void getRotationMatrix(float m[3][3]) const;
+    
+  SIP_PYOBJECT matrix() const; 
+%MethodCode
+    const GLdouble* values = sipCpp->matrix();
+    sipRes = PyList_New(16);
+	for(int i = 0; i < 16; ++i)
+			PyList_SetItem(sipRes,i,PyFloat_FromDouble(values[i]));
+%End
+
   SIP_PYOBJECT getMatrix() const; 
 %MethodCode
     const GLdouble* values = sipCpp->matrix();
@@ -160,6 +169,15 @@ public:
   // void getInverseMatrix(GLdouble m[4][4]) const;
   // void getInverseMatrix(GLdouble m[16]) const;
   // void getInverseRotationMatrix(float m[3][3]) const;
+  
+  SIP_PYOBJECT inverseMatrix() const; 
+%MethodCode
+    const GLdouble* values = sipCpp->inverseMatrix();
+    sipRes = PyList_New(16);
+	for(int i = 0; i < 16; ++i)
+			PyList_SetItem(sipRes,i,PyFloat_FromDouble(values[i]));
+%End
+
   SIP_PYOBJECT getInverseMatrix() const; 
 %MethodCode
     const GLdouble* values = sipCpp->inverseMatrix();
