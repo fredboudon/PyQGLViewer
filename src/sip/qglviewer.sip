@@ -171,7 +171,7 @@ public:
   GLuint bindTexture3D(const QVector<QImage> & image, GLenum target = GL_TEXTURE_3D, GLint format = GL_RGBA );
 %MethodCode
 
-#define isPowerOfTwo(a) ((log((float)a)/log(2.f)) - int(log((float)a)/log(2.f)) <  0.0001)
+#define isPowerOfTwo(a) (fmod(log((float)a)/log(2.f),1.0f) <  0.0001)
     
     sipRes = 0;
     
