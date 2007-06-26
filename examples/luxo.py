@@ -1,3 +1,6 @@
+# -*- python -*-
+# -*- coding: latin-1 -*-
+
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyQGLViewer import *
