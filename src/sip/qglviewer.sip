@@ -168,10 +168,18 @@ public:
     }
 %End
 
+%TypeCode
+    bool isPowerOfTwo(int val){
+        long i=0;
+        while ((1<<i)<val) i++;
+        if (val==(1<<i)) return true;
+        return false;     
+     }
+%End
+
+
   GLuint bindTexture3D(const QVector<QImage> & image, GLenum target = GL_TEXTURE_3D, GLint format = GL_RGBA );
 %MethodCode
-
-#define isPowerOfTwo(a) (fmod(log((float)a)/log(2.f),1.0f) <  0.0001)
     
     sipRes = 0;
     
