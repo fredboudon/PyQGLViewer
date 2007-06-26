@@ -26,6 +26,19 @@ class QGLViewer : QGLWidget
 
 %TypeHeaderCode
 #include <QGLViewer/qglviewer.h>
+#include <GL/gl.h>
+#ifdef Q_WS_X11
+#include <GL/glext.h>
+#endif
+
+#ifndef GL_BGRA
+#define GL_BGRA 0x80E1
+#endif
+
+#ifndef GL_TEXTURE_3D
+#define GL_TEXTURE_3D 0x806F
+#endif
+
 %End
 
 public:
@@ -104,7 +117,11 @@ public:
   int selectBufferSize() const;
   int selectRegionWidth() const;
   int selectRegionHeight() const;
-  // GLuint* selectBuffer();
+  void* selectBuffer();
+%MethodCode
+    sipRes = sipCpp->selectBuffer();
+%End
+
   SIP_PYOBJECT getMultipleSelection() const;
 %MethodCode
   // Flush GL buffers
@@ -149,6 +166,82 @@ public:
         sipRes = Py_None;
         Py_INCREF(sipRes);
     }
+%End
+
+  GLuint bindTexture3D(const QVector<QImage> & image, GLenum target = GL_TEXTURE_3D, GLint format = GL_RGBA );
+%MethodCode
+
+#define isPowerOfTwo(a) ((log((float)a)/log(2.f)) - int(log((float)a)/log(2.f)) <  0.0001)
+    
+    sipRes = 0;
+    
+#ifdef Q_OS_WIN32
+
+#ifndef APIENTRY
+#define APIENTRY
+#endif
+
+    typedef void (APIENTRY *_glTexImage3D) (GLenum, GLint, GLint, GLsizei, GLsizei, GLsizei, GLint, GLenum, GLenum, const GLvoid *);
+    static _glTexImage3D glTexImage3D = NULL;
+    if (glTexImage3D == NULL){
+        glTexImage3D = (_glTexImage3D)wglGetProcAddress("glTexImage3D");
+    }
+    if (glTexImage3D == NULL){
+        printf("Cannot load 'glTexImage3D' function.\n");
+        sipIsErr = -1;
+    }
+    else {
+#endif   
+    int depth = a0->size();
+    if(depth == 0 || !isPowerOfTwo(depth) ){
+        sipIsErr = -1;
+    }
+    else{
+        int w = a0->at(0).width();
+        int h = a0->at(0).height();
+        if( w == 0 || h == 0 || ! isPowerOfTwo(w) || ! isPowerOfTwo(h) ){
+            sipIsErr = -1;
+        }
+        else{
+             for(QVector<QImage>::const_iterator itImage = a0->begin()+1; itImage != a0->end() && sipRes != -1; ++itImage){
+                if (itImage->width() != w || itImage->height() != h)
+                   sipIsErr = -1;                
+             }
+             if (sipIsErr != -1){
+
+                size_t byteperpixel = 4;
+                size_t msize= w*h*depth*byteperpixel;
+                GLubyte * texels = (GLubyte *)malloc(msize);
+                if (texels == NULL) sipIsErr = -1;
+                else {
+                    GLubyte * itTexel = texels;
+
+                    for(QVector<QImage>::const_iterator itImage = a0->begin(); itImage != a0->end(); ++itImage){
+                        QImage img = sipCpp->convertToGLFormat(*itImage);
+                        size_t imsize = img.numBytes();
+                        memcpy(itTexel,img.bits(),imsize);
+                        itTexel += imsize;
+                    }
+
+                    if(itTexel != texels+msize) printf("Invalid texture size.\n"); 
+                
+                    glEnable(GL_TEXTURE_3D);
+                    glGenTextures(1, &sipRes);
+                    glBindTexture(GL_TEXTURE_3D, sipRes);
+                    if (sipRes != 0)
+                    {
+                        glTexParameterf(a1, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                        glTexParameterf(a1, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                        glTexImage3D(a1, 0, a2, w, h, depth, 0, GL_RGBA, GL_UNSIGNED_BYTE, texels);
+                    }
+                    else sipIsErr = -1;
+                    delete [] texels;
+                }
+             }
+#ifdef Q_OS_WIN32
+        }
+#endif
+    } }
 %End
 
   Qt::Key keyFrameKey(int index) const;
