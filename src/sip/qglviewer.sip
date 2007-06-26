@@ -195,24 +195,31 @@ public:
     int depth = a0->size();
     if(depth == 0 || !isPowerOfTwo(depth) ){
         sipIsErr = -1;
+        printf("Number of images is not a power of two.\n");
     }
     else{
         int w = a0->at(0).width();
         int h = a0->at(0).height();
         if( w == 0 || h == 0 || ! isPowerOfTwo(w) || ! isPowerOfTwo(h) ){
             sipIsErr = -1;
+            printf("Width or height of images are not a power of two.\n");
         }
         else{
              for(QVector<QImage>::const_iterator itImage = a0->begin()+1; itImage != a0->end() && sipRes != -1; ++itImage){
-                if (itImage->width() != w || itImage->height() != h)
-                   sipIsErr = -1;                
+                if (itImage->width() != w || itImage->height() != h){
+                   printf("Width or height of images are not homogeneous.\n");
+                   sipIsErr = -1;
+                }
              }
              if (sipIsErr != -1){
 
                 size_t byteperpixel = 4;
                 size_t msize= w*h*depth*byteperpixel;
                 GLubyte * texels = (GLubyte *)malloc(msize);
-                if (texels == NULL) sipIsErr = -1;
+                if (texels == NULL) {
+                    printf("Cannot allocate memory for 3D texture.\n");
+                    sipIsErr = -1;
+                }
                 else {
                     GLubyte * itTexel = texels;
 
@@ -234,7 +241,10 @@ public:
                         glTexParameterf(a1, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
                         glTexImage3D(a1, 0, a2, w, h, depth, 0, GL_RGBA, GL_UNSIGNED_BYTE, texels);
                     }
-                    else sipIsErr = -1;
+                    else {
+                        printf("Cannot generate 3D texture in OpenGL.\n");
+                        sipIsErr = -1;
+                    }
                     delete [] texels;
                 }
              }
