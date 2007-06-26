@@ -44,7 +44,7 @@ class Viewer(QGLViewer):
 		ogl.glPointSize(3.0)
 		self.setGridIsDrawn()
 		self.help()
-		self.startAnimation();
+		self.startAnimation()
 	def draw(self):
 		ogl.glBegin(ogl.GL_POINTS);
 		for p in self.particles:
