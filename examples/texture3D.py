@@ -16,7 +16,8 @@ class Viewer(QGLViewer):
         self.center[2] = math.sin(self.time / 15.0) * 2.0
         self.time += 1
     def draw(self):
-        ogl.glBindTexture(ogl.GL_TEXTURE_3D, self.texname)
+        if self.texname > 0:
+            ogl.glBindTexture(ogl.GL_TEXTURE_3D, self.texname)
         ogl.glBegin(ogl.GL_TRIANGLES)
         # texture coordinates are always specified before the vertex they apply to.
         for x in range(4):
@@ -46,6 +47,8 @@ class Viewer(QGLViewer):
         helpwidget = self.helpWidget()
         if helpwidget.isVisible() :
             helpwidget.hide()
+        if self.texname > 0:
+            ogl.glDeleteTextures(self.texname)
         QGLViewer.closeEvent(self,event)
 
 def main():
