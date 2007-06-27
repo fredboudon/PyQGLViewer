@@ -248,6 +248,9 @@ public:
                         glTexParameterf(a1, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                         glTexParameterf(a1, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
                         glTexImage3D(a1, 0, a2, w, h, depth, 0, GL_RGBA, GL_UNSIGNED_BYTE, texels);
+                        GLenum error;
+                        if ((error = glGetError()) != GL_NO_ERROR)
+                            printf("Error with 3D texture creation : %s \n",gluErrorString(error));
                     }
                     else {
                         printf("Cannot generate 3D texture in OpenGL.\n");
