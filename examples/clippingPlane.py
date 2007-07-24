@@ -16,23 +16,23 @@ class Viewer(pq.QGLViewer):
 		pq.QGLViewer.__init__(self)
 	def draw(self):
 		draw_qgl_logo()
-		ogl.glPushMatrix();
+		ogl.glPushMatrix()
 		ogl.glMultMatrixd(self.manipulatedFrame().matrix())
-		ogl.glClipPlane(ogl.GL_CLIP_PLANE0, [ 0.0, 0.0, 1.0, 0.0 ]);
-		ogl.glColor3f(0.8, 0.8, 0.8);
-		self.drawArrow(0.4, 0.015);
-		ogl.glBegin(ogl.GL_QUADS);
-		ogl.glVertex3f(-1.0, -1.0, 0.001);
-		ogl.glVertex3f(-1.0,  1.0, 0.001);
-		ogl.glVertex3f( 1.0,  1.0, 0.001);
-		ogl.glVertex3f( 1.0, -1.0, 0.001);
-		ogl.glEnd();
-		ogl.glPopMatrix();
+		ogl.glClipPlane(ogl.GL_CLIP_PLANE0, [ 0.0, 0.0, 1.0, 0.0 ])
+		ogl.glColor3f(0.8, 0.8, 0.8)
+		self.drawArrow(0.4, 0.015)
+		ogl.glBegin(ogl.GL_QUADS)
+		ogl.glVertex3f(-1.0, -1.0, 0.001)
+		ogl.glVertex3f(-1.0,  1.0, 0.001)
+		ogl.glVertex3f( 1.0,  1.0, 0.001)
+		ogl.glVertex3f( 1.0, -1.0, 0.001)
+		ogl.glEnd()
+		ogl.glPopMatrix()
 	def init(self):
 		self.restoreStateFromFile()
 		self.help()
 		self.setManipulatedFrame(pq.ManipulatedFrame())
-		ogl.glEnable(ogl.GL_CLIP_PLANE0);
+		ogl.glEnable(ogl.GL_CLIP_PLANE0)
 	def helpString(self):
 		return helpstr
 
