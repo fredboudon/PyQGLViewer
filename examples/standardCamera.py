@@ -29,7 +29,7 @@ class StandardCamera (Camera):
         return self.standard
     def zNear(self) :
         if self.standard:
-            return 0.001; 
+            return 0.001 
         else :
             return Camera.zNear(self)
     def zFar(self) :

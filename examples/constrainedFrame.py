@@ -39,7 +39,7 @@ class Viewer(QGLViewer):
     def draw(self):
         ogl.glMultMatrixd(self.__frame.matrix())
         self.drawAxis(0.4)
-        scale = 0.3;
+        scale = 0.3
         ogl.glScalef(scale, scale, scale)
         draw_qgl_logo()
         self.displayText()
@@ -97,14 +97,14 @@ class Viewer(QGLViewer):
         
     def displayText(self):
         self.qglColor(self.foregroundColor())
-        ogl.glDisable(ogl.GL_LIGHTING);
+        ogl.glDisable(ogl.GL_LIGHTING)
         self.drawText(10,self.height()-30, "TRANSLATION :")
-        self.displayDir(self.__transDir, 190, self.height()-30, 'G');
-        self.displayType(self.__constraints[self.__activeConstraint].translationConstraintType(), 10, self.height()-60, 'T');
+        self.displayDir(self.__transDir, 190, self.height()-30, 'G')
+        self.displayType(self.__constraints[self.__activeConstraint].translationConstraintType(), 10, self.height()-60, 'T')
 
         self.drawText(self.width()-220,self.height()-30, "ROTATION :")
         self.displayDir(self.__rotDir, self.width()-100, self.height()-30, 'D')
-        self.displayType(self.__constraints[self.__activeConstraint].rotationConstraintType(), self.width()-220, self.height()-60, 'R');
+        self.displayType(self.__constraints[self.__activeConstraint].rotationConstraintType(), self.width()-220, self.height()-60, 'R')
         if self.__activeConstraint == 0:
             self.drawText(20,20, "Constraint direction defined w/r to WORLD (SPACE)")
         elif self.__activeConstraint == 1:

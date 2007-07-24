@@ -45,7 +45,7 @@ class Luxo :
         baseConstraint = WorldConstraint()
         baseConstraint.setTranslationConstraint(AxisPlaneConstraint.PLANE, Vec(0.0,0.0,1.0))
         baseConstraint.setRotationConstraint(AxisPlaneConstraint.AXIS, Vec(0.0,0.0,1.0))
-        self.frame(0).setConstraint(baseConstraint);
+        self.frame(0).setConstraint(baseConstraint)
 
         XAxis = LocalConstraint()
         XAxis.setTranslationConstraint(AxisPlaneConstraint.FORBIDDEN,  Vec(0.0,0.0,0.0))
@@ -61,7 +61,7 @@ class Luxo :
         selected = 4
     def draw(self,names=False):
         # Luxo's local frame
-        ogl.glPushMatrix();
+        ogl.glPushMatrix()
         ogl.glMultMatrixd(self.frame(0).matrix())
 
         if names:
@@ -117,15 +117,15 @@ class Luxo :
         self.__drawCone(0.06,0.15, 0.04, 0.17, 30)
         self.__drawCone(0.15,0.17, 0.17, 0.17, 30)
     def __drawCylinder(self):
-        ogl.glPushMatrix();
-        ogl.glRotatef(90, 0.0,1.0,0.0);
-        self.__drawCone(-0.05,0.05, 0.02, 0.02, 20);
-        ogl.glPopMatrix();
+        ogl.glPushMatrix()
+        ogl.glRotatef(90, 0.0,1.0,0.0)
+        self.__drawCone(-0.05,0.05, 0.02, 0.02, 20)
+        ogl.glPopMatrix()
     def __drawCone(self,zMin, zMax, r1, r2, nbSub):
         quadric = glu.gluNewQuadric()
         ogl.glTranslatef(0.0, 0.0, zMin)
         glu.gluCylinder(quadric, r1, r2, zMax-zMin, nbSub, 1)
-        ogl.glTranslatef(0.0, 0.0, -zMin);
+        ogl.glTranslatef(0.0, 0.0, -zMin)
     def __setColor(self,nb):
         if nb == self.__selected:
             ogl.glColor3f(0.9, 0.9, 0.0)
@@ -141,12 +141,12 @@ class Viewer(QGLViewer):
         self.restoreStateFromFile()
         self.setManipulatedFrame( self.camera().frame() )
         # Preserve CAMERA bindings, see setHandlerKeyboardModifiers documentation.
-        self.setHandlerKeyboardModifiers(QGLViewer.CAMERA, Qt.AltModifier);
+        self.setHandlerKeyboardModifiers(QGLViewer.CAMERA, Qt.AltModifier)
         # The frames can be move without any key pressed
-        self.setHandlerKeyboardModifiers(QGLViewer.FRAME, Qt.NoModifier);
+        self.setHandlerKeyboardModifiers(QGLViewer.FRAME, Qt.NoModifier)
         # The camera can always be moved with the Control key.
-        self.setHandlerKeyboardModifiers(QGLViewer.CAMERA, Qt.ControlModifier);        
-        self.initSpotLight();
+        self.setHandlerKeyboardModifiers(QGLViewer.CAMERA, Qt.ControlModifier)        
+        self.initSpotLight()
         self.help()
     def draw(self):
         self.luxo.draw()
@@ -157,9 +157,9 @@ class Viewer(QGLViewer):
         for j in range(0,int(nbPatches)) :
             ogl.glBegin(ogl.GL_QUAD_STRIP)
             for i in range(0,int(nbPatches)+1):
-        	  ogl.glVertex2f((2*i/nbPatches-1.0), (2*j/nbPatches-1.0));
-	          ogl.glVertex2f((2*i/nbPatches-1.0), (2*(j+1)/nbPatches-1.0));
-            ogl.glEnd();
+        	  ogl.glVertex2f((2*i/nbPatches-1.0), (2*j/nbPatches-1.0))
+	          ogl.glVertex2f((2*i/nbPatches-1.0), (2*(j+1)/nbPatches-1.0))
+            ogl.glEnd()
     def drawWithNames(self):
         self.luxo.draw(True)
     def postSelection(self,point):
@@ -188,15 +188,15 @@ class Viewer(QGLViewer):
         light_specular = [1.0, 1.0, 1.0, 1.0]
         light_diffuse  = [3.0, 3.0, 1.0, 1.0]
 
-        ogl.glLightfv(ogl.GL_LIGHT1, ogl.GL_SPOT_DIRECTION, spot_dir);
-        ogl.glLightf( ogl.GL_LIGHT1, ogl.GL_SPOT_EXPONENT,  3.0);
-        ogl.glLightf( ogl.GL_LIGHT1, ogl.GL_SPOT_CUTOFF,    50.0);
-        ogl.glLightf( ogl.GL_LIGHT1, ogl.GL_CONSTANT_ATTENUATION, 0.5);
-        ogl.glLightf( ogl.GL_LIGHT1, ogl.GL_LINEAR_ATTENUATION, 1.0);
-        ogl.glLightf( ogl.GL_LIGHT1, ogl.GL_QUADRATIC_ATTENUATION, 1.5);
-        ogl.glLightfv(ogl.GL_LIGHT1, ogl.GL_AMBIENT,  light_ambient);
-        ogl.glLightfv(ogl.GL_LIGHT1, ogl.GL_SPECULAR, light_specular);
-        ogl.glLightfv(ogl.GL_LIGHT1, ogl.GL_DIFFUSE,  light_diffuse);
+        ogl.glLightfv(ogl.GL_LIGHT1, ogl.GL_SPOT_DIRECTION, spot_dir)
+        ogl.glLightf( ogl.GL_LIGHT1, ogl.GL_SPOT_EXPONENT,  3.0)
+        ogl.glLightf( ogl.GL_LIGHT1, ogl.GL_SPOT_CUTOFF,    50.0)
+        ogl.glLightf( ogl.GL_LIGHT1, ogl.GL_CONSTANT_ATTENUATION, 0.5)
+        ogl.glLightf( ogl.GL_LIGHT1, ogl.GL_LINEAR_ATTENUATION, 1.0)
+        ogl.glLightf( ogl.GL_LIGHT1, ogl.GL_QUADRATIC_ATTENUATION, 1.5)
+        ogl.glLightfv(ogl.GL_LIGHT1, ogl.GL_AMBIENT,  light_ambient)
+        ogl.glLightfv(ogl.GL_LIGHT1, ogl.GL_SPECULAR, light_specular)
+        ogl.glLightfv(ogl.GL_LIGHT1, ogl.GL_DIFFUSE,  light_diffuse)
 
 def main():
 	qapp = QApplication([])

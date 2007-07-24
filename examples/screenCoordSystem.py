@@ -52,8 +52,8 @@ class Viewer(QGLViewer):
         for i in range(self.nbSaucers):
             pos = Vec(uniform(-0.5,0.5),uniform(-0.5,0.5),uniform(-0.5,0.5))
             ori = Quaternion (Vec(uniform(0,1),uniform(0,1),uniform(0,1)),pi*uniform(0,1))
-            self.saucerPos[i].setPosition(pos);
-            self.saucerPos[i].setOrientation(ori);
+            self.saucerPos[i].setPosition(pos)
+            self.saucerPos[i].setOrientation(ori)
             self.saucerColor[i].setRgb(int(255.0 * uniform(0,1)),int(255.0 * uniform(0,1)),int(255.0 * uniform(0,1)))
             
         self.restoreStateFromFile()
@@ -67,15 +67,15 @@ class Viewer(QGLViewer):
         QGLViewer.closeEvent(self,event)
     def __drawSaucer(self):
         quadric = glu.gluNewQuadric()
-        ogl.glTranslatef(0.0, 0.0, -0.014);
-        glu.gluCylinder(quadric, 0.015, 0.03, 0.004, 32, 1);
-        ogl.glTranslatef(0.0, 0.0, 0.004);
-        glu.gluCylinder(quadric, 0.03, 0.04, 0.01, 32, 1);
-        ogl.glTranslatef(0.0, 0.0, 0.01);
-        glu.gluCylinder(quadric, 0.05, 0.03, 0.02, 32, 1);
-        ogl.glTranslatef(0.0, 0.0, 0.02);
-        glu.gluCylinder(quadric, 0.03, 0.0, 0.003, 32, 1);
-        ogl.glTranslatef(0.0, 0.0, -0.02);
+        ogl.glTranslatef(0.0, 0.0, -0.014)
+        glu.gluCylinder(quadric, 0.015, 0.03, 0.004, 32, 1)
+        ogl.glTranslatef(0.0, 0.0, 0.004)
+        glu.gluCylinder(quadric, 0.03, 0.04, 0.01, 32, 1)
+        ogl.glTranslatef(0.0, 0.0, 0.01)
+        glu.gluCylinder(quadric, 0.05, 0.03, 0.02, 32, 1)
+        ogl.glTranslatef(0.0, 0.0, 0.02)
+        glu.gluCylinder(quadric, 0.03, 0.0, 0.003, 32, 1)
+        ogl.glTranslatef(0.0, 0.0, -0.02)
 
 
 def main():

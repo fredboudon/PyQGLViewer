@@ -27,7 +27,7 @@ class Viewer(QGLViewer):
             self.camera().showEntireScene()
 
             # Forbid rotation
-            self.constraint = WorldConstraint();
+            self.constraint = WorldConstraint()
             self.constraint.setRotationConstraintType(AxisPlaneConstraint.FORBIDDEN)
             self.camera().frame().setConstraint(self.constraint)
 

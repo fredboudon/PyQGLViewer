@@ -28,25 +28,25 @@ class Viewer(QGLViewer):
         #       Keyboard shortcut customization
         #      Changes standard action key bindings
         # Define 'Control+Q' as the new exit shortcut (default was 'Escape')
-        self.setShortcut(QGLViewer.EXIT_VIEWER, Qt.CTRL+Qt.Key_Q);
+        self.setShortcut(QGLViewer.EXIT_VIEWER, Qt.CTRL+Qt.Key_Q)
         # Set 'Control+F' as the FPS toggle state key.
-        self.setShortcut(QGLViewer.DISPLAY_FPS, Qt.CTRL+Qt.Key_F);
+        self.setShortcut(QGLViewer.DISPLAY_FPS, Qt.CTRL+Qt.Key_F)
         # Disable draw grid toggle shortcut (default was 'G')
-        self.setShortcut(QGLViewer.DRAW_GRID, 0);
+        self.setShortcut(QGLViewer.DRAW_GRID, 0)
         # Add custom key description (see keyPressEvent).
-        self.setKeyDescription(Qt.Key_W, "Toggles wire frame display");
-        self.setKeyDescription(Qt.Key_F, "Toggles flat shading display");
+        self.setKeyDescription(Qt.Key_W, "Toggles wire frame display")
+        self.setKeyDescription(Qt.Key_F, "Toggles flat shading display")
         #         Mouse bindings customization
         #     Changes standard action mouse bindings
         # Left and right buttons together make a camera zoom : emulates a mouse third button if needed.
-        self.setMouseBinding(Qt.LeftButton | Qt.RightButton, QGLViewer.CAMERA, QGLViewer.ZOOM);
+        self.setMouseBinding(Qt.LeftButton | Qt.RightButton, QGLViewer.CAMERA, QGLViewer.ZOOM)
         # Disable previous TRANSLATE mouse binding (and remove it from help mouse tab).
-        self.setMouseBinding(Qt.RightButton, QGLViewer.NO_CLICK_ACTION);
-        self.setMouseBinding(int(Qt.ControlModifier) | Qt.ShiftModifier | Qt.RightButton, QGLViewer.SELECT);
-        self.setWheelBinding(Qt.AltModifier, QGLViewer.CAMERA, QGLViewer.MOVE_FORWARD);
-        self.setMouseBinding(int(Qt.AltModifier) | Qt.LeftButton, QGLViewer.CAMERA, QGLViewer.TRANSLATE);
+        self.setMouseBinding(Qt.RightButton, QGLViewer.NO_CLICK_ACTION)
+        self.setMouseBinding(int(Qt.ControlModifier) | Qt.ShiftModifier | Qt.RightButton, QGLViewer.SELECT)
+        self.setWheelBinding(Qt.AltModifier, QGLViewer.CAMERA, QGLViewer.MOVE_FORWARD)
+        self.setMouseBinding(int(Qt.AltModifier) | Qt.LeftButton, QGLViewer.CAMERA, QGLViewer.TRANSLATE)
         # Add custom mouse bindings description (see mousePressEvent())
-        self.setMouseBindingDescription(Qt.RightButton, "Opens a camera path context menu");
+        self.setMouseBindingDescription(Qt.RightButton, "Opens a camera path context menu")
         # Display the help window. The help window tabs are automatically updated when you define new
         # standard key or mouse bindings (as is done above). Custom bindings descriptions are added using
         # setKeyDescription() and setMouseBindingDescription().
@@ -63,7 +63,7 @@ class Viewer(QGLViewer):
         # A simple switch on e->key() is not sufficient if we want to take state key into account.
         # With a switch, it would have been impossible to separate 'F' from 'CTRL+F'.
         # That's why we use imbricated if...else and a "handled" boolean.
-        handled = False;
+        handled = False
         if ((e.key()==Qt.Key_W) and (modifiers==Qt.NoModifier)):
             self.__wireframe = not self.__wireframe
             if self.__wireframe:
@@ -87,8 +87,8 @@ class Viewer(QGLViewer):
     def mousePressEvent(self,e):
         if (e.button() == Qt.RightButton) and (e.modifiers() == Qt.NoModifier):
             menu= QMenu( self )
-            menu.addAction("Camera positions");
-            menu.addSeparator();
+            menu.addAction("Camera positions")
+            menu.addSeparator()
             menuMap = {}
 
             atLeastOne = False
@@ -100,7 +100,7 @@ class Viewer(QGLViewer):
 	                    text = "Position "+str(i)
 	                else:
 	                    text = "Path "+str(i)
-	                menuMap[menu.addAction(text)] = i;
+	                menuMap[menu.addAction(text)] = i
 
             if not atLeastOne:
 	            menu.addAction("No position defined")

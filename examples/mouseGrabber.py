@@ -35,7 +35,7 @@ class Spiral:
         ogl.glPushMatrix()
         ogl.glMultMatrixd(self.mf.matrix())
         # Draw a spiral
-        nbSteps = 100.0;
+        nbSteps = 100.0
         ogl.glBegin(ogl.GL_QUAD_STRIP)
         for i in range(int(nbSteps)):
             ratio = i/nbSteps
@@ -43,10 +43,10 @@ class Spiral:
             c = cos(angle)
             s = sin(angle)
             r1 = 0.2 - 0.15*ratio
-            r2 = 0.16 - 0.15*ratio;
+            r2 = 0.16 - 0.15*ratio
             alt = 0.2 * (ratio - 0.5)
-            nor = .5;
-            up = sqrt(1.0-nor*nor);
+            nor = .5
+            up = sqrt(1.0-nor*nor)
             if self.mf.grabsMouse():
 	            ogl.glColor3f(1-ratio, 0.8 , ratio/2.0)
             else:
@@ -74,7 +74,7 @@ class Viewer(QGLViewer):
         # Absolutely needed for MouseGrabber
         self.setMouseTracking(True)
         # In order to make the manipulatedFrame displacements clearer
-        self.setAxisIsDrawn();
+        self.setAxisIsDrawn()
 
         # Initialize the CameraPathPlayer MouseGrabber array
         self.nbPlayers = 12
@@ -111,7 +111,7 @@ class Viewer(QGLViewer):
 	                if self.camera().keyFrameInterpolator(i).numberOfKeyFrames() > 1:
 		                s = "Path F" + str(i)
 	                else:
-		                s = "Pos F" + str(i);
+		                s = "Pos F" + str(i)
 	            self.drawText(10, cpp.yPos()-3, s)
     def updatePlayers(self):
         for  i in range(self.nbPlayers):

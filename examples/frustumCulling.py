@@ -64,30 +64,30 @@ class Box:
         self.level = 0
         self.child = []
     def draw(self) :
-        ogl.glColor3f(0.3*self.level, 0.2, 1.0-0.3*self.level);
-        ogl.glLineWidth(self.level+1);
+        ogl.glColor3f(0.3*self.level, 0.2, 1.0-0.3*self.level)
+        ogl.glLineWidth(self.level+1)
 
-        ogl.glBegin(ogl.GL_LINE_STRIP);
-        ogl.glVertex3fv((self.p1.x, self.p1.y, self.p1.z));
-        ogl.glVertex3fv((self.p1.x, self.p2.y, self.p1.z));
-        ogl.glVertex3fv((self.p2.x, self.p2.y, self.p1.z));
-        ogl.glVertex3fv((self.p2.x, self.p1.y, self.p1.z));
-        ogl.glVertex3fv((self.p1.x, self.p1.y, self.p1.z));
-        ogl.glVertex3fv((self.p1.x, self.p1.y, self.p2.z));
-        ogl.glVertex3fv((self.p1.x, self.p2.y, self.p2.z));
-        ogl.glVertex3fv((self.p2.x, self.p2.y, self.p2.z));
-        ogl.glVertex3fv((self.p2.x, self.p1.y, self.p2.z));
-        ogl.glVertex3fv((self.p1.x, self.p1.y, self.p2.z));
-        ogl.glEnd();
+        ogl.glBegin(ogl.GL_LINE_STRIP)
+        ogl.glVertex3fv((self.p1.x, self.p1.y, self.p1.z))
+        ogl.glVertex3fv((self.p1.x, self.p2.y, self.p1.z))
+        ogl.glVertex3fv((self.p2.x, self.p2.y, self.p1.z))
+        ogl.glVertex3fv((self.p2.x, self.p1.y, self.p1.z))
+        ogl.glVertex3fv((self.p1.x, self.p1.y, self.p1.z))
+        ogl.glVertex3fv((self.p1.x, self.p1.y, self.p2.z))
+        ogl.glVertex3fv((self.p1.x, self.p2.y, self.p2.z))
+        ogl.glVertex3fv((self.p2.x, self.p2.y, self.p2.z))
+        ogl.glVertex3fv((self.p2.x, self.p1.y, self.p2.z))
+        ogl.glVertex3fv((self.p1.x, self.p1.y, self.p2.z))
+        ogl.glEnd()
 
-        ogl.glBegin(ogl.GL_LINES);
-        ogl.glVertex3fv((self.p1.x, self.p2.y, self.p1.z));
-        ogl.glVertex3fv((self.p1.x, self.p2.y, self.p2.z));
-        ogl.glVertex3fv((self.p2.x, self.p2.y, self.p1.z));
-        ogl.glVertex3fv((self.p2.x, self.p2.y, self.p2.z));
-        ogl.glVertex3fv((self.p2.x, self.p1.y, self.p1.z));
-        ogl.glVertex3fv((self.p2.x, self.p1.y, self.p2.z));
-        ogl.glEnd();
+        ogl.glBegin(ogl.GL_LINES)
+        ogl.glVertex3fv((self.p1.x, self.p2.y, self.p1.z))
+        ogl.glVertex3fv((self.p1.x, self.p2.y, self.p2.z))
+        ogl.glVertex3fv((self.p2.x, self.p2.y, self.p1.z))
+        ogl.glVertex3fv((self.p2.x, self.p2.y, self.p2.z))
+        ogl.glVertex3fv((self.p2.x, self.p1.y, self.p1.z))
+        ogl.glVertex3fv((self.p2.x, self.p1.y, self.p2.z))
+        ogl.glEnd()
     def drawIfAllChildrenAreVisible(self,camera) :
         visible,entirely = camera.aaBoxIsVisible(self.p1, self.p2)
         if visible:
@@ -101,7 +101,7 @@ class Box:
 	                self.draw()
     def buildBoxHierarchy(self,l):
         self.level = l
-        middle = (self.p1+self.p2) / 2.0;
+        middle = (self.p1+self.p2) / 2.0
         self.child = []
         for i in range(0,8):
             # point in one of the 8 box corners
@@ -123,7 +123,7 @@ class Viewer(QGLViewer):
             self.cullingCamera.computeFrustumPlanesEquations()
         else :
             # Observer viewer draws cullingCamera
-            ogl.glLineWidth(4.0);
+            ogl.glLineWidth(4.0)
             ogl.glColor4f(1.0, 1.0, 1.0, 0.5)
             self.cullingCamera.draw()
     def init(self):
@@ -154,7 +154,7 @@ def main():
     viewer = Viewer(hSplit)
     observer = Viewer(hSplit)
     
-    # Give v a cullingCamera;
+    # Give v a cullingCamera
     cc = CullingCamera()
     viewer.setCamera(cc)
     viewer.showEntireScene()

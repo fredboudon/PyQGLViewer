@@ -48,7 +48,7 @@ class ManipulatedFrameSetConstraint (Constraint):
         for it in self.objects:
 	        # Rotation has to be expressed in the object local coordinates system.
 	        qObject = Quaternion(it.frame.transformOf(worldAxis), angle)
-	        it.frame.rotate(qObject);
+	        it.frame.rotate(qObject)
 	        # Comment these lines only rotate the objects
 	        qWorld = Quaternion(worldAxis, angle)
 	        # Rotation around frame world position (pos)
@@ -80,14 +80,14 @@ class Viewer(QGLViewer):
         for it in self.__selection:
             self.__objects[it].draw()
         # Draws all the objects. Selected ones are not repainted because of GL depth test.
-        ogl.glColor3f(0.8, 0.8, 0.8);
+        ogl.glColor3f(0.8, 0.8, 0.8)
         for obj in self.__objects:
             obj.draw()
         # Draws manipulatedFrame (the set's rotation center)
         if self.manipulatedFrame().isManipulated():
-            ogl.glPushMatrix();
+            ogl.glPushMatrix()
             ogl.glMultMatrixd(self.manipulatedFrame().matrix())
-            self.drawAxis(0.5);
+            self.drawAxis(0.5)
             ogl.glPopMatrix()
         # Draws rectangular selection area. Could be done in postDraw() instead.
         if self.__selectionMode != Viewer.NONE:
@@ -121,7 +121,7 @@ class Viewer(QGLViewer):
 	            self.addIdToSelection(id)
             elif self.__selectionMode == Viewer.REMOVE : 
 	            self.removeIdFromSelection(id)
-        self.__selectionMode = Viewer.NONE;
+        self.__selectionMode = Viewer.NONE
     def mousePressEvent(self,e):
         """ Mouse events functions """
         # Start selection. Mode is ADD with Shift key and TOGGLE with Alt key.

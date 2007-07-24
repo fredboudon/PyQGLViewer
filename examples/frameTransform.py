@@ -17,10 +17,10 @@ class Viewer(QGLViewer):
     def __init__(self):
         QGLViewer.__init__(self)
     def draw(self):
-        nbLines = 50;
-        ogl.glBegin(ogl.GL_LINES);
+        nbLines = 50
+        ogl.glBegin(ogl.GL_LINES)
         for i in range(0,nbLines):
-            angle = 2.0*pi*i/nbLines;
+            angle = 2.0*pi*i/nbLines
             ogl.glColor3f(.8,.2,.2)
             # These lines will never be seen as they are always aligned with the viewing direction.
             ogl.glVertex3fv(list(self.camera().position()))
@@ -38,10 +38,10 @@ class Viewer(QGLViewer):
         ogl.glEnd()
     def init(self):
         self.restoreStateFromFile()
-        self.setSceneRadius(1.5);
-        self.showEntireScene();
-        self.setAxisIsDrawn();
-        ogl.glDisable(ogl.GL_LIGHTING);
+        self.setSceneRadius(1.5)
+        self.showEntireScene()
+        self.setAxisIsDrawn()
+        ogl.glDisable(ogl.GL_LIGHTING)
         self.help()
     def helpString(self):
         return helpstr

@@ -28,7 +28,7 @@ class Viewer(QGLViewer):
             ogl.glPopMatrix()
         # Draw the intersection line
         ogl.glBegin(ogl.GL_LINES)
-        ogl.glVertex3fv(list(self.orig));
+        ogl.glVertex3fv(list(self.orig))
         ogl.glVertex3fv(list(self.orig + 100.0*self.dir))
         ogl.glEnd()
 

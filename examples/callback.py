@@ -11,7 +11,7 @@ The QGLViewer::drawNeeded() signal is connected to the Scene::draw() method.
 The two classes are otherwise completely independant."""
 
 def help():
-	QMessageBox.information(None,"Callback exemple", helpstr);
+	QMessageBox.information(None,"Callback exemple", helpstr)
 
 class Scene (QObject):
 	def __init__(self,gqlviewer):

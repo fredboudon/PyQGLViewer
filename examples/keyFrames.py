@@ -43,7 +43,7 @@ class Viewer(QGLViewer):
         self.kfi.startInterpolation()
     def draw(self):
         # Draw interpolated frame
-        ogl.glPushMatrix();
+        ogl.glPushMatrix()
         ogl.glMultMatrixd(self.kfi.frame().matrix())
         self.drawAxis(0.3)
         ogl.glPopMatrix()

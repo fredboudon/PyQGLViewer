@@ -47,9 +47,9 @@ class Viewer(pq.QGLViewer):
 		ogl.glMatrixMode(ogl.GL_MODELVIEW)
 		ogl.glLoadIdentity()
 		# Light0 is the default ambient light
-		ogl.glEnable(ogl.GL_LIGHT0);
+		ogl.glEnable(ogl.GL_LIGHT0)
 		# Light1 is a spot light
-		ogl.glEnable(ogl.GL_LIGHT1);
+		ogl.glEnable(ogl.GL_LIGHT1)
 		light_ambient  = [0.8, 0.2, 0.2, 1.0]
 		light_diffuse  = [1.0, 0.4, 0.4, 1.0]
 		light_specular = [1.0, 0.0, 0.0, 1.0]
@@ -73,7 +73,7 @@ class Viewer(pq.QGLViewer):
 		ogl.glLightfv(ogl.GL_LIGHT2, ogl.GL_SPECULAR, light_specular2)
 		ogl.glLightfv(ogl.GL_LIGHT2, ogl.GL_DIFFUSE,  light_diffuse2)
 		
-		self.setMouseTracking(True);
+		self.setMouseTracking(True)
 		
 		self.light1.setPosition(0.5, 0.5, 0)
 		# Align z axis with -position direction : look at scene center

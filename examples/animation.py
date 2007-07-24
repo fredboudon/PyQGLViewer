@@ -12,13 +12,13 @@ class Particle:
 		angle = 2.0 * math.pi * rd.uniform(0,1) 
 		norm  = 0.04 * rd.uniform(0,1)
 		self.speed = Vec(norm*math.cos(angle), norm*math.sin(angle), rd.uniform(0,1) )
-		self.age = 0;
+		self.age = 0
 		self.ageMax = 50 + rd.uniform(0,100)
 	def draw(self):
 		ogl.glColor3f(self.age/self.ageMax, self.age/self.ageMax, 1.0)
 		ogl.glVertex3f(self.pos.x,self.pos.y,self.pos.z)
 	def animate(self):
-		self.speed.z -= 0.05;
+		self.speed.z -= 0.05
 		self.pos     += self.speed * 0.1
 		if self.pos.z < 0.0:
 			self.speed.z = -0.8*self.speed.z
@@ -46,10 +46,10 @@ class Viewer(QGLViewer):
 		self.help()
 		self.startAnimation()
 	def draw(self):
-		ogl.glBegin(ogl.GL_POINTS);
+		ogl.glBegin(ogl.GL_POINTS)
 		for p in self.particles:
 			p.draw()
-		ogl.glEnd();
+		ogl.glEnd()
 	def animate(self):
 		for p in self.particles:
 			p.animate()		
