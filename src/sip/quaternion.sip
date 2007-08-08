@@ -123,15 +123,8 @@ public:
 			PyList_SetItem(sipRes,i,PyFloat_FromDouble(values[i]));
 %End
 
-  SIP_PYOBJECT getMatrix() const; 
-%MethodCode
-    const GLdouble* values = sipCpp->matrix();
-    sipRes = PyList_New(16);
-	for(int i = 0; i < 16; ++i)
-			PyList_SetItem(sipRes,i,PyFloat_FromDouble(values[i]));
-%End
 
-  SIP_PYOBJECT getMatrix4() const; 
+  SIP_PYOBJECT getMatrix() const; 
 %MethodCode
     const GLdouble* values = sipCpp->matrix();
     sipRes = PyList_New(4);
@@ -144,15 +137,6 @@ public:
 %End
 
   SIP_PYOBJECT getRotationMatrix() const; 
-%MethodCode
-    float values[3][3];
-    sipCpp->getRotationMatrix(values);
-    sipRes = PyList_New(16);
-	for(int i = 0; i < 16; ++i)
-			PyList_SetItem(sipRes,i,PyFloat_FromDouble(values[i/3][i%3]));
-%End
-
-  SIP_PYOBJECT getRotationMatrix3() const; 
 %MethodCode
     float values[3][3];
     sipCpp->getRotationMatrix(values);
@@ -181,14 +165,6 @@ public:
   SIP_PYOBJECT getInverseMatrix() const; 
 %MethodCode
     const GLdouble* values = sipCpp->inverseMatrix();
-    sipRes = PyList_New(16);
-	for(int i = 0; i < 16; ++i)
-			PyList_SetItem(sipRes,i,PyFloat_FromDouble(values[i]));
-%End
-
-  SIP_PYOBJECT getInverseMatrix4() const; 
-%MethodCode
-    const GLdouble* values = sipCpp->inverseMatrix();
     sipRes = PyList_New(4);
 	for(int i = 0; i < 4; ++i){
 	    PyObject * row = PyList_New(4);
@@ -199,15 +175,6 @@ public:
 %End
 
   SIP_PYOBJECT getInverseRotationMatrix() const; 
-%MethodCode
-    float values[3][3];
-    sipCpp->getRotationMatrix(values);
-    sipRes = PyList_New(16);
-	for(int i = 0; i < 16; ++i)
-			PyList_SetItem(sipRes,i,PyFloat_FromDouble(values[i/3][i%3]));
-%End
-
-  SIP_PYOBJECT getInverseRotationMatrix3() const; 
 %MethodCode
     float values[3][3];
     sipCpp->getRotationMatrix(values);
