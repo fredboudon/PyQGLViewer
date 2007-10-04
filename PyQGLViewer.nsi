@@ -21,7 +21,7 @@
 
 
 # These will change with different releases.
-!define PYQGLVIEWER_VERSION        "0.1.0"
+!define PYQGLVIEWER_VERSION        "0.2.0"
 !define PYQGLVIEWER_LICENSE        "GPL"
 !define PYQGLVIEWER_LICENSE_LC     "gpl"
 !define PYQGLVIEWER_PYTHON_MINOR   "5"
