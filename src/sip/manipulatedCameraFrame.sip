@@ -27,6 +27,7 @@ class ManipulatedCameraFrame : ManipulatedFrame
 %TypeHeaderCode
 #include <QGLViewer/manipulatedCameraFrame.h>
 using qglviewer::ManipulatedCameraFrame;
+using qglviewer::ManipulatedFrame;
 #include <QGLViewer/camera.h>
 using qglviewer::Camera;
 %End

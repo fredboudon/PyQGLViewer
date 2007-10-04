@@ -56,7 +56,7 @@ def compile_qt_program(name, configuration,
                        extra_include_dirs=[],
                        extra_lib_dirs=[],
                        extra_libs=[],
-                       ):
+                       verbose = False):
     """Compile a simple Qt application.
 
     name is the name of the single source file
@@ -67,7 +67,7 @@ def compile_qt_program(name, configuration,
     extra_libs is a list of extra libraries
     """    
     makefile = sipconfig.ProgramMakefile(
-        configuration, console=True, qt=True, warnings=True)
+        configuration, console=True, qt=['QtCore','QtGui','QtOpenGL','QtXml'], opengl=True, warnings=True)
     
     makefile.extra_defines.extend(extra_defines)
     makefile.extra_include_dirs.extend(extra_include_dirs)
@@ -81,7 +81,9 @@ def compile_qt_program(name, configuration,
         os.remove(exe)
     except OSError:
         pass
-
+    
+    if verbose:
+        print(build)
     os.system(build)
 
     if not os.access(exe, os.X_OK):
@@ -261,7 +263,7 @@ def check_qglviewer(configuration, options):
         extra_include_dirs.extend(options.extra_include_dirs)
 
     exe = compile_qt_program('qglviewer_version_info.cpp', configuration,
-                             extra_include_dirs = extra_include_dirs)
+                             extra_include_dirs = extra_include_dirs, verbose=options.verbose_config)
     if not exe:
         raise Die, 'Failed to build the qglviewer_version_info tool. Cannot find libQGLViewer. Use -Q to specify.'
 

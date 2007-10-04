@@ -50,6 +50,7 @@ class AxisPlaneConstraint : Constraint
   {
 %TypeHeaderCode
 #include <QGLViewer/constraint.h>
+using qglviewer::Constraint;
 using qglviewer::AxisPlaneConstraint;
 %End
 
@@ -82,6 +83,7 @@ class LocalConstraint : AxisPlaneConstraint
 {
 %TypeHeaderCode
 #include <QGLViewer/constraint.h>
+using qglviewer::AxisPlaneConstraint;
 using qglviewer::LocalConstraint;
 %End
   public:
@@ -97,6 +99,7 @@ class WorldConstraint : AxisPlaneConstraint
 {
 %TypeHeaderCode
 #include <QGLViewer/constraint.h>
+using qglviewer::AxisPlaneConstraint;
 using qglviewer::WorldConstraint;
 %End
   public:
@@ -112,6 +115,7 @@ class CameraConstraint : AxisPlaneConstraint
 {
 %TypeHeaderCode
 #include <QGLViewer/constraint.h>
+using qglviewer::AxisPlaneConstraint;
 using qglviewer::CameraConstraint;
 #include <QGLViewer/camera.h>
 using qglviewer::Camera;
