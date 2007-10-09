@@ -178,7 +178,7 @@ public:
 %End
 
 
-  GLuint bindTexture3D(const QVector<QImage> & image, GLenum target = GL_TEXTURE_3D, GLint format = GL_RGBA );
+  GLuint bindTexture3D(const QVector<QImage> & images, GLenum target = GL_TEXTURE_3D, GLint format = GL_RGBA );
 %MethodCode
     
     sipRes = 0;

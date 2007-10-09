@@ -118,21 +118,21 @@ public:
   SIP_PYOBJECT matrix() const; 
 %MethodCode
     const GLdouble* values = sipCpp->matrix();
-    sipRes = PyList_New(16);
+    sipRes = PyTuple_New(16);
 	for(int i = 0; i < 16; ++i)
-			PyList_SetItem(sipRes,i,PyFloat_FromDouble(values[i]));
+			PyTuple_SetItem(sipRes,i,PyFloat_FromDouble(values[i]));
 %End
 
 
   SIP_PYOBJECT getMatrix() const; 
 %MethodCode
     const GLdouble* values = sipCpp->matrix();
-    sipRes = PyList_New(4);
+    sipRes = PyTuple_New(4);
 	for(int i = 0; i < 4; ++i){
-	    PyObject * row = PyList_New(4);
-	    PyList_SetItem(sipRes,i,row);
+	    PyObject * row = PyTuple_New(4);
+	    PyTuple_SetItem(sipRes,i,row);
 	    for(int j = 0; j < 4; ++j)
-			PyList_SetItem(row,j,PyFloat_FromDouble(values[4*i+j]));
+			PyTuple_SetItem(row,j,PyFloat_FromDouble(values[4*i+j]));
 	}
 %End
 
@@ -140,12 +140,12 @@ public:
 %MethodCode
     float values[3][3];
     sipCpp->getRotationMatrix(values);
-    sipRes = PyList_New(3);
+    sipRes = PyTuple_New(3);
 	for(int i = 0; i < 3; ++i){
-	    PyObject * row = PyList_New(3);
-	    PyList_SetItem(sipRes,i,row);
+	    PyObject * row = PyTuple_New(3);
+	    PyTuple_SetItem(sipRes,i,row);
 	    for(int j = 0; j < 3; ++j)
-			PyList_SetItem(row,j,PyFloat_FromDouble(values[i][j]));
+			PyTuple_SetItem(row,j,PyFloat_FromDouble(values[i][j]));
 	}
 %End
 
@@ -157,20 +157,20 @@ public:
   SIP_PYOBJECT inverseMatrix() const; 
 %MethodCode
     const GLdouble* values = sipCpp->inverseMatrix();
-    sipRes = PyList_New(16);
+    sipRes = PyTuple_New(16);
 	for(int i = 0; i < 16; ++i)
-			PyList_SetItem(sipRes,i,PyFloat_FromDouble(values[i]));
+			PyTuple_SetItem(sipRes,i,PyFloat_FromDouble(values[i]));
 %End
 
   SIP_PYOBJECT getInverseMatrix() const; 
 %MethodCode
     const GLdouble* values = sipCpp->inverseMatrix();
-    sipRes = PyList_New(4);
+    sipRes = PyTuple_New(4);
 	for(int i = 0; i < 4; ++i){
-	    PyObject * row = PyList_New(4);
-	    PyList_SetItem(sipRes,i,row);
+	    PyObject * row = PyTuple_New(4);
+	    PyTuple_SetItem(sipRes,i,row);
 	    for(int j = 0; j < 4; ++j)
-			PyList_SetItem(row,j,PyFloat_FromDouble(values[4*i+j]));
+			PyTuple_SetItem(row,j,PyFloat_FromDouble(values[4*i+j]));
 	}
 %End
 
@@ -178,12 +178,12 @@ public:
 %MethodCode
     float values[3][3];
     sipCpp->getRotationMatrix(values);
-    sipRes = PyList_New(3);
+    sipRes = PyTuple_New(3);
 	for(int i = 0; i < 3; ++i){
-	    PyObject * row = PyList_New(3);
-	    PyList_SetItem(sipRes,i,row);
+	    PyObject * row = PyTuple_New(3);
+	    PyTuple_SetItem(sipRes,i,row);
 	    for(int j = 0; j < 3; ++j)
-			PyList_SetItem(row,j,PyFloat_FromDouble(values[i][j]));
+			PyTuple_SetItem(row,j,PyFloat_FromDouble(values[i][j]));
 	}
 %End
 

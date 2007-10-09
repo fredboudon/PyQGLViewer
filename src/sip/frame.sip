@@ -354,10 +354,13 @@ public:
         sipIsErr = 1;
     else
     {		
-		PyObject * res = PyTuple_New(16);
-		for(int i = 0; i < 16; ++i)
-			PyTuple_SetItem(res,i,PyFloat_FromDouble(mat[i]));
-		sipRes = res;
+        sipRes = PyTuple_New(4);
+	    for(int i = 0; i < 4; ++i){
+	        PyObject * row = PyTuple_New(4);
+	        PyTuple_SetItem(sipRes,i,row);
+	        for(int j = 0; j < 4; ++j)
+			    PyTuple_SetItem(row,j,PyFloat_FromDouble(mat[4*i+j]));
+	    }
     }	
 %End
 
@@ -382,10 +385,13 @@ public:
         sipIsErr = 1;
     else
     {
-		PyObject * res = PyTuple_New(16);
-		for(int i = 0; i < 16; ++i)
-			PyTuple_SetItem(res,i,PyFloat_FromDouble(mat[i]));
-		sipRes = res;
+        sipRes = PyTuple_New(4);
+	    for(int i = 0; i < 4; ++i){
+	        PyObject * row = PyTuple_New(4);
+	        PyTuple_SetItem(sipRes,i,row);
+	        for(int j = 0; j < 4; ++j)
+			    PyTuple_SetItem(row,j,PyFloat_FromDouble(mat[4*i+j]));
+	    }
     }	
 %End
 
