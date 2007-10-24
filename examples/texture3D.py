@@ -1,7 +1,7 @@
 from PyQt4.QtGui import *
 from PyQGLViewer import *
-from qgllogo import *
 import OpenGL.GL as ogl
+import math
 
 helpstr = """<h2>T e x t u r e 3 D</h2>
 An example to show how to build a 3D texture and apply it on a dynamic pyramid."""
@@ -21,14 +21,14 @@ class Viewer(QGLViewer):
         ogl.glBegin(ogl.GL_TRIANGLES)
         # texture coordinates are always specified before the vertex they apply to.
         for x in range(4):
-            ogl.glTexCoord3d(self.center[0], self.center[1], self.center[2])
-            ogl.glVertex3d(self.center[0], self.center[1], self.center[2])
+            ogl.glTexCoord3dv(self.center)
+            ogl.glVertex3dv(self.center)
             
-            ogl.glTexCoord3d(self.base[x][0], self.base[x][1], self.base[x][2])
-            ogl.glVertex3d(self.base[x][0], self.base[x][1], self.base[x][2])
+            ogl.glTexCoord3dv(self.base[x])
+            ogl.glVertex3dv(self.base[x])
             
-            ogl.glTexCoord3d(self.base[(x+1)%4][0], self.base[(x+1)%4][1], self.base[(x+1)%4][2])
-            ogl.glVertex3d(self.base[(x+1)%4][0], self.base[(x+1)%4][1], self.base[(x+1)%4][2])
+            ogl.glTexCoord3dv(self.base[(x+1)%4])
+            ogl.glVertex3dv(self.base[(x+1)%4])
         ogl.glEnd()
     def init(self):
         self.restoreStateFromFile()
