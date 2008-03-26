@@ -37,6 +37,7 @@ class QGLViewer : QGLWidget
 
 #ifndef GL_TEXTURE_3D
 #define GL_TEXTURE_3D 0x806F
+#define GL_TEXTURE_3D_NO_DEFAULT_DEFINITION
 #endif
 
 %End
@@ -182,24 +183,27 @@ public:
 %MethodCode
     
     sipRes = 0;
-    
-#ifdef Q_OS_WIN32
 
+#ifdef GL_TEXTURE_3D_NO_DEFAULT_DEFINITION    
 #ifndef APIENTRY
 #define APIENTRY
 #endif
-
     typedef void (APIENTRY *_glTexImage3D) (GLenum, GLint, GLint, GLsizei, GLsizei, GLsizei, GLint, GLenum, GLenum, const GLvoid *);
     static _glTexImage3D glTexImage3D = NULL;
     if (glTexImage3D == NULL){
+  
+#ifdef Q_OS_WIN32
         glTexImage3D = (_glTexImage3D)wglGetProcAddress("glTexImage3D");
+#elif Q_WS_X11
+        glTexImage3D = (_glTexImage3D)glXGetProcAddress("glTexImage3D");
+#endif
     }
     if (glTexImage3D == NULL){
         printf("Cannot load 'glTexImage3D' function.\n");
         sipIsErr = -1;
     }
     else {
-#endif   
+#endif    
     int depth = a0->size();
     if(depth == 0 || !isPowerOfTwo(depth) ){
         sipIsErr = -1;
@@ -259,9 +263,9 @@ public:
                     delete [] texels;
                 }
              }
-#ifdef Q_OS_WIN32
+#ifdef GL_TEXTURE_3D_NO_DEFAULT_DEFINITION
         }
-#endif
+#endif        
     } }
 %End
 
