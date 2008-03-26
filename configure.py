@@ -429,6 +429,7 @@ def setup_qglviewer_build(configuration, options, package):
     makefile.extra_cflags.extend(options.extra_cflags)
     makefile.extra_cxxflags.extend(options.extra_cxxflags)
     makefile.extra_defines.extend(options.extra_defines)
+    #makefile.extra_defines.extend(['GL_TEXTURE_3D_NO_DEFAULT_DEFINITION'])
     makefile.extra_include_dirs.extend(options.extra_include_dirs)
     makefile.extra_lflags.extend(options.extra_lflags)
     makefile.extra_libs.extend(options.extra_libs)
@@ -490,6 +491,10 @@ def parse_args():
     common_options.add_option(
         '-v','--verbose-config', default=False, action='store_true',
         help=('enable verbose configuration'
+              ' [default disabled]'))
+    common_options.add_option(
+        '-3','--force-import-glteximage3d', default=False, action='store_true',
+        help=('force the import of glteximage3d extention'
               ' [default disabled]'))
     parser.add_option_group(common_options)
 
@@ -572,6 +577,9 @@ def parse_args():
         options.trace = '-r'
     else:
         options.trace = ''
+     
+    if options.force_import_glteximage3d:
+        options.extra_defines.extend(['GL_TEXTURE_3D_NO_DEFAULT_DEFINITION'])        
     
     options.subdirs = ['build']
     

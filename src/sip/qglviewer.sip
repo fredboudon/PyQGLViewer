@@ -28,6 +28,7 @@ class QGLViewer : QGLWidget
 #include <QGLViewer/qglviewer.h>
 #include <GL/gl.h>
 #ifdef Q_WS_X11
+#define GL_GLEXT_PROTOTYPES
 #include <GL/glext.h>
 #endif
 
@@ -38,6 +39,9 @@ class QGLViewer : QGLWidget
 #ifndef GL_TEXTURE_3D
 #define GL_TEXTURE_3D 0x806F
 #define GL_TEXTURE_3D_NO_DEFAULT_DEFINITION
+#ifdef Q_WS_X11
+#warning "No default glTexture3D definition found"
+#endif
 #endif
 
 %End
@@ -191,12 +195,9 @@ public:
     typedef void (APIENTRY *_glTexImage3D) (GLenum, GLint, GLint, GLsizei, GLsizei, GLsizei, GLint, GLenum, GLenum, const GLvoid *);
     static _glTexImage3D glTexImage3D = NULL;
     if (glTexImage3D == NULL){
-  
-#ifdef Q_OS_WIN32
-        glTexImage3D = (_glTexImage3D)wglGetProcAddress("glTexImage3D");
-#elif Q_WS_X11
-        glTexImage3D = (_glTexImage3D)glXGetProcAddress("glTexImage3D");
-#endif
+        const QGLContext * context = QGLContext::currentContext();
+        if (context)
+            glTexImage3D = (_glTexImage3D)context->getProcAddress("glTexImage3D");
     }
     if (glTexImage3D == NULL){
         printf("Cannot load 'glTexImage3D' function.\n");
