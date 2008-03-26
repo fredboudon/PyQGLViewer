@@ -23,10 +23,14 @@
 
 %Module PyQGLViewer 0
 
+
 %Import QtCore/QtCoremod.sip
 %Import QtGui/QtGuimod.sip
 %Import QtOpenGL/QtOpenGLmod.sip
 %Import QtXml/QtXmlmod.sip
+
+%Timeline {SIP_4_5_4 SIP_4_6_0 SIP_4_7_0 SIP_4_7_1 SIP_4_7_2 SIP_4_7_3 SIP_4_7_4}
+%Timeline {QGLViewer_2_2_3 QGLViewer_2_2_4 QGLViewer_2_2_5 QGLViewer_2_2_6}
 
 %Copying
 Copyright (c) 2006

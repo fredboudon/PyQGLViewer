@@ -21,6 +21,8 @@
 
 *****************************************************************************/
 
+
+
 class Vec
 {
 
@@ -86,10 +88,28 @@ public:
         sipRes = val.toAscii().data();
 %End
 
+%If (SIP_4_7_0 - )
+  bool __eq__(const Vec&) const;
+%MethodCode
+    sipRes = (*sipCpp == *a0);
+%End
+
+  bool __ne__(const Vec&) const;
+%MethodCode
+    sipRes = (*sipCpp != *a0);
+%End
+
+%End
+
+%PickleCode
+    sipRes = Py_BuildValue((char *)"fff", sipCpp->x, sipCpp->y, sipCpp->z);
+%End
 };
 
+%If ( - SIP_4_7_0)
 bool operator==(Vec s1, Vec s2);
 bool operator!=(Vec s1, Vec s2);
+%End
 Vec operator+(Vec a, Vec b);
 Vec operator-(Vec a, Vec b);
 Vec operator-(Vec &a);

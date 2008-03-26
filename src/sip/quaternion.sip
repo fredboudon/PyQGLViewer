@@ -62,14 +62,17 @@ public:
 			 else {
 		        for (int i = 0; i < 3; ++i){
 		            PyObject * row = PySequence_GetItem(a0,i);
-		            if (! PySequence_Check(row) && PySequence_Size(row) == 3){
+		            if (PySequence_Check(row) && PySequence_Size(row) == 3){
 		                for (int j = 0; j < 3; ++j){
 			                src[i][j] = PyFloat_AsDouble(PySequence_GetItem(row,j));
 			            }
 			        }
+			        else { sipIsErr = 1; }
 			     }
 			 }
-		    if (!sipIsErr) sipCpp->setFromRotationMatrix(src);
+		    if (!sipIsErr) {
+		        sipCpp->setFromRotationMatrix(src);
+		     }
 		}
 	}	
 %End
@@ -219,6 +222,10 @@ public:
 %MethodCode
         QString val = QString("<Quaternion(%1,%2,%3,%4) at 0x%5>").arg((*sipCpp)[0]).arg((*sipCpp)[1]).arg((*sipCpp)[2]).arg((*sipCpp)[3]).arg((qlonglong)sipCpp,8,16,QChar('0'));
         sipRes = val.toAscii().data();
+%End
+
+%PickleCode
+    sipRes = Py_BuildValue((char *)"dddd", sipCpp->operator[](0), sipCpp->operator[](1), sipCpp->operator[](2), sipCpp->operator[](3));
 %End
 
 };
