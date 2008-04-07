@@ -403,11 +403,12 @@ def setup_qglviewer_build(configuration, options, package):
         os.path.join(build_dir, '*.py*'))], options.module_install_path])
 
     sip_install_dir = os.path.abspath( os.path.join( configuration.pyqt_sip_dir, os.path.pardir, 'QGLViewer'))
-    if not os.path.exists(sip_install_dir):
-        try:
-            os.mkdir(sip_install_dir)
-        except:
-            raise Die, 'Failed to create the sip files repository.'
+    # creation of 
+    #if not os.path.exists(sip_install_dir):
+    #    try:
+    #        os.mkdir(sip_install_dir)
+    #    except:
+    #        raise Die, 'Failed to create the sip files repository.'
     pattern = os.path.join('src', 'sip', '*.sip')
     sip_files = glob.glob(pattern)
     sip_files = [ os.path.abspath(i) for i in sip_files ]
@@ -429,7 +430,6 @@ def setup_qglviewer_build(configuration, options, package):
     makefile.extra_cflags.extend(options.extra_cflags)
     makefile.extra_cxxflags.extend(options.extra_cxxflags)
     makefile.extra_defines.extend(options.extra_defines)
-    #makefile.extra_defines.extend(['GL_TEXTURE_3D_NO_DEFAULT_DEFINITION'])
     makefile.extra_include_dirs.extend(options.extra_include_dirs)
     makefile.extra_lflags.extend(options.extra_lflags)
     makefile.extra_libs.extend(options.extra_libs)
