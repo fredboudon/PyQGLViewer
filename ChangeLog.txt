@@ -1,2 +1,24 @@
+08 04 2008
+Fix configure.py to be compatible with visual 2005 (sep in c++ test file should be \n)
+and do not create installation dir during configuration but only during install.
+
+26 03 2008
+Add -3 option in configure to force import of glTexImage3D
+Add pickle support for Vec and Quaternion
+Fix bug with SIP 4.7 (operator equal problem).
+Release v0.3
+
+09 10 2008
+Change frame functions returned values when it is matrix
+
+04 10 2008
+Update for libQGLViewer-2.2.6
+Release v0.2
+
+21 06 2007:
+Release v0.1
+
 18 04 2007: 
   * Start project
+  
+  
