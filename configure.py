@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #
 # Generate the build trees and Makefiles for PyQGLViewer.
-# This file is inspired from PyQGLViewer configure.py
+# This file is inspired from PyQwt configure.py
 
 import compileall
 import glob
@@ -216,7 +216,7 @@ def check_sip(configuration, options):
     if 0x040500 > version:
         raise Die, 'PyQGLViewer requires at least SIP-4.5.x.'
 
-    if 0x040700 < version:
+    if 0x040700 < version or version >= 0x040705 :
         options.excluded_features.append("-x SIP_FRIEND_EQUAL_SUPPORT")
     return options
 
@@ -231,7 +231,10 @@ def check_qglviewer(configuration, options):
         except OSError:
             pass
 
-    program = os.linesep.join([
+    sep = os.linesep
+    if sys.platform == 'win32':
+        sep = '\n' #os.linesep creates an error with VC2005
+    program = sep.join([
         r'#include <stdio.h>',
         r'#include <QGLViewer/config.h>',
         r'',
@@ -306,20 +309,7 @@ def setup_qglviewer_build(configuration, options, package):
     extra_headers = []
     extra_moc_headers = []
     extra_py_files = glob.glob(os.path.join('src', 'python', '*.py'))
-                
-    # do we compile and link the sources of QGLViewer statically into PyQGLViewer?
-    # This part of the code is not used...
-    #if options.qglviewer_sources:
-    #    extra_sources += glob.glob(os.path.join(
-    #        options.qglviewer_sources, 'QGLViewer', '*.cpp'))
-    #    extra_headers += glob.glob(os.path.join(
-    #        options.qglviewer_sources, 'QGLViewer', '*.h'))
-    #    extra_moc_headers = []
-    #    for header in extra_headers:
-    #        text = open(header).read()
-    #        if re.compile(r'^\s*Q_OBJECT', re.M).search(text):
-    #            extra_moc_headers.append(header)
-
+               
 
     # zap the temporary directory
     try:
@@ -374,8 +364,6 @@ def setup_qglviewer_build(configuration, options, package):
                    [os.path.basename(f) for f in extra_headers],
                    [os.path.basename(f) for f in extra_moc_headers])
     
-    # fix the typedefs (work around a bug in SIP-4.5.x)
-    # fix_typedefs(glob.glob(os.path.join(tmp_dir, 'sipQGLViewer*.cpp')))
 
     # copy lazily to the build directory to speed up recompilation
     if not os.path.exists(build_dir):
@@ -403,6 +391,9 @@ def setup_qglviewer_build(configuration, options, package):
         os.path.join(build_dir, '*.py*'))], options.module_install_path])
 
     sip_install_dir = os.path.abspath( os.path.join( configuration.pyqt_sip_dir, os.path.pardir, 'QGLViewer'))
+    if options.verbose_config:
+        print 'Module installation dir will be :',options.module_install_path 
+        print 'Sip files installation dir will be :',sip_install_dir
     # creation of 
     #if not os.path.exists(sip_install_dir):
     #    try:
