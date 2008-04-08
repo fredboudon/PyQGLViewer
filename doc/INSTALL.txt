@@ -1,4 +1,8 @@
+
 This project requires a recent version of SIP (tested with 4.5.2, 4.6 and 4.7), Qt4 and PyQt4.
+
+Note: PyQt4 should be installed with its sip and development files. 
+Binaries version provides by Riverbank unfortunatly do not include all these development files. You may have to recompile it.
 
 First, you need build a customized version of
 libQGLViewer. For this download a version of the sources:
@@ -20,6 +24,10 @@ For info, it has been build with the following command
 
 To apply this patch , you should invoke the command
 > patch -p 0 < libQGLViewer-2.2.6-3-py.patch
+
+Note: The patch file has been built on windows sources. The end of line character is different on unix systems. 
+On linux, you may thus have to convert first the patch file to unix convention with the following comand.
+> dos2unix libQGLViewer-2.2.x-x-py.patch
 
 Source are now ready to compile. 
 Go into libQGLViewer-2.2.6-3/QGLViewer dir
@@ -43,7 +51,7 @@ source repository of libQGLViewer-2.2.6-3 with -Q option.
 For instance 
 > python configure.py -Q ../libQGLViewer-2.2.6-3
 
-NOTE - on windows you may have to specify the include and lib directories also, using absolute paths
+Note: on windows you may have to specify the include and lib directories also, using absolute paths
 > python configure.py -Q ../libQGLViewer-2.2.6-3 -I c:\path_to_libQGLViewer-2.2.6-3 -L c:\path_to_libQGLViewer-2.2.6-3\QGLViewer\release
 
 Then you simply have to compile and install with
