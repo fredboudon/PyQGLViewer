@@ -65,7 +65,7 @@ diff -abur libQGLViewer-2.2.6-3/QGLViewer/constraint.cpp libQGLViewer-2.2.6-3-py
      {
 diff -abur libQGLViewer-2.2.6-3/QGLViewer/constraint.h libQGLViewer-2.2.6-3-py/QGLViewer/constraint.h
 --- libQGLViewer-2.2.6-3/QGLViewer/constraint.h	2007-08-28 23:38:58.000000000 +0200
-+++ libQGLViewer-2.2.6-3-py/QGLViewer/constraint.h	2007-10-04 17:39:40.000000000 +0200
++++ libQGLViewer-2.2.6-3-py/QGLViewer/constraint.h	2008-06-09 17:21:44.921875000 +0200
 @@ -133,7 +133,7 @@
  
      \p translation is expressed in local frame coordinate system. Use Frame::inverseTransformOf() to
@@ -124,7 +124,7 @@ diff -abur libQGLViewer-2.2.6-3/QGLViewer/constraint.h libQGLViewer-2.2.6-3-py/Q
    };
  
  
-@@ -326,8 +326,8 @@
+@@ -326,14 +326,14 @@
      /*! Virtual destructor. Empty. */
      virtual ~CameraConstraint() {};
  
@@ -135,6 +135,13 @@ diff -abur libQGLViewer-2.2.6-3/QGLViewer/constraint.h libQGLViewer-2.2.6-3-py/Q
  
      /*! Returns the associated Camera. Set using the CameraConstraint constructor. */
      const Camera* camera() const { return camera_; };
+ 
+   private:
+-    const Camera* const camera_;
++    const Camera* camera_;
+   };
+ 
+ } // namespace qglviewer
 diff -abur libQGLViewer-2.2.6-3/QGLViewer/domUtils.h libQGLViewer-2.2.6-3-py/QGLViewer/domUtils.h
 --- libQGLViewer-2.2.6-3/QGLViewer/domUtils.h	2007-08-28 23:38:58.000000000 +0200
 +++ libQGLViewer-2.2.6-3-py/QGLViewer/domUtils.h	2007-10-04 17:28:22.000000000 +0200

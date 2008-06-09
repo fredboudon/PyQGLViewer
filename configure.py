@@ -223,77 +223,25 @@ def check_sip(configuration, options):
 
 
 def check_qglviewer(configuration, options):
-    """Check qglviewer module specifics.
-    """
-    for name in glob.glob('qglviewer_version_info*'):
-        try:
-            os.remove(name)
-        except OSError:
-            pass
+    qglviewer_sources = options.qglviewer_sources
+    if qglviewer_sources is None:
+        qglviewer_sources = os.path.join('usr','include')
+    qglviewer_config = os.path.join(qglviewer_sources, "QGLViewer", "config.h")
 
-    sep = os.linesep
-    if sys.platform == 'win32':
-        sep = '\n' #os.linesep creates an error with VC2005
-    program = sep.join([
-        r'#include <stdio.h>',
-        r'#include <QGLViewer/config.h>',
-        r'',
-        r'int main(int, char **)',
-        r'{',
-        r'    FILE *file;',
-        r'    if (!(file = fopen("qglviewer_version_info.py", "w"))) {',
-        r'        fprintf(stderr, "Failed to create qglviewer_version_info.py\n");',
-        r'        return 1;',
-        r'    }',
-        r'    fprintf(file, "QGLVIEWER_VERSION = %#08x\n", QGLVIEWER_VERSION);',
-        r'    fprintf(file, "QGLVIEWER_VERSION_STR = \"%i.%i.%i\"\n", (QGLVIEWER_VERSION & 0xff0000) >> 16,(QGLVIEWER_VERSION & 0x00ff00) >> 8, (QGLVIEWER_VERSION  & 0x0000ff) );',
-        r'    fclose(file);',
-        r'    return 0;',
-        r'}',
-        r'',
-        r'// Local Variables:',
-        r'// mode: C++',
-        r'// c-file-style: "stroustrup"',
-        r'// End:',
-        r'',
-        ])
-
-    open('qglviewer_version_info.cpp', 'w').write(program)
-
-    extra_include_dirs = []
-    extra_include_dirs.append(os.path.join(configuration.qt_inc_dir, 'Qt'))
-    if options.qglviewer_sources:
-        extra_include_dirs.append(options.qglviewer_sources)
-    if options.extra_include_dirs:
-        extra_include_dirs.extend(options.extra_include_dirs)
-
-    exe = compile_qt_program('qglviewer_version_info.cpp', configuration,
-                             extra_include_dirs = extra_include_dirs, verbose=options.verbose_config)
-    if not exe:
-        raise Die, 'Failed to build the qglviewer_version_info tool. Cannot find libQGLViewer. Use -Q to specify.'
-
-    os.system(exe)
-
-    try:
-        from qglviewer_version_info import QGLVIEWER_VERSION, QGLVIEWER_VERSION_STR
-    except ImportError:
-        raise Die, 'Failed to import qglviewer_version_info.'
+    if os.access(qglviewer_config, os.F_OK):
+        # Get the qglviewer version string.
+        QGLVIEWER_VERSION, QGLVIEWER_VERSION_STR = sipconfig.read_version(qglviewer_config, "QGLViewer", "QGLVIEWER_VERSION")
     
+    if QGLVIEWER_VERSION_STR is None:
+        QGLVIEWER_VERSION_STR = str((QGLVIEWER_VERSION & 0xff0000) >> 16)+'.'+str((QGLVIEWER_VERSION & 0x00ff00) >> 8)+'.'+str((QGLVIEWER_VERSION  & 0x0000ff))
+        
     options.timelines.append('-t QGLViewer_'+QGLVIEWER_VERSION_STR.replace('.','_'))
     if options.qglviewer_sources:
         print ("Found libQGLViewer-%s in '%s'." % (QGLVIEWER_VERSION_STR, options.qglviewer_sources))
     else:
         print ('Found libQGLViewer-%s.' % QGLVIEWER_VERSION_STR)
  
-    for name in glob.glob('qglviewer_version_info*'):
-        try:
-            os.remove(name)
-        except OSError:
-            pass
     return options
-    
-
-
 
 
 def setup_qglviewer_build(configuration, options, package):
