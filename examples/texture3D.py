@@ -9,6 +9,7 @@ An example to show how to build a 3D texture and apply it on a dynamic pyramid."
 class Viewer(QGLViewer):
     def __init__(self,parent = None):
         QGLViewer.__init__(self,parent)
+        self.setStateFileName('.texture3D.xml')        
         self.center = [ 0.0,0.0,1.0 ]
         self.base = [[ -1.0, -1.0, 0.0 ], [-1.0, 1.0, 0.0], [1.0, 1.0, 0.0], [1.0, -1.0, 0.0]]
         self.time = 0.
@@ -45,7 +46,7 @@ class Viewer(QGLViewer):
         return helpstr
     def closeEvent(self,event):
         helpwidget = self.helpWidget()
-        if helpwidget.isVisible() :
+        if not helpwidget is None and helpwidget.isVisible() :
             helpwidget.hide()
         if self.texname > 0:
             ogl.glDeleteTextures(self.texname)

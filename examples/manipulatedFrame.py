@@ -16,6 +16,7 @@ while moving the mouse to move the camera instead of the ManipulatedFrame."""
 class Viewer(QGLViewer):
     def __init__(self):
         QGLViewer.__init__(self)
+        self.setStateFileName('.manipulatedFrame.xml')        
     def draw(self):
         # Here we are in the world coordinate system.
         # Draw your scene here.

@@ -15,6 +15,7 @@ Simply use the <i>loadModelViewMatrixStereo()</i> and
 class Viewer(QGLViewer):
     def __init__(self,parent = None):
         QGLViewer.__init__(self,parent)
+        self.setStateFileName('.anaglyph.xml')
     def draw(self):
         # Draw for left eye
         self.camera().loadProjectionMatrixStereo(True)
@@ -52,14 +53,14 @@ class Viewer(QGLViewer):
         return helpstr
     def closeEvent(self,event):
         helpwidget = self.helpWidget()
-        if helpwidget.isVisible() :
+        if not helpwidget is None and helpwidget.isVisible() :
             helpwidget.hide()
         QGLViewer.closeEvent(self,event)
 
 def main():
     qapp = QApplication([])
     viewer = Viewer()
-    viewer.setWindowTitle("simpleViewer")
+    viewer.setWindowTitle("anaglyph")
     viewer.show()
     qapp.exec_()
 

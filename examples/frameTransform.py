@@ -16,6 +16,7 @@ See <i>examples/frameTransform.html</i> for an explanation of the meaning of the
 class Viewer(QGLViewer):
     def __init__(self):
         QGLViewer.__init__(self)
+        self.setStateFileName('.frameTransform.xml')        
     def draw(self):
         nbLines = 50
         ogl.glBegin(ogl.GL_LINES)

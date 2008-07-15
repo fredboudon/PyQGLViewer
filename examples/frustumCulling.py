@@ -114,6 +114,7 @@ class Box:
 class Viewer(QGLViewer):
     def __init__(self,parent = None):
         QGLViewer.__init__(self,parent)
+        self.setStateFileName('.frustumCulling.xml')        
     def setCullingCamera(self,cc):
         self.cullingCamera = cc
     def draw(self):

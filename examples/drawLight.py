@@ -14,6 +14,7 @@ button translates and left button rotates)."""
 class Viewer(pq.QGLViewer):
 	def __init__(self):
 		pq.QGLViewer.__init__(self)
+        self.setStateFileName('.drawLight.xml')        
 		self.light1 = pq.ManipulatedFrame()
 		self.light2 = pq.ManipulatedFrame()
 	def draw(self):

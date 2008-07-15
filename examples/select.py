@@ -15,6 +15,7 @@ Feel free to cut and paste this implementation in your own applications."""
 class Viewer(QGLViewer):
     def __init__(self):
         QGLViewer.__init__(self)
+        self.setStateFileName('.select.xml')        
         self.nb = 10
         self.orig= Vec()
         self.dir= Vec()

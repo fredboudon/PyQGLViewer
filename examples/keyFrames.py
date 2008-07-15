@@ -17,6 +17,7 @@ Press <b>Control</b> to move it or simply hover over it."""
 class Viewer(QGLViewer):
     def __init__(self):
         QGLViewer.__init__(self)
+        self.setStateFileName('.keyFrames.xml')        
         self.restoreStateFromFile()
         self.nbKeyFrames = 4
         self.myFrame = Frame()

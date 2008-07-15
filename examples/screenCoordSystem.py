@@ -16,6 +16,7 @@ thus <i>attaching</i> the 2D arrows to 3D objects."""
 class Viewer(QGLViewer):
     def __init__(self):
         QGLViewer.__init__(self)
+        self.setStateFileName('.screenCoordSystem.xml')        
         self.nbSaucers = 10
         self.saucerPos = [Frame() for i in range(self.nbSaucers)]
         self.saucerColor = [ QColor() for i in range(self.nbSaucers)]

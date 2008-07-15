@@ -14,6 +14,7 @@ along the Z axis) can be used since we transformed the coordinates system using 
 class Viewer(pq.QGLViewer):
 	def __init__(self):
 		pq.QGLViewer.__init__(self)
+        self.setStateFileName('.clippingPlane.xml')        
 	def draw(self):
 		draw_qgl_logo()
 		ogl.glPushMatrix()

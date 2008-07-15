@@ -37,6 +37,7 @@ def drawSpiral(simplified = False):
 class Viewer(QGLViewer):
     def __init__(self):
         QGLViewer.__init__(self)
+        self.setStateFileName('.fastDraw.xml')        
     def draw(self):
         drawSpiral()
     def fastDraw(self):

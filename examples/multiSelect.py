@@ -63,6 +63,7 @@ class Viewer(QGLViewer):
     
     def __init__(self):
         QGLViewer.__init__(self)
+        self.setStateFileName('.multiSelect.xml')        
         # Current rectangular selection
         self.__rectangle = QRect()
         self.__selectionMode = Viewer.NONE

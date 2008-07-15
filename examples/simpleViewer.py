@@ -22,6 +22,7 @@ Press <b>Escape</b> to exit the viewer."""
 class Viewer(QGLViewer):
     def __init__(self,parent = None):
         QGLViewer.__init__(self,parent)
+        self.setStateFileName('.simpleViewer.xml')        
     def draw(self):
         draw_qgl_logo()
     def init(self):
@@ -31,7 +32,7 @@ class Viewer(QGLViewer):
         return helpstr
     def closeEvent(self,event):
         helpwidget = self.helpWidget()
-        if helpwidget.isVisible() :
+        if not helpwidget is None and helpwidget.isVisible() :
             helpwidget.hide()
         QGLViewer.closeEvent(self,event)
 

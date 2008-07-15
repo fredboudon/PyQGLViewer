@@ -12,6 +12,7 @@ You can then toggle the stereo display by pressing <b>S</b> in any application."
 class Viewer(QGLViewer):
     def __init__(self):
         QGLViewer.__init__(self)
+        self.setStateFileName('.stereoViewer.xml')        
     def draw(self):
         draw_qgl_logo()
     def init(self):

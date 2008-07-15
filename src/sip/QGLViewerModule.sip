@@ -29,11 +29,11 @@
 %Import QtOpenGL/QtOpenGLmod.sip
 %Import QtXml/QtXmlmod.sip
 
-%Timeline {QGLViewer_2_2_3 QGLViewer_2_2_4 QGLViewer_2_2_5 QGLViewer_2_2_6}
+%Timeline {QGLViewer_2_2_3 QGLViewer_2_2_4 QGLViewer_2_2_5 QGLViewer_2_2_6 QGLViewer_2_3_0}
 %Feature SIP_FRIEND_EQUAL_SUPPORT
 
 %Copying
-Copyright (c) 2006
+Copyright (c) 2006-2008
 	F. Boudon, V. Plants Team
 
 This file is part of PyQGLViewer.

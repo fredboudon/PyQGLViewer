@@ -36,6 +36,7 @@ def nextRotationConstraintType(consttype):
 class Viewer(QGLViewer):
     def __init__(self):
         QGLViewer.__init__(self)
+        self.setStateFileName('.constrainedFrame.xml')        
     def draw(self):
         ogl.glMultMatrixd(self.__frame.matrix())
         self.drawAxis(0.4)

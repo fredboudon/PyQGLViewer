@@ -63,6 +63,7 @@ class Spiral:
 class Viewer(QGLViewer):
     def __init__(self):
         QGLViewer.__init__(self)
+        self.setStateFileName('.mouseGrabber.xml')        
     def draw(self):
         for spiral in self.spiral:
             spiral.draw()

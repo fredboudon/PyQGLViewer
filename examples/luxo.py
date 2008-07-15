@@ -136,6 +136,7 @@ class Luxo :
 class Viewer(QGLViewer):
     def __init__(self):
         QGLViewer.__init__(self)
+        self.setStateFileName('.luxo.xml')        
         self.luxo = Luxo()
     def init(self):
         self.restoreStateFromFile()

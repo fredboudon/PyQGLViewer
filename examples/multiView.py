@@ -13,6 +13,7 @@ class Scene:
 class Viewer(QGLViewer):
     def __init__(self,scene, view_type, parent, shareWidget = None):
         QGLViewer.__init__(self,parent,shareWidget)
+        self.setStateFileName('.multiView.xml')        
         self.__scene = scene
         self.setAxisIsDrawn()
         self.setGridIsDrawn()

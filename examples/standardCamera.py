@@ -74,6 +74,7 @@ class CameraViewer (QGLViewer):
 class Viewer(QGLViewer):
     def __init__(self,camera,parent = None):
         QGLViewer.__init__(self,parent)
+        self.setStateFileName('.standardCamera.xml')        
         self.setCamera(camera)
     def draw(self):
         draw_qgl_logo()

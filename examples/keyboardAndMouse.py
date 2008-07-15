@@ -19,6 +19,7 @@ By the way, exit shortcut has been binded to <b>Ctrl+Q</b>."""
 class Viewer(QGLViewer):
     def __init__(self):
         QGLViewer.__init__(self)
+        self.setStateFileName('.keyboardAndMouse.xml')        
         self.__wireframe = False
         self.__flatShading = False
     def draw(self):

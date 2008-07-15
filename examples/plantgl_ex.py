@@ -10,6 +10,7 @@ def draw():
 
 qapp = QApplication([])
 viewer = QGLViewer()
+viewer.setStateFileName('.plantgl_ex.xml')        
 viewer.connect(viewer,SIGNAL("drawNeeded()"),draw)
 viewer.show()
 qapp.exec_()

@@ -34,6 +34,7 @@ def nextRotationConstraintType(consttype):
 class Viewer(QGLViewer):
 	def __init__(self):
 		QGLViewer.__init__(self)
+        self.setStateFileName('.constrainedCamera.xml')        
 	def draw(self):
 		draw_qgl_logo()
 		self.displayText()
