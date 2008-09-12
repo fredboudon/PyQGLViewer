@@ -36,7 +36,7 @@ Press <b>Return</b> to start/stop the animation."""
 class Viewer(QGLViewer):
 	def __init__(self):
 		QGLViewer.__init__(self)
-        self.setStateFileName('.animation.xml')        
+		self.setStateFileName('.animation.xml')        
 		self.particles = []
 	def init(self):
 		self.restoreStateFromFile()
