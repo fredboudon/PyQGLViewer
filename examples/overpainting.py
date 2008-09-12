@@ -54,7 +54,7 @@ class Viewer(QGLViewer):
         lightPosition = [ 1.0, 5.0, 5.0, 1.0 ]
         glLightfv(GL_LIGHT0, GL_POSITION, lightPosition)
         self.qglClearColor(self.backgroundColor())
-	
+    
         # Classical 3D drawing, usually performed by paintGL().
         self.preDraw()
         self.draw()

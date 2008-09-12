@@ -55,9 +55,9 @@ class Viewer(QGLViewer):
             ogl.glPushMatrix()
             ogl.glMultMatrixd(self.kfi.keyFrame(i).matrix())
             if i == self.currentKF or self.keyFrame[i].grabsMouse():
-	            self.drawAxis(0.4)
+                self.drawAxis(0.4)
             else:
-	            self.drawAxis(0.2)
+                self.drawAxis(0.2)
 
             ogl.glPopMatrix()
     def helpString(self):

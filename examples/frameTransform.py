@@ -48,11 +48,11 @@ class Viewer(QGLViewer):
         return helpstr
 
 def main():
-	qapp = QApplication([])
-	viewer = Viewer()
-	viewer.setWindowTitle("frameTransform")
-	viewer.show()
-	qapp.exec_()
+    qapp = QApplication([])
+    viewer = Viewer()
+    viewer.setWindowTitle("frameTransform")
+    viewer.show()
+    qapp.exec_()
 
 if __name__ == '__main__':
     main()

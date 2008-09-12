@@ -17,21 +17,21 @@ def drawSpiral(simplified = False):
     for n in range(0, nbSub):
         ogl.glBegin(ogl.GL_QUAD_STRIP)
         for i in range(0,int(nbSteps)):
-	        ratio = i/float(nbSteps)
-	        angle = 21.0*ratio
-	        c = math.cos(angle)
-	        s = math.sin(angle)
-	        radius = 1.0 - 0.5*ratio	        
-	        center = Vec(radius*c, ratio-0.5, radius*s)
+            ratio = i/float(nbSteps)
+            angle = 21.0*ratio
+            c = math.cos(angle)
+            s = math.sin(angle)
+            radius = 1.0 - 0.5*ratio            
+            center = Vec(radius*c, ratio-0.5, radius*s)
 
-	        for j in range(0,2):
-	            nj = float(n+j)
-	            delta = 3.0*nj/nbSub
-	            cdelta = math.cos(delta)
-	            shift = Vec(c*cdelta, math.sin(delta), s*cdelta)
-	            ogl.glColor3f(1-ratio, nj/nbSub , ratio)
-	            ogl.glNormal3fv(list(shift))
-	            ogl.glVertex3fv(list(center+shift*0.2))
+            for j in range(0,2):
+                nj = float(n+j)
+                delta = 3.0*nj/nbSub
+                cdelta = math.cos(delta)
+                shift = Vec(c*cdelta, math.sin(delta), s*cdelta)
+                ogl.glColor3f(1-ratio, nj/nbSub , ratio)
+                ogl.glNormal3fv(list(shift))
+                ogl.glVertex3fv(list(center+shift*0.2))
         ogl.glEnd()
 
 class Viewer(QGLViewer):
@@ -52,11 +52,11 @@ class Viewer(QGLViewer):
         return helpstr
 
 def main():
-	qapp = QApplication([])
-	viewer = Viewer()
-	viewer.setWindowTitle("fastDraw")
-	viewer.show()
-	qapp.exec_()
+    qapp = QApplication([])
+    viewer = Viewer()
+    viewer.setWindowTitle("fastDraw")
+    viewer.show()
+    qapp.exec_()
 
 if __name__ == '__main__':
     main()

@@ -67,7 +67,7 @@ class Viewer(QGLViewer):
         ogl.glColor3f(0.0, 1.0, 0.0)
         ogl.glVertex3f(0.0, 0.0, 0.0)
         ogl.glVertex3f(0.0, 1.0, 0.0)
-	
+    
         ogl.glColor3f(0.0, 0.0, 1.0)
         ogl.glVertex3f(0.0, 0.0, 0.0)
         ogl.glVertex3f(0.0, 0.0, 1.0)

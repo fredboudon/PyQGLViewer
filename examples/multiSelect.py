@@ -46,13 +46,13 @@ class ManipulatedFrameSetConstraint (Constraint):
         pos = frame.position()
         angle = rotation.angle()
         for it in self.objects:
-	        # Rotation has to be expressed in the object local coordinates system.
-	        qObject = Quaternion(it.frame.transformOf(worldAxis), angle)
-	        it.frame.rotate(qObject)
-	        # Comment these lines only rotate the objects
-	        qWorld = Quaternion(worldAxis, angle)
-	        # Rotation around frame world position (pos)
-	        it.frame.setPosition(pos + qWorld.rotate(it.frame.position() - pos))
+            # Rotation has to be expressed in the object local coordinates system.
+            qObject = Quaternion(it.frame.transformOf(worldAxis), angle)
+            it.frame.rotate(qObject)
+            # Comment these lines only rotate the objects
+            qWorld = Quaternion(worldAxis, angle)
+            # Rotation around frame world position (pos)
+            it.frame.setPosition(pos + qWorld.rotate(it.frame.position() - pos))
 
 
 class Viewer(QGLViewer):
@@ -119,9 +119,9 @@ class Viewer(QGLViewer):
         selection = self.getMultipleSelection()
         for zmin,zmax,id in selection:
             if self.__selectionMode == Viewer.ADD:
-	            self.addIdToSelection(id)
+                self.addIdToSelection(id)
             elif self.__selectionMode == Viewer.REMOVE : 
-	            self.removeIdFromSelection(id)
+                self.removeIdFromSelection(id)
         self.__selectionMode = Viewer.NONE
     def mousePressEvent(self,e):
         """ Mouse events functions """
@@ -133,7 +133,7 @@ class Viewer(QGLViewer):
             self.__selectionMode = Viewer.REMOVE
         else:
             if e.modifiers() == Qt.ControlModifier:
-	            self.__startManipulation()
+                self.__startManipulation()
             QGLViewer.mousePressEvent(self,e)
     def mouseMoveEvent(self,e):
         if self.__selectionMode != Viewer.NONE:

@@ -68,19 +68,19 @@ class Viewer(QGLViewer):
         if ((e.key()==Qt.Key_W) and (modifiers==Qt.NoModifier)):
             self.__wireframe = not self.__wireframe
             if self.__wireframe:
-	            ogl.glPolygonMode(ogl.GL_FRONT_AND_BACK, ogl.GL_LINE)
+                ogl.glPolygonMode(ogl.GL_FRONT_AND_BACK, ogl.GL_LINE)
             else:
-	            ogl.glPolygonMode(ogl.GL_FRONT_AND_BACK, ogl.GL_FILL)
+                ogl.glPolygonMode(ogl.GL_FRONT_AND_BACK, ogl.GL_FILL)
             handled = True
             self.updateGL()
         elif (e.key()==Qt.Key_F) and (modifiers==Qt.NoModifier):
-	        self.__flatShading = not self.__flatShading
-	        if self.__flatShading:
-	            ogl.glShadeModel(ogl.GL_FLAT)
-	        else:
-	            ogl.glShadeModel(ogl.GL_SMOOTH)
-	        handled = True
-	        self.updateGL()
+            self.__flatShading = not self.__flatShading
+            if self.__flatShading:
+                ogl.glShadeModel(ogl.GL_FLAT)
+            else:
+                ogl.glShadeModel(ogl.GL_SMOOTH)
+            handled = True
+            self.updateGL()
         # ... and so on with other elif blocks.
         
         if not handled:
@@ -95,22 +95,22 @@ class Viewer(QGLViewer):
             atLeastOne = False
             # We only test the 20 first indexes. This is a limitation.
             for i in range(20):
-	            if self.camera().keyFrameInterpolator(i):
-	                atLeastOne = True
-	                if camera().keyFrameInterpolator(i).numberOfKeyFrames() == 1:
-	                    text = "Position "+str(i)
-	                else:
-	                    text = "Path "+str(i)
-	                menuMap[menu.addAction(text)] = i
+                if self.camera().keyFrameInterpolator(i):
+                    atLeastOne = True
+                    if camera().keyFrameInterpolator(i).numberOfKeyFrames() == 1:
+                        text = "Position "+str(i)
+                    else:
+                        text = "Path "+str(i)
+                    menuMap[menu.addAction(text)] = i
 
             if not atLeastOne:
-	            menu.addAction("No position defined")
-	            menu.addAction("Use to Alt+Fx to define one")
+                menu.addAction("No position defined")
+                menu.addAction("Use to Alt+Fx to define one")
 
             action = menu.exec_(e.globalPos())
 
             if atLeastOne and action:
-	            self.camera().playPath(menuMap[action])
+                self.camera().playPath(menuMap[action])
         else:
             QGLViewer.mousePressEvent(self,e)
 

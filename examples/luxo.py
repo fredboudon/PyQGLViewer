@@ -30,7 +30,7 @@ class Luxo :
           self.__frame.append(ManipulatedFrame())
           # Creates a hierarchy of frames.
           if i>0:
-	        self.frame(i).setReferenceFrame(self.frame(i-1))
+            self.frame(i).setReferenceFrame(self.frame(i-1))
 
         # Initialize frames
         self.frame(1).setTranslation(Vec(0.0, 0.0, 0.08)) # Base height
@@ -158,8 +158,8 @@ class Viewer(QGLViewer):
         for j in range(0,int(nbPatches)) :
             ogl.glBegin(ogl.GL_QUAD_STRIP)
             for i in range(0,int(nbPatches)+1):
-        	  ogl.glVertex2f((2*i/nbPatches-1.0), (2*j/nbPatches-1.0))
-	          ogl.glVertex2f((2*i/nbPatches-1.0), (2*(j+1)/nbPatches-1.0))
+              ogl.glVertex2f((2*i/nbPatches-1.0), (2*j/nbPatches-1.0))
+              ogl.glVertex2f((2*i/nbPatches-1.0), (2*(j+1)/nbPatches-1.0))
             ogl.glEnd()
     def drawWithNames(self):
         self.luxo.draw(True)
@@ -200,11 +200,11 @@ class Viewer(QGLViewer):
         ogl.glLightfv(ogl.GL_LIGHT1, ogl.GL_DIFFUSE,  light_diffuse)
 
 def main():
-	qapp = QApplication([])
-	viewer = Viewer()
-	viewer.setWindowTitle("luxo")
-	viewer.show()
-	qapp.exec_()
+    qapp = QApplication([])
+    viewer = Viewer()
+    viewer.setWindowTitle("luxo")
+    viewer.show()
+    qapp.exec_()
 
 if __name__ == '__main__':
     main()

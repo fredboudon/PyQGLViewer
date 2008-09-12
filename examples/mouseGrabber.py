@@ -48,9 +48,9 @@ class Spiral:
             nor = .5
             up = sqrt(1.0-nor*nor)
             if self.mf.grabsMouse():
-	            ogl.glColor3f(1-ratio, 0.8 , ratio/2.0)
+                ogl.glColor3f(1-ratio, 0.8 , ratio/2.0)
             else:
-	            ogl.glColor3f(1-ratio, 0.2 , ratio)
+                ogl.glColor3f(1-ratio, 0.2 , ratio)
             ogl.glNormal3f(nor*c, up, nor*s)
             ogl.glVertex3f(r1*c, alt, r1*s)
             ogl.glVertex3f(r2*c, alt+0.01, r2*s)
@@ -101,19 +101,19 @@ class Viewer(QGLViewer):
         for i in range(self.nbPlayers):
             cpp = self.player[i]
             if not cpp is None:
-	            if cpp.grabsMouse():
-	                ogl.glColor3f(1,1,1)
-	                if self.camera().keyFrameInterpolator(i).numberOfKeyFrames() > 1:
-		                s = "Play path F" + str(i)
-	                else:
-		                s = "Restore pos F" + str(i)
-	            else:
-	                ogl.glColor3f(0.6, 0.6, 0.6)
-	                if self.camera().keyFrameInterpolator(i).numberOfKeyFrames() > 1:
-		                s = "Path F" + str(i)
-	                else:
-		                s = "Pos F" + str(i)
-	            self.drawText(10, cpp.yPos()-3, s)
+                if cpp.grabsMouse():
+                    ogl.glColor3f(1,1,1)
+                    if self.camera().keyFrameInterpolator(i).numberOfKeyFrames() > 1:
+                        s = "Play path F" + str(i)
+                    else:
+                        s = "Restore pos F" + str(i)
+                else:
+                    ogl.glColor3f(0.6, 0.6, 0.6)
+                    if self.camera().keyFrameInterpolator(i).numberOfKeyFrames() > 1:
+                        s = "Path F" + str(i)
+                    else:
+                        s = "Pos F" + str(i)
+                self.drawText(10, cpp.yPos()-3, s)
     def updatePlayers(self):
         for  i in range(self.nbPlayers):
             # Check if CameraPathPlayer is still valid
@@ -121,7 +121,7 @@ class Viewer(QGLViewer):
                 self.player[i] = None
             # Or add it if needed
             if (not self.camera().keyFrameInterpolator(i) is None) and (self.player[i] is None):
-	            self.player[i] = CameraPathPlayer(i)
+                self.player[i] = CameraPathPlayer(i)
 
 
 def main():

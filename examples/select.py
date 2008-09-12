@@ -61,11 +61,11 @@ class Viewer(QGLViewer):
 
         if self.selectedName() == -1:
             QMessageBox.information(self, "No selection",
-			     "No object selected under pixel " + str(point.x()) + "," + str(point.y()))
+                 "No object selected under pixel " + str(point.x()) + "," + str(point.y()))
         else:
             QMessageBox.information(self, "Selection",
-			     "Spiral number " + str(self.selectedName()) + " selected under pixel " +
-			     str(point.x()) + "," + str(point.y()))
+                 "Spiral number " + str(self.selectedName()) + " selected under pixel " +
+                 str(point.x()) + "," + str(point.y()))
     def init(self):
         self.restoreStateFromFile()
         ogl.glLineWidth(3.0)

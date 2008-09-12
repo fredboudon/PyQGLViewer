@@ -53,7 +53,7 @@ class CullingCamera (Camera):
                     allOut = False
         # The eight points are on the outside side of this plane
         if allOut:
-	        return False,False
+            return False,False
         else:
             return True,allInForAllPlanes
 
@@ -95,10 +95,10 @@ class Box:
                 self.draw()
             else:
                 if len(self.child) > 0 :
-	                for child in self.child:
-	                    child.drawIfAllChildrenAreVisible(camera)
+                    for child in self.child:
+                        child.drawIfAllChildrenAreVisible(camera)
                 else:
-	                self.draw()
+                    self.draw()
     def buildBoxHierarchy(self,l):
         self.level = l
         middle = (self.p1+self.p2) / 2.0
@@ -107,8 +107,8 @@ class Box:
             # point in one of the 8 box corners
             point = corner(i,self.p1,self.p2)
             if self.level > 0:
-	            self.child.append(Box(point, middle))
-	            self.child[-1].buildBoxHierarchy(l-1)
+                self.child.append(Box(point, middle))
+                self.child[-1].buildBoxHierarchy(l-1)
 
  
 class Viewer(QGLViewer):
