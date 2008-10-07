@@ -1,3 +1,7 @@
+07 10 2008
+Update for libQGLViewer-2.3.1
+Release v0.6
+
 08 04 2008
 Fix configure.py to be compatible with visual 2005 (sep in c++ test file should be \n)
 and do not create installation dir during configuration but only during install.
