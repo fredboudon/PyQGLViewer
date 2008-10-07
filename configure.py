@@ -405,7 +405,7 @@ def parse_args():
 
     common_options = optparse.OptionGroup(parser, 'Common options')
     common_options.add_option(
-        '-Q', '--qglviewer-sources', default='../libQGLViewer-2.3.0', action='store',
+        '-Q', '--qglviewer-sources', default='../libQGLViewer-2.3.1', action='store',
         type='string', metavar='/sources/of/qglviewer',
         help=('compile and link the QGLViewer source files in'
               ' /sources/of/qglviewer statically into PyQGLViewer'))

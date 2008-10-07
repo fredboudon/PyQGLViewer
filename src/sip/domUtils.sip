@@ -25,6 +25,7 @@
 class DomUtils
 {
 %TypeHeaderCode
+#include <qglobal.h>
 #include <QGLViewer/domUtils.h>
 %End
 public:
