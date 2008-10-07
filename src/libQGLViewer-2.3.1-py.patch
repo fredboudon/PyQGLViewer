@@ -20,7 +20,7 @@ diff -abur libQGLViewer-2.3.1/QGLViewer/VRender/Exporter.cpp libQGLViewer-2.3.1-
  	QFile file(filename);
  
 -	if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-+	if (!file.open(WriteOnlyFlag| TextFileFlag)) {
++	if (!file.open(WriteOnlyFlag | TextFileFlag)) {
  		QMessageBox::warning(NULL, QGLViewer::tr("Exporter error", "Message box window title"), QGLViewer::tr("Unable to open file %1.").arg(filename));
  		return;
  	}
