@@ -252,6 +252,42 @@ diff -abur libQGLViewer-2.3.1/QGLViewer/mouseGrabber.h libQGLViewer-2.3.1-py/QGL
      //@}
  
    private:
+diff -abur libQGLViewer-2.3.1/examples/contribs/agora/Viewer/agoraViewer.cpp libQGLViewer-2.3.1-py/examples/contribs/agora/Viewer/agoraViewer.cpp
+--- libQGLViewer-2.3.1/examples/contribs/agora/Viewer/agoraViewer.cpp	2008-09-30 20:30:04.000000000 +0200
++++ libQGLViewer-2.3.1-py/examples/contribs/agora/Viewer/agoraViewer.cpp	2008-10-07 16:10:13.984375000 +0200
+@@ -47,7 +47,7 @@
+ class BoardConstraint : public Constraint
+ {
+ public:
+-	virtual void constrainRotation(Quaternion& q, Frame * const fr)
++	virtual void constrainRotation(Quaternion& q, Frame * fr)
+ 	{
+ 		const Vec up = fr->transformOf(Vec(0.0, 0.0, 1.0));
+ 		Vec axis = q.axis();
+diff -abur libQGLViewer-2.3.1/examples/contribs/blobWar/Viewer/blobWarViewer.cpp libQGLViewer-2.3.1-py/examples/contribs/blobWar/Viewer/blobWarViewer.cpp
+--- libQGLViewer-2.3.1/examples/contribs/blobWar/Viewer/blobWarViewer.cpp	2008-09-30 20:30:04.000000000 +0200
++++ libQGLViewer-2.3.1-py/examples/contribs/blobWar/Viewer/blobWarViewer.cpp	2008-10-07 16:10:59.078125000 +0200
+@@ -47,7 +47,7 @@
+ class BoardConstraint : public Constraint
+ {
+ public:
+-  virtual void constrainRotation(Quaternion& q, Frame * const fr)
++  virtual void constrainRotation(Quaternion& q, Frame * fr)
+   {
+     const Vec up = fr->transformOf(Vec(0.0, 0.0, 1.0));
+     Vec axis = q.axis();
+diff -abur libQGLViewer-2.3.1/examples/contribs/dvonn/dvonnviewer.cpp libQGLViewer-2.3.1-py/examples/contribs/dvonn/dvonnviewer.cpp
+--- libQGLViewer-2.3.1/examples/contribs/dvonn/dvonnviewer.cpp	2008-09-30 20:30:04.000000000 +0200
++++ libQGLViewer-2.3.1-py/examples/contribs/dvonn/dvonnviewer.cpp	2008-10-07 16:16:41.203125000 +0200
+@@ -42,7 +42,7 @@
+   class BoardConstraint : public Constraint
+   {
+   public:
+-    virtual void constrainRotation(Quaternion& q, Frame * const fr)
++    virtual void constrainRotation(Quaternion& q, Frame * fr)
+       {
+ 	const Vec up = fr->transformOf(Vec(0.0, 0.0, 1.0));
+ 	Vec axis = q.axis();
 diff -abur libQGLViewer-2.3.1/examples/mouseGrabber/mouseGrabber.cpp libQGLViewer-2.3.1-py/examples/mouseGrabber/mouseGrabber.cpp
 --- libQGLViewer-2.3.1/examples/mouseGrabber/mouseGrabber.cpp	2008-09-30 20:30:04.000000000 +0200
 +++ libQGLViewer-2.3.1-py/examples/mouseGrabber/mouseGrabber.cpp	2008-10-07 15:29:05.828125000 +0200
@@ -281,3 +317,38 @@ diff -abur libQGLViewer-2.3.1/examples/mouseGrabber/mouseGrabber.h libQGLViewer-
  
  private:
    int pathNb;
+diff -abur libQGLViewer-2.3.1/examples/multiSelect/manipulatedFrameSetConstraint.cpp libQGLViewer-2.3.1-py/examples/multiSelect/manipulatedFrameSetConstraint.cpp
+--- libQGLViewer-2.3.1/examples/multiSelect/manipulatedFrameSetConstraint.cpp	2008-09-30 20:30:04.000000000 +0200
++++ libQGLViewer-2.3.1-py/examples/multiSelect/manipulatedFrameSetConstraint.cpp	2008-10-07 16:14:22.187500000 +0200
+@@ -35,7 +35,7 @@
+   objects_.append(o);
+ }
+ 
+-void ManipulatedFrameSetConstraint::constrainTranslation(qglviewer::Vec &translation, Frame *const)
++void ManipulatedFrameSetConstraint::constrainTranslation(qglviewer::Vec &translation, Frame *)
+ {
+ #if QT_VERSION < 0x040000
+   for (QPtrList<Object>::iterator it=objects_.begin(), end=objects_.end(); it != end; ++it)
+@@ -45,7 +45,7 @@
+     (*it)->frame.translate(translation);
+ }
+ 
+-void ManipulatedFrameSetConstraint::constrainRotation(qglviewer::Quaternion &rotation, Frame *const frame)
++void ManipulatedFrameSetConstraint::constrainRotation(qglviewer::Quaternion &rotation, Frame * frame)
+ {
+   // A little bit of math. Easy to understand, hard to guess (tm).
+   // rotation is expressed in the frame local coordinates system. Convert it back to world coordinates.
+diff -abur libQGLViewer-2.3.1/examples/multiSelect/manipulatedFrameSetConstraint.h libQGLViewer-2.3.1-py/examples/multiSelect/manipulatedFrameSetConstraint.h
+--- libQGLViewer-2.3.1/examples/multiSelect/manipulatedFrameSetConstraint.h	2008-09-30 20:30:04.000000000 +0200
++++ libQGLViewer-2.3.1-py/examples/multiSelect/manipulatedFrameSetConstraint.h	2008-10-07 16:14:22.218750000 +0200
+@@ -33,8 +33,8 @@
+   void clearSet();
+   void addObjectToSet(Object* o);
+ 
+-  virtual void constrainTranslation(qglviewer::Vec &translation, qglviewer::Frame *const frame);
+-  virtual void constrainRotation(qglviewer::Quaternion &rotation, qglviewer::Frame *const frame);
++  virtual void constrainTranslation(qglviewer::Vec &translation, qglviewer::Frame * frame);
++  virtual void constrainRotation(qglviewer::Quaternion &rotation, qglviewer::Frame * frame);
+ 
+ private :
+ #if QT_VERSION < 0x040000
