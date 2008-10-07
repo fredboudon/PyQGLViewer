@@ -1,3 +1,29 @@
+diff -abur libQGLViewer-2.3.1/QGLViewer/VRender/Exporter.cpp libQGLViewer-2.3.1-py/QGLViewer/VRender/Exporter.cpp
+--- libQGLViewer-2.3.1/QGLViewer/VRender/Exporter.cpp	2008-09-30 20:30:04.000000000 +0200
++++ libQGLViewer-2.3.1-py/QGLViewer/VRender/Exporter.cpp	2008-10-07 18:19:05.343750000 +0200
+@@ -49,9 +49,13 @@
+ #if QT_VERSION >= 0x040000
+ # include <QFile>
+ # include <QMessageBox>
++# define WriteOnlyFlag QIODevice::WriteOnly
++# define TextFileFlag QIODevice::Text
+ #else
+ # include <qfile.h>
+ # include <qmessagebox.h>
++# define WriteOnlyFlag IO_WriteOnly
++# define TextFileFlag IO_Translate
+ #endif
+ 
+ using namespace vrender ;
+@@ -69,7 +73,7 @@
+ {
+ 	QFile file(filename);
+ 
+-	if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
++	if (!file.open(WriteOnlyFlag| TextFileFlag)) {
+ 		QMessageBox::warning(NULL, QGLViewer::tr("Exporter error", "Message box window title"), QGLViewer::tr("Unable to open file %1.").arg(filename));
+ 		return;
+ 	}
 diff -abur libQGLViewer-2.3.1/QGLViewer/constraint.cpp libQGLViewer-2.3.1-py/QGLViewer/constraint.cpp
 --- libQGLViewer-2.3.1/QGLViewer/constraint.cpp	2008-09-30 20:30:04.000000000 +0200
 +++ libQGLViewer-2.3.1-py/QGLViewer/constraint.cpp	2008-10-07 15:55:40.953125000 +0200
