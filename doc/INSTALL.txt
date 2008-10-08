@@ -64,3 +64,14 @@ that you can find in the directory PyQGLViewer/examples.
 Good luck,
 
 Fred
+
+
+------------
+News:
+The setup.py file has been updated to allow you to compile the project.
+For this,
+python setup.py build   # to compile
+python setup.py install # to install on your system
+python setup.py bdist   # to create a binary distribution
+
+
