@@ -527,10 +527,7 @@ def parse_args():
     if options.qglviewer_sources:
         options.qglviewer_sources = os.path.abspath(options.qglviewer_sources)        
         options.extra_include_dirs.append(options.qglviewer_sources)
-        if sys.platform == 'win32':
-            qgl_lib_dir= os.path.join(options.qglviewer_sources,'QGLViewer','release')
-        else:
-            qgl_lib_dir= os.path.join(options.qglviewer_sources,'QGLViewer')
+        qgl_lib_dir= os.path.join(options.qglviewer_sources,'QGLViewer')
         options.extra_lib_dirs.append(qgl_lib_dir)
     
     if sys.platform == 'win32':

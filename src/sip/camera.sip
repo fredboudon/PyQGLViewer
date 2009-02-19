@@ -200,6 +200,15 @@ public:
 		PyList_SetItem(sipRes,i,PyFloat_FromDouble(m[i]));
 %End
 
+    SIP_PYOBJECT getModelViewProjectionMatrix() const;
+%MethodCode	
+	GLdouble m[16];
+	sipCpp->getModelViewProjectionMatrix(m);
+	sipRes = PyList_New(16);
+	for(int i = 0; i < 16; ++i)
+		PyList_SetItem(sipRes,i,PyFloat_FromDouble(m[i]));
+%End
+
     static void drawCamera(float scale=1.0, float aspectRatio=1.33, float fieldOfView=0.78539816339744828);
     virtual void draw(bool drawFarPlane=true, float scale=1.0) const;
 
