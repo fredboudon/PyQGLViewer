@@ -1,3 +1,8 @@
+23 06 2009
+Improve setup.py
+add Camera.getModelViewProjectionMatrix
+change configure to not look for libQGLViewer in QGLViewer/release
+
 07 10 2008
 Update for libQGLViewer-2.3.1
 Release v0.6
