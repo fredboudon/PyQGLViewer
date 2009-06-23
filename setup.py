@@ -103,7 +103,7 @@ class build_ext (sipdistutils.build_ext):
 
 setup(
   name = 'PyQGLViewer',
-  version = '0.6.0',
+  version = '0.7.0',
   ext_modules=[
     Extension("PyQGLViewer", ["src/sip/QGLViewerModule.sip"]),
     ],
