@@ -405,7 +405,7 @@ def parse_args():
 
     common_options = optparse.OptionGroup(parser, 'Common options')
     common_options.add_option(
-        '-Q', '--qglviewer-sources', default='../libQGLViewer-2.3.1', action='store',
+        '-Q', '--qglviewer-sources', default='../libQGLViewer-2.3.4', action='store',
         type='string', metavar='/sources/of/qglviewer',
         help=('compile and link the QGLViewer source files in'
               ' /sources/of/qglviewer statically into PyQGLViewer'))
@@ -532,6 +532,8 @@ def parse_args():
     
     if sys.platform == 'win32':
        options.extra_libs.append('QGLViewer2')
+       qgl_release_lib_dir= os.path.join(qgl_lib_dir,'release')
+       options.extra_lib_dirs.append(qgl_release_lib_dir)
     else:
        options.extra_libs.append('QGLViewer')
     

@@ -6,7 +6,7 @@ pj = os.path.join
 
 import PyQt4.pyqtconfig as pyqtconfig
 
-QGLViewerPath = None if not os.name == 'nt' else os.path.abspath('../libQGLViewer-2.3.1')
+QGLViewerPath = None if not os.name == 'nt' else os.path.abspath('../libQGLViewer-2.3.4')
 
 class build_ext (sipdistutils.build_ext):
     def _pyqt_sip_dir(self):
@@ -103,7 +103,7 @@ class build_ext (sipdistutils.build_ext):
 
 setup(
   name = 'PyQGLViewer',
-  version = '0.7.0',
+  version = '0.8.0',
   ext_modules=[
     Extension("PyQGLViewer", ["src/sip/QGLViewerModule.sip"]),
     ],
