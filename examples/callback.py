@@ -16,7 +16,7 @@ def help():
 class Scene (QObject):
     def __init__(self,gqlviewer):
         QObject.__init__(self)
-         self.connect(gqlviewer, SIGNAL("drawNeeded()"), self.draw)
+        self.connect(gqlviewer, SIGNAL("drawNeeded()"), self.draw)
         self.connect(gqlviewer, SIGNAL("FPSIsDisplayedChanged(bool)"), self.fps)
     def fps(self,val):
         if val:
