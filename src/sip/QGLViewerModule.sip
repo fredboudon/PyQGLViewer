@@ -33,7 +33,7 @@
 %Feature SIP_FRIEND_EQUAL_SUPPORT
 
 %Copying
-Copyright (c) 2006-2008
+Copyright (c) 2006-2011
 	F. Boudon, V. Plants Team
 
 This file is part of PyQGLViewer.

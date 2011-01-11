@@ -224,8 +224,9 @@ def check_sip(configuration, options):
 
 def check_qglviewer(configuration, options):
     qglviewer_sources = options.qglviewer_sources
-    if qglviewer_sources is None:
-        qglviewer_sources = os.path.join('usr','include')
+    if qglviewer_sources is None or not os.path.exists(qglviewer_sources):
+        qglviewer_sources = os.path.join('/usr','include')
+        options.qglviewer_sources = None
     qglviewer_config = os.path.join(qglviewer_sources, "QGLViewer", "config.h")
 
     if os.access(qglviewer_config, os.F_OK):
@@ -405,7 +406,7 @@ def parse_args():
 
     common_options = optparse.OptionGroup(parser, 'Common options')
     common_options.add_option(
-        '-Q', '--qglviewer-sources', default='../libQGLViewer-2.3.4', action='store',
+        '-Q', '--qglviewer-sources', default='../libQGLViewer-2.3.9', action='store',
         type='string', metavar='/sources/of/qglviewer',
         help=('compile and link the QGLViewer source files in'
               ' /sources/of/qglviewer statically into PyQGLViewer'))

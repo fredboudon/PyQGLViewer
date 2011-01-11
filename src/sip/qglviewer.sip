@@ -359,7 +359,7 @@ public slots:
   virtual void help();
   virtual void aboutQGLViewer();
   
-  virtual void select(const QMouseEvent* event /In/);
+  virtual void select(QMouseEvent* event /In/);
   virtual void select(const QPoint& point /In/);
 
   void setSelectBufferSize(int size);
@@ -398,7 +398,7 @@ signals:
   void textIsEnabledChanged(bool enabled);
   void cameraIsEditedChanged(bool edited);
   void stereoChanged(bool on);
-  void pointSelected(const QMouseEvent* e /In/);
+  void pointSelected(QMouseEvent* e /In/);
   void mouseGrabberChanged(MouseGrabber* mouseGrabber /In/);
  
 
