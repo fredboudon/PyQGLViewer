@@ -217,7 +217,7 @@ def check_sip(configuration, options):
         raise Die, 'PyQGLViewer requires at least SIP-4.5.x.'
 
     if 0x040700 < version or version >= 0x040705 :
-        options.excluded_features.append("-x SIP_FRIEND_EQUAL_SUPPORT")
+        options.excluded_features.append("-x FRIEND_EQUAL_SUPPORT")
     return options
 
 

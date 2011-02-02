@@ -88,7 +88,7 @@ public:
         sipRes = val.toAscii().data();
 %End
 
-%If (!SIP_FRIEND_EQUAL_SUPPORT)
+%If (!FRIEND_EQUAL_SUPPORT)
   bool __eq__(const Vec&) const;
 %MethodCode
     sipRes = (*sipCpp == *a0);
@@ -106,7 +106,7 @@ public:
 %End
 };
 
-%If (SIP_FRIEND_EQUAL_SUPPORT)
+%If (FRIEND_EQUAL_SUPPORT)
 bool operator==(Vec s1, Vec s2);
 bool operator!=(Vec s1, Vec s2);
 %End

@@ -6,7 +6,7 @@ pj = os.path.join
 
 import PyQt4.pyqtconfig as pyqtconfig
 
-QGLViewerPath = None if not os.name == 'nt' else os.path.abspath('../libQGLViewer-2.3.4')
+QGLViewerPath = None if not os.name == 'nt' else os.path.abspath('../libQGLViewer-2.3.9-py')
 
 class build_ext (sipdistutils.build_ext):
     def _pyqt_sip_dir(self):
@@ -20,8 +20,8 @@ class build_ext (sipdistutils.build_ext):
     def _pyqglviewer_sip_flags(self):
          sip_version = sipconfig._pkg_config['sip_version']
          if 0x040700 < sip_version or sip_version >= 0x040705 :
-           return ['-x','SIP_FRIEND_EQUAL_SUPPORT']
-	 else: return []
+           return ['-x','FRIEND_EQUAL_SUPPORT']
+         else: return []
     def _qt_inc_dir(self):
         """ Retrieve Qt include dir """
         cfg = pyqtconfig.Configuration()

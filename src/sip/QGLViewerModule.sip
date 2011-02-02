@@ -29,8 +29,9 @@
 %Import QtOpenGL/QtOpenGLmod.sip
 %Import QtXml/QtXmlmod.sip
 
-%Timeline {QGLViewer_2_2_3 QGLViewer_2_2_4 QGLViewer_2_2_5 QGLViewer_2_2_6 QGLViewer_2_3_0 QGLViewer_2_3_1 QGLViewer_2_3_2 QGLViewer_2_3_3 QGLViewer_2_3_4}
-%Feature SIP_FRIEND_EQUAL_SUPPORT
+%Timeline {QGLViewer_2_2_3 QGLViewer_2_2_4 QGLViewer_2_2_5 QGLViewer_2_2_6 
+           QGLViewer_2_3_0 QGLViewer_2_3_1 QGLViewer_2_3_2 QGLViewer_2_3_3 QGLViewer_2_3_4 QGLViewer_2_3_5 QGLViewer_2_3_6 QGLViewer_2_3_7 QGLViewer_2_3_8 QGLViewer_2_3_9}
+%Feature FRIEND_EQUAL_SUPPORT
 
 %Copying
 Copyright (c) 2006-2011
