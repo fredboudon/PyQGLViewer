@@ -1,4 +1,5 @@
 from PyQt4.QtGui import *
+from PyQt4.QtOpenGL import *
 from PyQGLViewer import *
 from qgllogo import *
 import OpenGL.GL as ogl
@@ -11,7 +12,9 @@ You can then toggle the stereo display by pressing <b>S</b> in any application."
 
 class Viewer(QGLViewer):
     def __init__(self):
-        QGLViewer.__init__(self)
+        format = QGLFormat()
+        format.setStereo(True)
+        QGLViewer.__init__(self,format)
         self.setStateFileName('.stereoViewer.xml')        
     def draw(self):
         draw_qgl_logo()
