@@ -27,6 +27,7 @@ class QGLViewer : QGLWidget
 %TypeHeaderCode
 #include <QGLViewer/qglviewer.h>
 #include <GL/gl.h>
+#include <GL/glu.h>
 #ifdef Q_WS_X11
 #define GL_GLEXT_PROTOTYPES
 #include <GL/glext.h>
@@ -127,7 +128,7 @@ public:
     sipRes = sipCpp->selectBuffer();
 %End
 
-  SIP_PYOBJECT getMultipleSelection() const;
+  SIP_PYOBJECT getMultipleSelection() ;
 %MethodCode
   // Flush GL buffers
   glFlush();
