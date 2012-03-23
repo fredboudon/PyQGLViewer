@@ -30,7 +30,10 @@
 %Import QtXml/QtXmlmod.sip
 
 %Timeline {QGLViewer_2_2_3 QGLViewer_2_2_4 QGLViewer_2_2_5 QGLViewer_2_2_6 
-           QGLViewer_2_3_0 QGLViewer_2_3_1 QGLViewer_2_3_2 QGLViewer_2_3_3 QGLViewer_2_3_4 QGLViewer_2_3_5 QGLViewer_2_3_6 QGLViewer_2_3_7 QGLViewer_2_3_8 QGLViewer_2_3_9}
+           QGLViewer_2_3_0 QGLViewer_2_3_1 QGLViewer_2_3_2 QGLViewer_2_3_3 QGLViewer_2_3_4 QGLViewer_2_3_5 
+		   QGLViewer_2_3_6 QGLViewer_2_3_7 QGLViewer_2_3_8 QGLViewer_2_3_9
+		   QGLViewer_2_3_10 QGLViewer_2_3_11 QGLViewer_2_3_12 QGLViewer_2_3_13
+		   QGLViewer_2_3_14 QGLViewer_2_3_15}
 %Feature FRIEND_EQUAL_SUPPORT
 
 %Copying
