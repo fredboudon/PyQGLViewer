@@ -229,6 +229,7 @@ def check_qglviewer(configuration, options):
         options.qglviewer_sources = None
     qglviewer_config = os.path.join(qglviewer_sources, "QGLViewer", "config.h")
 
+    QGLVIEWER_VERSION_STR = None
     if os.access(qglviewer_config, os.F_OK):
         # Get the qglviewer version string.
         QGLVIEWER_VERSION, QGLVIEWER_VERSION_STR = sipconfig.read_version(qglviewer_config, "QGLViewer", "QGLVIEWER_VERSION")
