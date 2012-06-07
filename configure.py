@@ -463,6 +463,12 @@ def parse_args():
         '--extra-lflags', default=[], action='append',
         type='string', metavar='EXTRA_LFLAG',
         help='add an extra linker flag')
+    if sys.platform == 'darwin':
+        make_options.add_option(
+            '-f','--framework', default=[], action='append',
+            type='string', metavar='EXTRA_LFLAG',
+            help=('enable use of framework. You may specify path to framework'
+                  ' [default disabled]'))
     parser.add_option_group(make_options)
 
     sip_options = optparse.OptionGroup(parser, 'SIP options')
@@ -526,18 +532,28 @@ def parse_args():
     
     options.qglviewer_sipfile = os.path.join('src','sip','QGLViewerModule.sip')
     
+    if sys.platform == 'win32':
+       options.extra_libs.append('QGLViewer2')
+       qgl_release_lib_dir= os.path.join(qgl_lib_dir,'release')
+       options.extra_lib_dirs.append(qgl_release_lib_dir)
+    elif sys.platform == 'darwin':
+        if options.framework:
+            if len(options.framework) > 0:
+                options.extra_lflags.append('-F'+' -F'.join(options.framework))
+                options.extra_include_dirs.extend(list(x+'/QGLViewer.framework/Headers' for x in options.framework))
+		if not os.path.exists(options.qglviewer_sources):
+		   options.qglviewer_sources = 	options.framework[0]+'/QGLViewer.framework/Headers'
+            options.extra_lflags.append("-framework QGLViewer")
+        else:        
+            options.extra_libs.append('QGLViewer')
+    else:
+       options.extra_libs.append('QGLViewer')
+
     if options.qglviewer_sources:
         options.qglviewer_sources = os.path.abspath(options.qglviewer_sources)        
         options.extra_include_dirs.append(options.qglviewer_sources)
         qgl_lib_dir= os.path.join(options.qglviewer_sources,'QGLViewer')
         options.extra_lib_dirs.append(qgl_lib_dir)
-    
-    if sys.platform == 'win32':
-       options.extra_libs.append('QGLViewer2')
-       qgl_release_lib_dir= os.path.join(qgl_lib_dir,'release')
-       options.extra_lib_dirs.append(qgl_release_lib_dir)
-    else:
-       options.extra_libs.append('QGLViewer')
     
     return options, args
 
@@ -546,7 +562,7 @@ def main():
     """Generate the build tree and the Makefiles
     """
     options, args = parse_args()
-    
+
     if options.verbose_config:
         print 'Command line options:'
         pprint.pprint(options.__dict__)
