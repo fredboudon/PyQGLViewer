@@ -407,10 +407,10 @@ def parse_args():
 
     common_options = optparse.OptionGroup(parser, 'Common options')
     common_options.add_option(
-        '-Q', '--qglviewer-sources', default='../libQGLViewer-2.3.15', action='store',
+        '-Q', '--qglviewer-sources', default='../libQGLViewer-2.3.17', action='store',
         type='string', metavar='/sources/of/qglviewer',
-        help=('compile and link the QGLViewer source files in'
-              ' /sources/of/qglviewer statically into PyQGLViewer'))
+        help=('link with the QGLViewer source files in'
+              ' /sources/of/qglviewer into PyQGLViewer'))
     common_options.add_option(
         '-I', '--extra-include-dirs', default=[], action='append',
         type='string', metavar='/usr/lib/qglviewer/include',
@@ -532,17 +532,16 @@ def parse_args():
     
     options.qglviewer_sipfile = os.path.join('src','sip','QGLViewerModule.sip')
     
-    if sys.platform == 'win32':
+    if sys.platform == 'win32':       
        options.extra_libs.append('QGLViewer2')
-       qgl_release_lib_dir= os.path.join(qgl_lib_dir,'release')
-       options.extra_lib_dirs.append(qgl_release_lib_dir)
+       
     elif sys.platform == 'darwin':
         if options.framework:
             if len(options.framework) > 0:
                 options.extra_lflags.append('-F'+' -F'.join(options.framework))
                 options.extra_include_dirs.extend(list(x+'/QGLViewer.framework/Headers' for x in options.framework))
-		if not os.path.exists(options.qglviewer_sources):
-		   options.qglviewer_sources = 	options.framework[0]+'/QGLViewer.framework/Headers'
+        if not os.path.exists(options.qglviewer_sources):
+            options.qglviewer_sources = options.framework[0]+'/QGLViewer.framework/Headers'
             options.extra_lflags.append("-framework QGLViewer")
         else:        
             options.extra_libs.append('QGLViewer')
@@ -554,7 +553,12 @@ def parse_args():
         options.extra_include_dirs.append(options.qglviewer_sources)
         qgl_lib_dir= os.path.join(options.qglviewer_sources,'QGLViewer')
         options.extra_lib_dirs.append(qgl_lib_dir)
-    
+        
+        if sys.platform == 'win32':       
+           qgl_release_lib_dir= os.path.join(qgl_lib_dir,'release')
+           options.extra_lib_dirs.append(qgl_release_lib_dir)
+
+        
     return options, args
 
 

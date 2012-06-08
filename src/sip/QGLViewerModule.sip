@@ -21,7 +21,7 @@
 
 *****************************************************************************/
 
-%Module PyQGLViewer 0
+%Module(name=PyQGLViewer)
 
 
 %Import QtCore/QtCoremod.sip
@@ -33,7 +33,7 @@
            QGLViewer_2_3_0 QGLViewer_2_3_1 QGLViewer_2_3_2 QGLViewer_2_3_3 QGLViewer_2_3_4 QGLViewer_2_3_5 
 		   QGLViewer_2_3_6 QGLViewer_2_3_7 QGLViewer_2_3_8 QGLViewer_2_3_9
 		   QGLViewer_2_3_10 QGLViewer_2_3_11 QGLViewer_2_3_12 QGLViewer_2_3_13
-		   QGLViewer_2_3_14 QGLViewer_2_3_15}
+		   QGLViewer_2_3_14 QGLViewer_2_3_15 QGLViewer_2_3_16 QGLViewer_2_3_17}
 %Feature FRIEND_EQUAL_SUPPORT
 
 %Copying
