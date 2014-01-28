@@ -233,6 +233,8 @@ def check_qglviewer(configuration, options):
     if os.access(qglviewer_config, os.F_OK):
         # Get the qglviewer version string.
         QGLVIEWER_VERSION, QGLVIEWER_VERSION_STR = sipconfig.read_version(qglviewer_config, "QGLViewer", "QGLVIEWER_VERSION")
+    else:
+        raise Die, 'Cannot find libQGLViewer headers. Use option -Q for that.'
     
     if QGLVIEWER_VERSION_STR is None:
         QGLVIEWER_VERSION_STR = str((QGLVIEWER_VERSION & 0xff0000) >> 16)+'.'+str((QGLVIEWER_VERSION & 0x00ff00) >> 8)+'.'+str((QGLVIEWER_VERSION  & 0x0000ff))

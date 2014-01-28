@@ -26,8 +26,16 @@ class QGLViewer : QGLWidget
 
 %TypeHeaderCode
 #include <QGLViewer/qglviewer.h>
-#include <GL/gl.h>
+
+
+#include <QtOpenGL/gl.h>
+
+#ifdef Q_OS_MAC
+#include <OpenGL/glu.h>
+#else
 #include <GL/glu.h>
+#endif
+
 #ifdef Q_WS_X11
 #define GL_GLEXT_PROTOTYPES
 #include <GL/glext.h>
