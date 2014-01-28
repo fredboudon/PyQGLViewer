@@ -28,7 +28,7 @@ class QGLViewer : QGLWidget
 #include <QGLViewer/qglviewer.h>
 
 
-#include <QtOpenGL/gl.h>
+#include <QtOpenGL/qgl.h>
 
 #ifdef Q_OS_MAC
 #include <OpenGL/glu.h>
