@@ -223,12 +223,16 @@ def check_sip(configuration, options):
 
 
 def check_qglviewer(configuration, options):
+    pj = os.path.join
     qglviewer_sources = options.qglviewer_sources
     if qglviewer_sources is None or not os.path.exists(qglviewer_sources):
-        qglviewer_sources = os.path.join('/usr','include')
         options.qglviewer_sources = None
-        if not os.path.exists(os.path.join(qglviewer_sources, "QGLViewer")):
-            qglviewer_sources = os.path.join('/opt','local','include')
+        defaultdir = [pj('/','usr','include'),pj('/','usr','local','include'),pj('/','opt','local','include')]
+        for ddir in defaultdir:
+            if os.path.exists(pj(ddir, "QGLViewer")):
+                qglviewer_sources = ddir
+                break
+        else: qglviewer_sources = defaultdir[0]
     qglviewer_config = os.path.join(qglviewer_sources, "QGLViewer", "config.h")
 
     QGLVIEWER_VERSION_STR = None

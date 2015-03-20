@@ -32,9 +32,15 @@ class build_ext (sipdistutils.build_ext):
         return [QGLViewerPath]
     def _gglviewer_version(self):
         """ Retrieve libQGLViewer version """
-        if QGLViewerPath is None: qglviewer_sources = os.path.join('/','usr','include')
+        if QGLViewerPath is None: 
+            defaultdir = [pj('/','usr','include'),pj('/','usr','local','include'),pj('/','opt','local','include')]
+            for ddir in defaultdir:
+                if os.path.exists(pj(ddir, "QGLViewer")):
+                    qglviewer_sources = ddir
+                    break
+            else: qglviewer_sources = defaultdir[0]
         else: qglviewer_sources = QGLViewerPath
-        qglviewer_config = os.path.join(qglviewer_sources, "QGLViewer", "config.h")
+        qglviewer_config = pj(qglviewer_sources, "QGLViewer", "config.h")
 
         if os.access(qglviewer_config, os.F_OK):
             # Get the qglviewer version string.
