@@ -227,6 +227,8 @@ def check_qglviewer(configuration, options):
     if qglviewer_sources is None or not os.path.exists(qglviewer_sources):
         qglviewer_sources = os.path.join('/usr','include')
         options.qglviewer_sources = None
+        if not os.path.exists(os.path.join(qglviewer_sources, "QGLViewer")):
+            qglviewer_sources = os.path.join('/opt','local','include')
     qglviewer_config = os.path.join(qglviewer_sources, "QGLViewer", "config.h")
 
     QGLVIEWER_VERSION_STR = None
@@ -543,8 +545,9 @@ def parse_args():
                 options.extra_lflags.append('-F'+' -F'.join(options.framework))
                 options.extra_include_dirs.extend(list(x+'/QGLViewer.framework/Headers' for x in options.framework))
         if not os.path.exists(options.qglviewer_sources):
-            options.qglviewer_sources = options.framework[0]+'/QGLViewer.framework/Headers'
-            options.extra_lflags.append("-framework QGLViewer")
+            if len(options.framework) > 0:
+                options.qglviewer_sources = options.framework[0]+'/QGLViewer.framework/Headers'
+                options.extra_lflags.append("-framework QGLViewer")
         else:        
             options.extra_libs.append('QGLViewer')
     else:

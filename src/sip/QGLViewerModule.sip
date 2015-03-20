@@ -59,7 +59,7 @@ static const int QGLViewerVersion = QGLVIEWER_VERSION;
 const char * QGLViewerVersionString();
 const int QGLViewerVersion;
 
-typedef double GLdouble;
+// typedef double GLdouble;
 
 %Include vec.sip
 %Include quaternion.sip
