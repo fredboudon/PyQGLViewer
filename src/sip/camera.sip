@@ -73,25 +73,25 @@ public:
   public slots:
     void setPosition(const Vec& pos /In/) ;
     void setOrientation(const Quaternion& q /In/);
-    void setOrientation(float theta, float phi);
+    void setOrientation(qreal theta, qreal phi);
     void setUpVector(const Vec& up /In/, bool noMove=true);
     void setViewDirection(const Vec& direction /In/);
 
     void lookAt(const Vec& target /In/);
     void showEntireScene();
-    void fitSphere(const Vec& center /In/, float radius);
+    void fitSphere(const Vec& center /In/, qreal radius);
     void fitBoundingBox(const Vec& min /In/, const Vec& max /In/);
     void fitScreenRegion(const QRect& rectangle /In/);
     void centerScene();
     void interpolateToZoomOnPixel(const QPoint& pixel /In/);
     void interpolateToFitScene();
-    void interpolateTo(const Frame& fr /In/, float duration);
+    void interpolateTo(const Frame& fr /In/, qreal duration);
 
 public:
     Type type() const;
-    float fieldOfView() const;
-    float horizontalFieldOfView() const;
-    float aspectRatio() const;
+    qreal fieldOfView() const;
+    qreal horizontalFieldOfView() const;
+    qreal aspectRatio() const;
     int screenWidth() const;
     int screenHeight() const;
     SIP_PYOBJECT getViewport() const;
@@ -103,12 +103,12 @@ public:
 		PyList_SetItem(sipRes,i,PyInt_FromLong(viewport[i]));
 %End
 
-    float pixelGLRatio(Vec position) const;
-    float zNearCoefficient() const;
+    qreal pixelGLRatio(Vec position) const;
+    qreal zNearCoefficient() const;
     
-    float zClippingCoefficient() const;
-    virtual float zNear() const;
-    virtual float zFar()  const;
+    qreal zClippingCoefficient() const;
+    virtual qreal zNear() const;
+    virtual qreal zFar()  const;
     virtual void getOrthoWidthHeight(GLdouble& halfWidth /Out/, GLdouble& halfHeight /Out/) const;
     
     SIP_PYOBJECT getFrustumPlanesCoefficients() const;
@@ -128,30 +128,40 @@ public:
   public slots:
     void setType(Type type);
 
-    void setFieldOfView(float fov) ;
-    void setHorizontalFieldOfView(float hfov);
+    void setFieldOfView(qreal fov) ;
+    void setHorizontalFieldOfView(qreal hfov);
 
     void setFOVToFitScene();
-    void setAspectRatio(float aspect);
+    void setAspectRatio(qreal aspect);
 
     void setScreenWidthAndHeight(int width, int height);
-    void setZNearCoefficient(float coef);
-    void setZClippingCoefficient(float coef);
+    void setZNearCoefficient(qreal coef);
+    void setZClippingCoefficient(qreal coef);
 
 public:
-    float sceneRadius() const ;
+    qreal sceneRadius() const ;
 
     Vec sceneCenter() const ;
-    float distanceToSceneCenter() const;
+    qreal distanceToSceneCenter() const;
     
   public slots:
-    void setSceneRadius(float radius);
+    void setSceneRadius(qreal radius);
     void setSceneCenter(const Vec& center /In/);
     bool setSceneCenterFromPixel(const QPoint& pixel /In/);
     void setSceneBoundingBox(const Vec& min /In/, const Vec& max /In/);
 
  public slots:
-    void setRevolveAroundPoint(const Vec& rap /In/);
+ %If (QGLViewer_2_6_0 - )
+    void setPivotPoint(const Vec& point /In/);
+    bool setPivotPointFromPixel(const QPoint& pixel /In/);
+
+public:
+     Vec pivotPoint() const;
+ 
+ public slots:
+ %End
+
+    void setRevolveAroundPoint(const Vec& point /In/);
     bool setRevolveAroundPointFromPixel(const QPoint& pixel /In/);
 
  public:
@@ -163,14 +173,14 @@ public:
     void setFrame(ManipulatedCameraFrame* mcf /Transfer/);
 
  public:
-    KeyFrameInterpolator* keyFrameInterpolator(int i) const;
+    KeyFrameInterpolator* keyFrameInterpolator(unsigned int i) const;
 
  public slots:
-    void setKeyFrameInterpolator(int i, KeyFrameInterpolator* kfi /Transfer/);
-    virtual void addKeyFrameToPath(int i);
-    virtual void playPath(int i);
-    virtual void deletePath(int i);
-    virtual void resetPath(int i);
+    void setKeyFrameInterpolator(unsigned int i, KeyFrameInterpolator* kfi /Transfer/);
+    virtual void addKeyFrameToPath(unsigned int i);
+    virtual void playPath(unsigned int i);
+    virtual void deletePath(unsigned int i);
+    virtual void resetPath(unsigned int i);
     virtual void drawAllPaths();
 
   public:
@@ -209,8 +219,8 @@ public:
 		PyList_SetItem(sipRes,i,PyFloat_FromDouble(m[i]));
 %End
 
-    static void drawCamera(float scale=1.0, float aspectRatio=1.33, float fieldOfView=0.78539816339744828);
-    virtual void draw(bool drawFarPlane=true, float scale=1.0) const;
+    static void drawCamera(qreal scale=1.0, qreal aspectRatio=1.33, qreal fieldOfView=qreal(M_PI)/4.0);
+    virtual void draw(bool drawFarPlane=true, qreal scale=1.0) const;
 
   public:
     Vec cameraCoordinatesOf(Vec src) const ;
@@ -224,10 +234,10 @@ public:
         sipIsErr = 1;
     else
     {
-		float src[3];
+		qreal src[3];
 		for (int i = 0; i < 3; ++i)
 			src[i] = PyFloat_AsDouble(PySequence_GetItem(a0,i));
-		float res[3];
+		qreal res[3];
 		sipCpp->getCameraCoordinatesOf(src,res);
 		sipRes = PyTuple_New(3);
 		for(int i = 0; i < 3; ++i)
@@ -243,10 +253,10 @@ public:
         sipIsErr = 1;
     else
     {
-		float src[3];
+		qreal src[3];
 		for (int i = 0; i < 3; ++i)
 			src[i] = PyFloat_AsDouble(PySequence_GetItem(a0,i));
-		float res[3];
+		qreal res[3];
 		sipCpp->getWorldCoordinatesOf(src,res);
 		sipRes = PyTuple_New(3);
 		for(int i = 0; i < 3; ++i)
@@ -265,10 +275,10 @@ public:
         sipIsErr = 1;
     else
     {
-		float src[3];
+		qreal src[3];
 		for (int i = 0; i < 3; ++i)
 			src[i] = PyFloat_AsDouble(PySequence_GetItem(a0,i));
-		float res[3];
+		qreal res[3];
 		sipCpp->getProjectedCoordinatesOf(src,res,a1);
 		sipRes = PyTuple_New(3);
 		for(int i = 0; i < 3; ++i)
@@ -284,10 +294,10 @@ public:
         sipIsErr = 1;
     else
     {
-		float src[3];
+		qreal src[3];
 		for (int i = 0; i < 3; ++i)
 			src[i] = PyFloat_AsDouble(PySequence_GetItem(a0,i));
-		float res[3];
+		qreal res[3];
 		sipCpp->getUnprojectedCoordinatesOf(src,res,a1);
 		sipRes = PyTuple_New(3);
 		for(int i = 0; i < 3; ++i)
@@ -299,21 +309,21 @@ public:
 
 
   public:
-    float flySpeed() const;
+    qreal flySpeed() const;
   public slots:
-    void setFlySpeed(float speed) ;
+    void setFlySpeed(qreal speed) ;
 
   public:
-    float IODistance() const;
-    float physicalDistanceToScreen() const;
-    float physicalScreenWidth() const ;
-    float focusDistance() const ;
+    qreal IODistance() const;
+    qreal physicalDistanceToScreen() const;
+    qreal physicalScreenWidth() const ;
+    qreal focusDistance() const ;
     
   public slots:
-    void setIODistance(float distance) ;
-    void setPhysicalDistanceToScreen(float distance) ;
-    void setPhysicalScreenWidth(float width);
-    void setFocusDistance(float distance);
+    void setIODistance(qreal distance) ;
+    void setPhysicalDistanceToScreen(qreal distance) ;
+    void setPhysicalScreenWidth(qreal width);
+    void setFocusDistance(qreal distance);
 
   public:
     virtual QDomElement domElement(const QString& name /In/, QDomDocument& document /In/) const;

@@ -31,14 +31,14 @@ class Vec
 using qglviewer::Vec;
 %End
 public:
-  float x;
-  float y;
-  float z;
+  qreal x;
+  qreal y;
+  qreal z;
   Vec();
-  Vec(float x, float y, float z);
-  void setValue(float x, float y, float z);
+  Vec(qreal x, qreal y, qreal z);
+  void setValue(qreal x, qreal y, qreal z);
 
-  float __getitem__(int i) const ;
+  qreal __getitem__(int i) const ;
 %MethodCode
   if ((a0 = (int)sipConvertFromSequenceIndex(a0, 3)) < 0)
         sipIsErr = 1;
@@ -46,7 +46,7 @@ public:
        sipRes = (*sipCpp)[a0] ;
 %End
 
-  void __setitem__(int i, float );
+  void __setitem__(int i, qreal );
 %MethodCode
    if ((a0 = (int)sipConvertFromSequenceIndex(a0, 3)) < 0)
         sipIsErr = 1;
@@ -56,13 +56,13 @@ public:
  
   Vec& operator+=(const Vec &a);
   Vec& operator-=(const Vec &a);
-  Vec& operator*=(float k);
-  Vec& operator/=(float k);
+  Vec& operator*=(qreal k);
+  Vec& operator/=(qreal k);
   Vec orthogonalVec() const;
-  float sqNorm() const;
-  float squaredNorm();
-  float norm() const;
-  float normalize();
+  qreal sqNorm() const;
+  qreal squaredNorm();
+  qreal norm() const;
+  qreal normalize();
   Vec unit() const;
   void projectOnAxis(const Vec& direction);
   void projectOnPlane(const Vec& normal);
@@ -114,10 +114,10 @@ bool operator!=(Vec s1, Vec s2);
 Vec operator+(Vec a, Vec b);
 Vec operator-(Vec a, Vec b);
 Vec operator-(Vec &a);
-Vec operator*(Vec a, float k);
-Vec operator*(float k, Vec a);
-Vec operator/(Vec a, float k);
-float operator*(Vec a, Vec b);
+Vec operator*(Vec a, qreal k);
+Vec operator*(qreal k, Vec a);
+Vec operator/(Vec a, qreal k);
+qreal operator*(Vec a, Vec b);
 Vec operator^(Vec a, Vec b);
 Vec cross(Vec a, Vec b);
 // std::ostream& operator<<(std::ostream& o, const Vec&);

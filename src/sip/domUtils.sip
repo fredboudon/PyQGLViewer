@@ -29,9 +29,25 @@ class DomUtils
 #include <QGLViewer/domUtils.h>
 %End
 public:
+%If ( - QGLViewer_2_6_0)
   static float floatFromDom(const QDomElement& e /In/, const QString& attribute /In/, float defValue);
+  static double doubleFromDom(const QDomElement& e /In/, const QString& attribute /In/, double defValue);
+
+%End
+
+%If (QGLViewer_2_6_0 - )
+  static qreal qrealFromDom(const QDomElement& e /In/, const QString& attribute /In/, qreal defValue);
+%End
+
   static int intFromDom(const QDomElement& e /In/, const QString& attribute /In/, int defValue);
+
+%If (QGLViewer_2_6_0 - )
+  static unsigned int uintFromDom(const QDomElement& e /In/, const QString& attribute /In/, unsigned int defValue);
+%End
+
   static bool boolFromDom(const QDomElement& e /In/, const QString& attribute /In/, bool defValue);
+  static void setBoolAttribute(QDomElement& element /In/, const QString& attribute /In/, bool value);
+
   static QDomElement QColorDomElement(const QColor& color /In/, const QString& name /In/, QDomDocument& doc /In/);
   static QColor QColorFromDom(const QDomElement& e /In/);
 };

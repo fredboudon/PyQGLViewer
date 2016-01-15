@@ -35,31 +35,15 @@
 		   QGLViewer_2_3_10 QGLViewer_2_3_11 QGLViewer_2_3_12 QGLViewer_2_3_13
 		   QGLViewer_2_3_14 QGLViewer_2_3_15 QGLViewer_2_3_16 QGLViewer_2_3_17
            QGLViewer_2_4_0 QGLViewer_2_4_1 QGLViewer_2_5_0 QGLViewer_2_5_1 QGLViewer_2_5_2 QGLViewer_2_5_3 QGLViewer_2_5_4
-           QGLViewer_2_6_0 QGLViewer_2_6_1}
+           QGLViewer_2_6_0 QGLViewer_2_6_1 QGLViewer_2_6_2 QGLViewer_2_6_3 QGLViewer_2_6_4}
 %Feature FRIEND_EQUAL_SUPPORT
 
 %Copying
-Copyright (c) 2006-2011
+Copyright (c) 2006-2016
 	F. Boudon, V. Plants Team
 
 This file is part of PyQGLViewer.
 %End
-
-%ModuleHeaderCode
-#include <QGLViewer/config.h>
-
-static const char * QGLViewerVersionString(){
-  return (QString::number((QGLVIEWER_VERSION & 0xff0000) >> 16) + "." +
-		    QString::number((QGLVIEWER_VERSION & 0x00ff00) >> 8) + "." +
-		    QString::number(QGLVIEWER_VERSION  & 0x0000ff)).toAscii().data();
-}
-
-
-static const int QGLViewerVersion = QGLVIEWER_VERSION;
-%End
-
-const char * QGLViewerVersionString();
-const int QGLViewerVersion;
 
 // typedef double GLdouble;
 
@@ -74,3 +58,4 @@ const int QGLViewerVersion;
 %Include camera.sip
 %Include qglviewer.sip
 %Include domUtils.sip
+%Include qglviewerversion.sip

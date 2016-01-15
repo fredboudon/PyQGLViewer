@@ -39,7 +39,7 @@ using qglviewer::KeyFrameInterpolator;
 
   public slots:
     void addKeyFrame(const Frame* frame /Transfer/);
-    void addKeyFrame(const Frame* frame /Transfer/, float time);
+    void addKeyFrame(const Frame* frame /Transfer/, qreal time);
 
     void deletePath();
 
@@ -51,21 +51,21 @@ using qglviewer::KeyFrameInterpolator;
 
   public:
     Frame keyFrame(int index) const;
-    float keyFrameTime(int index) const;
+    qreal keyFrameTime(int index) const;
     int numberOfKeyFrames() const;
-    float duration() const;
-    float firstTime() const;
-    float lastTime() const;
+    qreal duration() const;
+    qreal firstTime() const;
+    qreal lastTime() const;
 
   public:
-    float interpolationTime() const;
-    float interpolationSpeed() const;
+    qreal interpolationTime() const;
+    qreal interpolationSpeed() const;
     int interpolationPeriod() const ;
     bool loopInterpolation() const ;
     bool closedPath() const ;
   public slots:
-    void setInterpolationTime(float time);
-    void setInterpolationSpeed(float speed) ;
+    void setInterpolationTime(qreal time);
+    void setInterpolationSpeed(qreal speed) ;
     void setInterpolationPeriod(int period) ;
     void setLoopInterpolation(bool loop=true) ;
     void setClosedPath(bool closed=true) ;
@@ -77,10 +77,10 @@ using qglviewer::KeyFrameInterpolator;
     void stopInterpolation();
     void resetInterpolation();
     void toggleInterpolation() ;
-    virtual void interpolateAtTime(float time);
+    virtual void interpolateAtTime(qreal time);
 
   public:
-    virtual void drawPath(int mask=1, int nbFrames=6, float scale=1.0);
+    virtual void drawPath(int mask=1, int nbFrames=6, qreal scale=1.0);
 
   public:
     virtual QDomElement domElement(const QString& name /In/, QDomDocument& document /In/) const;

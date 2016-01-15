@@ -40,15 +40,36 @@ using qglviewer::Camera;
     // ManipulatedCameraFrame& operator=(const ManipulatedCameraFrame& mcf);
 
   public:
+%If ( - QGLViewer_2_5_1)
     Vec revolveAroundPoint() const;
     void setRevolveAroundPoint(const Vec& revolveAroundPoint /In/) ; 
+%End
+
+%If (QGLViewer_2_5_2 - )
+    Vec pivotPoint() const;
+    void setPivotPoint(const Vec& revolveAroundPoint /In/) ; 
+
+    bool rotatesAroundUpVector();
+    void setRotatesAroundUpVector(bool constrained);
+    bool zoomsOnPivotPoint() const;
+    void setZoomsOnPivotPoint(bool enabled);
+
+%End
 
   public slots:
     void setFlySpeed(float speed) ;
     void setFlyUpVector(const Vec& up) ;
 
+%If (QGLViewer_2_6_0 - )
+    void setSceneUpVector(const Vec& up) ;
+%End
+
   public:
-    float flySpeed() const ;
+    qreal flySpeed() const ;
+    
+%If (QGLViewer_2_6_0 - )
+    Vec sceneUpVector() const ;
+%End
     Vec flyUpVector() const ;
 
   protected:
@@ -71,7 +92,7 @@ using qglviewer::Camera;
     virtual void flyUpdate();
 
   private:
-    void updateFlyUpVector();
+    void updateSceneUpVector();
     Quaternion turnQuaternion(int x, const Camera* camera /In/);
     Quaternion pitchYawQuaternion(int x, int y, const Camera* camera /In/);
 

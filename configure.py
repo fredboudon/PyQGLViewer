@@ -413,9 +413,21 @@ def parse_args():
 
     parser = optparse.OptionParser(usage=usage)
 
+    if sys.platform == 'win32':
+        defaultinstallpathes = [ 'C:']
+    else:
+        defaultinstallpathes = [ '/usr/local/include', '/opt/local/include', '/usr/include']
+
+    for installpath in defaultinstallpathes:
+        if os.path.exists(installpath) and os.path.exists(os.path.join(installpath, 'QGLViewer')):
+            defaultinstallpath = installpath
+            break
+    else:
+        defaultinstallpath = defaultinstallpathes[-1]
+
     common_options = optparse.OptionGroup(parser, 'Common options')
     common_options.add_option(
-        '-Q', '--qglviewer-sources', default='../libQGLViewer-2.3.17', action='store',
+        '-Q', '--qglviewer-sources', default=defaultinstallpath, action='store',
         type='string', metavar='/sources/of/qglviewer',
         help=('link with the QGLViewer source files in'
               ' /sources/of/qglviewer into PyQGLViewer'))
@@ -560,12 +572,18 @@ def parse_args():
     if options.qglviewer_sources:
         options.qglviewer_sources = os.path.abspath(options.qglviewer_sources)        
         options.extra_include_dirs.append(options.qglviewer_sources)
-        qgl_lib_dir= os.path.join(options.qglviewer_sources,'QGLViewer')
-        options.extra_lib_dirs.append(qgl_lib_dir)
+
+        qgl_lib_dir = os.path.abspath(os.path.join(options.qglviewer_sources,os.pardir,'lib'))
+        if os.path.exists(qgl_lib_dir):
+            options.extra_lib_dirs.append(qgl_lib_dir)
+        else:
+            qgl_lib_dir = os.path.join(options.qglviewer_sources,'QGLViewer')
+            if os.path.exists(qgl_lib_dir):
+                options.extra_lib_dirs.append(qgl_lib_dir)
         
-        if sys.platform == 'win32':       
-           qgl_release_lib_dir= os.path.join(qgl_lib_dir,'release')
-           options.extra_lib_dirs.append(qgl_release_lib_dir)
+            if sys.platform == 'win32':       
+                qgl_release_lib_dir= os.path.join(qgl_lib_dir,'release')
+                options.extra_lib_dirs.append(qgl_release_lib_dir)
 
         
     return options, args

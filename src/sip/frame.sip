@@ -49,11 +49,11 @@ public:
     Frame(Vec position, Quaternion orientation);
 
     void setPosition(Vec position);
-    void setPosition(float x, float y, float z);
+    void setPosition(qreal x, qreal y, qreal z);
     void setPositionWithConstraint(Vec& position /In, Out/);
 
     void setOrientation(Quaternion orientation);
-    void setOrientation(double q0, double q1, double q2, double q3);
+    void setOrientation(qreal q0, qreal q1, qreal q2, qreal q3);
     void setOrientationWithConstraint(Quaternion& orientation /In, Out/);
 
     void setPositionAndOrientation(Vec position, Quaternion orientation);
@@ -62,17 +62,17 @@ public:
     Vec position() const ;
     Quaternion orientation() const;
 
-    void getPosition(float& x /Out/, float& y /Out/, float& z /Out/) const;
-    void getOrientation(double& q0 /Out/, double& q1 /Out/, double& q2 /Out/, double& q3 /Out/) const;
+    void getPosition(qreal& x /Out/, qreal& y /Out/, qreal& z /Out/) const;
+    void getOrientation(qreal& q0 /Out/, qreal& q1 /Out/, qreal& q2 /Out/, qreal& q3 /Out/) const;
 
     public:
 
     void setTranslation(Vec translation) ;
-    void setTranslation(float x, float y, float z);
+    void setTranslation(qreal x, qreal y, qreal z);
     void setTranslationWithConstraint(Vec& translation /In, Out/);
 
     void setRotation(Quaternion rotation) ;
-    void setRotation(double q0, double q1, double q2, double q3);
+    void setRotation(qreal q0, qreal q1, qreal q2, qreal q3);
     void setRotationWithConstraint(Quaternion& rotation /In, Out/);
 
     void setTranslationAndRotation(Vec translation, Quaternion rotation);
@@ -81,8 +81,8 @@ public:
     Vec translation() const ;
     Quaternion rotation() const ;
     
-	void getTranslation( float & x /Out/, float & y /Out/, float & z /Out/) const;	
-    void getRotation(double& q0 /Out/, double& q1 /Out/, double& q2 /Out/, double& q3 /Out/) const;
+	void getTranslation( qreal & x /Out/, qreal & y /Out/, qreal & z /Out/) const;	
+    void getRotation(qreal& q0 /Out/, qreal& q1 /Out/, qreal& q2 /Out/, qreal& q3 /Out/) const;
 
     public:
 
@@ -113,10 +113,10 @@ public:
         sipIsErr = 1;
     else
     {
-		float src[3];
+		qreal src[3];
 		for (int i = 0; i < 3; ++i)
 			src[i] = PyFloat_AsDouble(PySequence_GetItem(a0,i));
-		float res[3];
+		qreal res[3];
 		sipCpp->getCoordinatesOf(src,res);
 		sipRes = PyTuple_New(3);
 		for(int i = 0; i < 3; ++i)
@@ -131,10 +131,10 @@ public:
         sipIsErr = 1;
     else
     {
-		float src[3];
+		qreal src[3];
 		for (int i = 0; i < 3; ++i)
 			src[i] = PyFloat_AsDouble(PySequence_GetItem(a0,i));
-		float res[3];
+		qreal res[3];
 		sipCpp->getInverseCoordinatesOf(src,res);
 		sipRes = PyTuple_New(3);
 		for(int i = 0; i < 3; ++i)
@@ -149,10 +149,10 @@ public:
         sipIsErr = 1;
     else
     {
-		float src[3];
+		qreal src[3];
 		for (int i = 0; i < 3; ++i)
 			src[i] = PyFloat_AsDouble(PySequence_GetItem(a0,i));
-		float res[3];
+		qreal res[3];
 		sipCpp->getLocalCoordinatesOf(src,res);
 		sipRes = PyTuple_New(3);
 		for(int i = 0; i < 3; ++i)
@@ -167,10 +167,10 @@ public:
         sipIsErr = 1;
     else
     {
-		float src[3];
+		qreal src[3];
 		for (int i = 0; i < 3; ++i)
 			src[i] = PyFloat_AsDouble(PySequence_GetItem(a0,i));
-		float res[3];
+		qreal res[3];
 		sipCpp->getLocalInverseCoordinatesOf(src,res);
 		sipRes = PyTuple_New(3);
 		for(int i = 0; i < 3; ++i)
@@ -185,10 +185,10 @@ public:
         sipIsErr = 1;
     else
     {
-		float src[3];
+		qreal src[3];
 		for (int i = 0; i < 3; ++i)
 			src[i] = PyFloat_AsDouble(PySequence_GetItem(a0,i));
-		float res[3];
+		qreal res[3];
 		sipCpp->getCoordinatesOfIn(src,res,a1);
 		sipRes = PyTuple_New(3);
 		for(int i = 0; i < 3; ++i)
@@ -203,10 +203,10 @@ public:
         sipIsErr = 1;
     else
     {
-		float src[3];
+		qreal src[3];
 		for (int i = 0; i < 3; ++i)
 			src[i] = PyFloat_AsDouble(PySequence_GetItem(a0,i));
-		float res[3];
+		qreal res[3];
 		sipCpp->getCoordinatesOfFrom(src,res,a1);
 		sipRes = PyTuple_New(3);
 		for(int i = 0; i < 3; ++i)
@@ -228,10 +228,10 @@ public:
         sipIsErr = 1;
     else
     {
-		float src[3];
+		qreal src[3];
 		for (int i = 0; i < 3; ++i)
 			src[i] = PyFloat_AsDouble(PySequence_GetItem(a0,i));
-		float res[3];
+		qreal res[3];
 		sipCpp->getTransformOf(src,res);
 		sipRes = PyTuple_New(3);
 		for(int i = 0; i < 3; ++i)
@@ -246,10 +246,10 @@ public:
         sipIsErr = 1;
     else
     {
-		float src[3];
+		qreal src[3];
 		for (int i = 0; i < 3; ++i)
 			src[i] = PyFloat_AsDouble(PySequence_GetItem(a0,i));
-		float res[3];
+		qreal res[3];
 		sipCpp->getInverseTransformOf(src,res);
 		sipRes = PyTuple_New(3);
 		for(int i = 0; i < 3; ++i)
@@ -264,10 +264,10 @@ public:
         sipIsErr = 1;
     else
     {
-		float src[3];
+		qreal src[3];
 		for (int i = 0; i < 3; ++i)
 			src[i] = PyFloat_AsDouble(PySequence_GetItem(a0,i));
-		float res[3];
+		qreal res[3];
 		sipCpp->getLocalTransformOf(src,res);
 		sipRes = PyTuple_New(3);
 		for(int i = 0; i < 3; ++i)
@@ -282,10 +282,10 @@ public:
         sipIsErr = 1;
     else
     {
-		float src[3];
+		qreal src[3];
 		for (int i = 0; i < 3; ++i)
 			src[i] = PyFloat_AsDouble(PySequence_GetItem(a0,i));
-		float res[3];
+		qreal res[3];
 		sipCpp->getLocalInverseTransformOf(src,res);
 		sipRes = PyTuple_New(3);
 		for(int i = 0; i < 3; ++i)
@@ -300,10 +300,10 @@ public:
         sipIsErr = 1;
     else
     {
-		float src[3];
+		qreal src[3];
 		for (int i = 0; i < 3; ++i)
 			src[i] = PyFloat_AsDouble(PySequence_GetItem(a0,i));
-		float res[3];
+		qreal res[3];
 		sipCpp->getTransformOfIn(src,res,a1);
 		sipRes = PyTuple_New(3);
 		for(int i = 0; i < 3; ++i)
@@ -318,10 +318,10 @@ public:
         sipIsErr = 1;
     else
     {
-		float src[3];
+		qreal src[3];
 		for (int i = 0; i < 3; ++i)
 			src[i] = PyFloat_AsDouble(PySequence_GetItem(a0,i));
-		float res[3];
+		qreal res[3];
 		sipCpp->getTransformOfFrom(src,res,a1);
 		sipRes = PyTuple_New(3);
 		for(int i = 0; i < 3; ++i)
@@ -407,7 +407,7 @@ public:
         if (len != 4 && len != 16)
             sipIsErr = 1;
         else {
-		    double src[4][4];
+		    GLdouble src[4][4];
 		    if (len == 16){
 		        for (int i = 0; i < 4; ++i)
 		            for (int j = 0; j < 4; ++j)

@@ -8,6 +8,13 @@ import PyQt4.pyqtconfig as pyqtconfig
 
 QGLViewerPath = None if not os.name == 'nt' else os.path.abspath('../libQGLViewer-2.3.17-py')
 
+if not QGLViewerPath:
+    defaultdirs = [pj('/','usr','include'),pj('/','usr','local','include'),pj('/','opt','local','include')]
+    for ddir in defaultdirs:
+        if os.path.exists(pj(ddir, "QGLViewer")):
+            QGLViewerPath = ddir
+            break
+
 class build_ext (sipdistutils.build_ext):
     def _pyqt_sip_dir(self):
         """ Retrieve PyQt include dir for sip  """        
@@ -33,12 +40,7 @@ class build_ext (sipdistutils.build_ext):
     def _gglviewer_version(self):
         """ Retrieve libQGLViewer version """
         if QGLViewerPath is None: 
-            defaultdir = [pj('/','usr','include'),pj('/','usr','local','include'),pj('/','opt','local','include')]
-            for ddir in defaultdir:
-                if os.path.exists(pj(ddir, "QGLViewer")):
-                    qglviewer_sources = ddir
-                    break
-            else: qglviewer_sources = defaultdir[0]
+            qglviewer_sources = pj('/','usr','include')
         else: qglviewer_sources = QGLViewerPath
         qglviewer_config = pj(qglviewer_sources, "QGLViewer", "config.h")
 

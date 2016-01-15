@@ -43,15 +43,23 @@ using qglviewer::Camera;
     void spun();
 
   public slots:
-    void setRotationSensitivity(float sensitivity) ;
-    void setTranslationSensitivity(float sensitivity) ;
-    void setSpinningSensitivity(float sensitivity) ;
-    void setWheelSensitivity(float sensitivity) ;
+    void setRotationSensitivity(qreal sensitivity) ;
+    void setTranslationSensitivity(qreal sensitivity) ;
+    void setSpinningSensitivity(qreal sensitivity) ;
+    void setWheelSensitivity(qreal sensitivity) ;
+    
+%If (QGLViewer_2_6_0 - )
+    void setZoomSensitivity(qreal sensitivity);
+%End
+
   public:
-    float rotationSensitivity() const ;
-    float translationSensitivity() const ;
-    float spinningSensitivity() const ;
-    float wheelSensitivity() const ;
+    qreal rotationSensitivity() const ;
+    qreal translationSensitivity() const ;
+    qreal spinningSensitivity() const ;
+    qreal wheelSensitivity() const ;
+%If (QGLViewer_2_6_0 - )
+    qreal zoomSensitivity() const;
+%End
 
   public:
     bool isSpinning() const ;
@@ -74,6 +82,9 @@ using qglviewer::Camera;
 
   public:
     bool isManipulated() const;
+%If (QGLViewer_2_6_0 - )
+    QGLViewer::MouseAction currentMouseAction() const ;
+%End
 
   public:
     virtual void checkIfGrabsMouse(int x, int y, const Camera* camera /In/);
@@ -84,10 +95,14 @@ using qglviewer::Camera;
     virtual void initFromDOMElement(const QDomElement& element /In/);
 
   protected:
-    Quaternion deformedBallQuaternion(int x, int y, float cx, float cy, const Camera* camera /In/);
+    Quaternion deformedBallQuaternion(int x, int y, qreal cx, qreal cy, const Camera* camera /In/);
     virtual void startAction(int ma, bool withConstraint=true); 
     void computeMouseSpeed(const QMouseEvent* e /In/);
     int mouseOriginalDirection(const QMouseEvent* e /In/);
-
+%If (QGLViewer_2_6_0 - )
+    qreal deltaWithPrevPos(QMouseEvent*  event /In/, Camera* camera /In/) const;
+    /*! Returns a normalized wheel delta, proportionnal to wheelSensitivity(). */
+    qreal wheelDelta(const QWheelEvent* event /In/) const;
+%End
   };
 

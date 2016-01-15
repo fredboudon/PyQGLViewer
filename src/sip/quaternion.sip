@@ -30,16 +30,16 @@ using qglviewer::Quaternion;
 %End
 public:
   Quaternion();
-  Quaternion(const Vec& axis, double angle);
+  Quaternion(const Vec& axis, qreal angle);
   Quaternion(const Vec& from, const Vec& to);
-  Quaternion(double q0, double q1, double q2, double q3);
+  Quaternion(qreal q0, qreal q1, qreal q2, qreal q3);
   Quaternion(const Quaternion& Q);
 
   // Quaternion& operator=(const Quaternion& Q);
 
-  void setAxisAngle(const Vec& axis, double angle);
+  void setAxisAngle(const Vec& axis, qreal angle);
 
-  void setValue(double q0, double q1, double q2, double q3);
+  void setValue(qreal q0, qreal q1, qreal q2, qreal q3);
 
   // void setFromRotationMatrix(const double m[3][3]);
   void setFromRotationMatrix(SIP_PYOBJECT);
@@ -53,7 +53,7 @@ public:
         if (len != 3 && len != 9)
             sipIsErr = 1;
         else {
-		    double src[3][3];
+		    qreal src[3][3];
 		    if (len == 9){
 		        for (int i = 0; i < 3; ++i)
 		            for (int j = 0; j < 3; ++j)
@@ -81,13 +81,11 @@ public:
 
 
   Vec axis() const;
-  float angle() const;
-  void getAxisAngle(Vec& axis /Out/, float& angle /Out/) const;
+  qreal angle() const;
+  void getAxisAngle(Vec& axis /Out/, qreal& angle /Out/) const;
   
-  // double operator[](int i) const ;
-  // double& operator[](int i);
   
-  double __getitem__(int i) const ;
+  qreal __getitem__(int i) const ;
 %MethodCode
   if ((a0 = (int)sipConvertFromSequenceIndex(a0, 4)) < 0)
         sipIsErr = 1;
@@ -95,7 +93,7 @@ public:
        sipRes = (*sipCpp)[a0] ;
 %End
 
-  void __setitem__(int i, double );
+  void __setitem__(int i, qreal );
 %MethodCode
    if ((a0 = (int)sipConvertFromSequenceIndex(a0, 4)) < 0)
         sipIsErr = 1;
@@ -103,7 +101,6 @@ public:
        (*sipCpp)[a0] = a1;
 %End
 
-  // Quaternion& operator*=(const Quaternion& q);
 
   Vec rotate(const Vec& v) const;
   Vec inverseRotate(const Vec& v) const;
@@ -141,7 +138,7 @@ public:
 
   SIP_PYOBJECT getRotationMatrix() const; 
 %MethodCode
-    float values[3][3];
+    qreal values[3][3];
     sipCpp->getRotationMatrix(values);
     sipRes = PyTuple_New(3);
 	for(int i = 0; i < 3; ++i){
@@ -152,11 +149,6 @@ public:
 	}
 %End
 
-  // const GLdouble* inverseMatrix() const;
-  // void getInverseMatrix(GLdouble m[4][4]) const;
-  // void getInverseMatrix(GLdouble m[16]) const;
-  // void getInverseRotationMatrix(float m[3][3]) const;
-  
   SIP_PYOBJECT inverseMatrix() const; 
 %MethodCode
     const GLdouble* values = sipCpp->inverseMatrix();
@@ -179,7 +171,7 @@ public:
 
   SIP_PYOBJECT getInverseRotationMatrix() const; 
 %MethodCode
-    float values[3][3];
+    qreal values[3][3];
     sipCpp->getRotationMatrix(values);
     sipRes = PyTuple_New(3);
 	for(int i = 0; i < 3; ++i){
@@ -191,7 +183,7 @@ public:
 %End
 
 
-  static Quaternion slerp(const Quaternion& a /In/, const Quaternion& b /In/, float t, bool allowFlip=true);
+  static Quaternion slerp(const Quaternion& a /In/, const Quaternion& b /In/, qreal t, bool allowFlip=true);
   static Quaternion squad(const Quaternion& a /In/, const Quaternion& tgA /In/, const Quaternion& tgB /In/, const Quaternion& b /In/, float t);
   static double dot(const Quaternion& a /In/, const Quaternion& b /In/);
 
