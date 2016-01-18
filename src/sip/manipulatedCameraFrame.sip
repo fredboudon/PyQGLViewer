@@ -40,12 +40,19 @@ using qglviewer::Camera;
     // ManipulatedCameraFrame& operator=(const ManipulatedCameraFrame& mcf);
 
   public:
-%If ( - QGLViewer_2_5_1)
     Vec revolveAroundPoint() const;
+
+%If ( - QGLViewer_2_5_1)
     void setRevolveAroundPoint(const Vec& revolveAroundPoint /In/) ; 
 %End
+%If (QGLViewer_2_6_4 - )
+    void setRevolveAroundPoint(const Vec& revolveAroundPoint /In/) ; 
+%End
+%If (QGLViewer_2_5_2 - QGLViewer_2_6_3)
+    void setRevolveArountPoint(const Vec& revolveAroundPoint /In/) /PyName=setRevolveAroundPoint/; 
+%End
 
-%If (QGLViewer_2_5_2 - )
+%If (QGLViewer_2_5_2 -)
     Vec pivotPoint() const;
     void setPivotPoint(const Vec& revolveAroundPoint /In/) ; 
 
