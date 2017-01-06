@@ -204,16 +204,16 @@ public:
 	sipRes = 4;
 %End
  
-  char * __str__() const;
+  const char * __str__() const;
 %MethodCode
         QString val = QString("Quaternion(%1,%2,%3,%4)").arg((*sipCpp)[0]).arg((*sipCpp)[1]).arg((*sipCpp)[2]).arg((*sipCpp)[3]);
-        sipRes = val.toAscii().data();
+        sipRes = qPrintable(val);
 %End
   
-  char * __repr__() const;
+  const char * __repr__() const;
 %MethodCode
         QString val = QString("<Quaternion(%1,%2,%3,%4) at 0x%5>").arg((*sipCpp)[0]).arg((*sipCpp)[1]).arg((*sipCpp)[2]).arg((*sipCpp)[3]).arg((qlonglong)sipCpp,8,16,QChar('0'));
-        sipRes = val.toAscii().data();
+        sipRes = qPrintable(val);
 %End
 
 %PickleCode

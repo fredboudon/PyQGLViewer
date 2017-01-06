@@ -56,9 +56,9 @@ class QGLViewer : QGLWidget
 %End
 
 public:
-    explicit QGLViewer(QWidget* parent /TransferThis/ =0, const QGLWidget* shareWidget=0, Qt::WFlags flags=0);
-    explicit QGLViewer(QGLContext *context, QWidget* parent /TransferThis/=0, const QGLWidget* shareWidget=0, Qt::WFlags flags=0);
-    explicit QGLViewer(const QGLFormat& format, QWidget* parent /TransferThis/=0, const QGLWidget* shareWidget=0, Qt::WFlags flags=0);
+    explicit QGLViewer(QWidget* parent /TransferThis/ =0, const QGLWidget* shareWidget=0, Qt::WindowFlags flags=0);
+    explicit QGLViewer(QGLContext *context, QWidget* parent /TransferThis/=0, const QGLWidget* shareWidget=0, Qt::WindowFlags flags=0);
+    explicit QGLViewer(const QGLFormat& format, QWidget* parent /TransferThis/=0, const QGLWidget* shareWidget=0, Qt::WindowFlags flags=0);
     virtual ~QGLViewer();
     
     bool axisIsDrawn() const;
@@ -523,7 +523,7 @@ public:
 
                     for(QVector<QImage>::const_iterator itImage = a0->begin(); itImage != a0->end(); ++itImage){
                         QImage img = sipCpp->convertToGLFormat(*itImage);
-                        size_t imsize = img.numBytes();
+                        size_t imsize = img.byteCount();
                         memcpy(itTexel,img.bits(),imsize);
                         itTexel += imsize;
                     }

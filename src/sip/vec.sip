@@ -76,16 +76,16 @@ public:
 	sipRes = 3;
 %End
  
-  char * __str__() const;
+  const char * __str__() const;
 %MethodCode
         QString val = QString("Vec(%1,%2,%3)").arg((*sipCpp)[0]).arg((*sipCpp)[1]).arg((*sipCpp)[2]);
-        sipRes = val.toAscii().data();
+        sipRes = qPrintable(val);
 %End
   
-  char * __repr__() const;
+  const char * __repr__() const;
 %MethodCode
         QString val = QString("<Vec(%1,%2,%3) at 0x%4>").arg((*sipCpp)[0]).arg((*sipCpp)[1]).arg((*sipCpp)[2]).arg((qlonglong)sipCpp,8,16,QChar('0'));
-        sipRes = val.toAscii().data();
+        sipRes = qPrintable(val);
 %End
 
 %If (!FRIEND_EQUAL_SUPPORT)

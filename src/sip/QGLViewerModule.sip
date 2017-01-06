@@ -21,8 +21,7 @@
 
 *****************************************************************************/
 
-%Module(name=PyQGLViewer)
-
+%Include QGLViewerModuleConfig.sip
 
 %Import QtCore/QtCoremod.sip
 %Import QtGui/QtGuimod.sip

@@ -28,20 +28,20 @@
 
 %ModuleCode
 
-#define PYQGLVIEWER_VERSION 0x000E01
+#define PYQGLVIEWER_VERSION 0x000F01
 
 static const char * PyQGLViewerVersionString(){
-  return (QString::number((PYQGLVIEWER_VERSION & 0xff0000) >> 16) + "." +
-            QString::number((PYQGLVIEWER_VERSION & 0x00ff00) >> 8) + "." +
-            QString::number(PYQGLVIEWER_VERSION  & 0x0000ff)).toAscii().data();
+  return qPrintable(QString::number((PYQGLVIEWER_VERSION & 0xff0000) >> 16) + "." +
+                     QString::number((PYQGLVIEWER_VERSION & 0x00ff00) >> 8) + "." +
+                     QString::number(PYQGLVIEWER_VERSION  & 0x0000ff));
 }
 
 static const int __version__ = PYQGLVIEWER_VERSION;
 
 static const char * QGLViewerVersionString(){
-  return (QString::number((QGLVIEWER_VERSION & 0xff0000) >> 16) + "." +
-            QString::number((QGLVIEWER_VERSION & 0x00ff00) >> 8) + "." +
-            QString::number(QGLVIEWER_VERSION  & 0x0000ff)).toAscii().data();
+  return qPrintable(QString::number((QGLVIEWER_VERSION & 0xff0000) >> 16) + "." +
+                    QString::number((QGLVIEWER_VERSION & 0x00ff00) >> 8) + "." +
+                    QString::number(QGLVIEWER_VERSION  & 0x0000ff));
 }
 
 static const int QGLViewerVersion = QGLVIEWER_VERSION;
