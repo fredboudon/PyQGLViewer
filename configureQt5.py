@@ -1,16 +1,18 @@
+#! /usr/bin/env python
+
 # Copyright (c) 2016, Riverbank Computing Limited
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # 1. Redistributions of source code must retain the above copyright notice,
 #    this list of conditions and the following disclaimer.
-# 
+#
 # 2. Redistributions in binary form must reproduce the above copyright notice,
 #    this list of conditions and the following disclaimer in the documentation
 #    and/or other materials provided with the distribution.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -25,18 +27,15 @@
 
 # This is v2.0 of this boilerplate.
 
-
 from distutils import sysconfig
 import glob
 import os
 import optparse
 import sys
 
-
 ###############################################################################
 # You shouldn't need to modify anything above this line.
 ###############################################################################
-
 
 class PyQGLViewerConfiguration(object):
     """ This class encapsulates the module specific information. """
@@ -318,7 +317,7 @@ class PackageConfiguration(object):
                 else:
                     libname = 'lib'+libname+'.dylib'
             else:
-                    libname = 'lib'+libname+'.so'            
+                    libname = 'lib'+libname+'.so'
 
             defaultdir = [ qglviewer_includes, pj(qglviewer_includes, "QGLViewer"), pj(qglviewer_includes,os.path.pardir,'lib'),pj('/','usr','lib'),pj('/','usr','local','lib'),pj('/','opt','local','lib')]
             for ddir in defaultdir:
@@ -328,7 +327,7 @@ class PackageConfiguration(object):
                     break
 
         target_configuration.qglviewer_libpath = qglviewer_libpath
-            
+
         if options.qglviewer_includes:
             print ("Found libQGLViewer-%s in '%s'." % (target_configuration.qglviewer_version_str, qglviewer_includes))
         else:
@@ -1139,7 +1138,7 @@ def _create_optparser(target_config, pkg_config):
     if _has_stubs(pkg_config):
         p.add_option('--stubsdir', dest='stubsdir', type='string',
                 default=None, action='callback',
-                callback=optparser_store_abspath, metavar="DIR", 
+                callback=optparser_store_abspath, metavar="DIR",
                 help="the PEP 484 stubs will be installed in DIR [default: "
                         "with the module]")
         p.add_option('--no-stubs', dest='no_stubs', default=False,
@@ -1150,7 +1149,7 @@ def _create_optparser(target_config, pkg_config):
     if pkg_config.qscintilla_api_file:
         p.add_option('--apidir', '-a', dest='apidir', type='string',
                 default=None, action='callback',
-                callback=optparser_store_abspath, metavar="DIR", 
+                callback=optparser_store_abspath, metavar="DIR",
                 help="the QScintilla API file will be installed in DIR "
                         "[default: QT_INSTALL_DATA/qsci]")
         p.add_option('--no-qsci-api', dest='no_qsci_api', default=False,
@@ -1227,7 +1226,7 @@ def _create_optparser(target_config, pkg_config):
                         "[default: %s]" % target_config.pyqt_sip_dir)
 
     p.add_option('--concatenate', '-c', dest='concat', default=False,
-            action='store_true', 
+            action='store_true',
             help="concatenate the C++ source files")
     p.add_option('--concatenate-split', '-j', dest='split', type='int',
             default=1, metavar="N",
@@ -1527,11 +1526,11 @@ INSTALLS += sip
         else:
             entry_point = 'init%s' % mname
 
-        exp = open('%s.exp' % mname, 'wt')
-        exp.write('{ global: %s; local: *; };' % entry_point)
-        exp.close()
+        # exp = open('%s.exp' % mname, 'wt')
+        # exp.write('{ global: %s; local: *; };' % entry_point)
+        # exp.close()
 
-        pro.write('QMAKE_LFLAGS += -Wl,--version-script=%s.exp\n' % mname)
+        # pro.write('QMAKE_LFLAGS += -Wl,--version-script=%s.exp\n' % mname)
 
     if target_config.prot_is_public:
         pro.write('DEFINES += SIP_PROTECTED_IS_PUBLIC protected=public\n')
