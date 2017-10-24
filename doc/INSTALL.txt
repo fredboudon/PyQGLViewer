@@ -1,12 +1,11 @@
-
 This project requires a recent version of SIP (tested with 4.17), Qt4, PyQt4 and libQGLViewer.
 
-Note: PyQt4 should be installed with its sip and development files. 
+Note: PyQt4 should be installed with its sip and development files.
 
 To build Python wrapper , you should simply do the following command
-> python configure.py 
+> python configure.py
 You can specify the source repository of libQGLViewer with -Q option.
-For instance 
+For instance
 > python configure.py -Q ../libQGLViewer-2.2.6-3
 
 Note: on windows you may have to specify the include and lib directories also, using absolute paths
@@ -33,3 +32,11 @@ python setup.py install # to install on your system
 python setup.py bdist   # to create a binary distribution
 
 
+------------
+News:
+The configureQt5.py file has been updated to allow you to compile the project.
+For this,
+chmod u+x configureQt5.py
+./configureQt5.py --qglviewer-sources=/path/to/qglviewer/ --qglviewer-libpath=/path/to/qglviewer/ --qglviewer-libs=QGLViewer --sip-incdir=/usr/local/include/ # --qglviewer-libs=QGLViewer-qt5 on Linux
+make
+sudo make install

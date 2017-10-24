@@ -21,7 +21,7 @@
 
 *****************************************************************************/
 
-class QGLViewer : QGLWidget
+class QGLViewer : QOpenGLWidget
 {
 
 %TypeHeaderCode
@@ -56,11 +56,9 @@ class QGLViewer : QGLWidget
 %End
 
 public:
-    explicit QGLViewer(QWidget* parent /TransferThis/ =0, const QGLWidget* shareWidget=0, Qt::WindowFlags flags=0);
-    explicit QGLViewer(QGLContext *context, QWidget* parent /TransferThis/=0, const QGLWidget* shareWidget=0, Qt::WindowFlags flags=0);
-    explicit QGLViewer(const QGLFormat& format, QWidget* parent /TransferThis/=0, const QGLWidget* shareWidget=0, Qt::WindowFlags flags=0);
+    explicit QGLViewer(QWidget* parent /TransferThis/ =0, QGLWidget *shareWidget = 0, Qt::WindowFlags flags=0);
     virtual ~QGLViewer();
-    
+
     bool axisIsDrawn() const;
     bool gridIsDrawn() const;
     bool FPSIsDisplayed() const;
@@ -79,20 +77,20 @@ public slots:
     void toggleFPSIsDisplayed();
     void toggleTextIsEnabled();
     void toggleCameraIsEdited();
-    
+
 public:
     QColor backgroundColor() const;
     QColor foregroundColor() const;
-    
+
 public slots:
-    
+
     void setBackgroundColor(const QColor& color /In/);
     void setForegroundColor(const QColor& color /In/);
 
 public:
     qreal sceneRadius() const;
     Vec sceneCenter() const;
-    
+
 public slots:
     virtual void setSceneRadius(qreal radius);
     virtual void setSceneCenter(const Vec& center /In/);
@@ -103,16 +101,16 @@ public slots:
 public:
     Camera* camera() const;
     ManipulatedFrame* manipulatedFrame() const;
-    
+
 public slots:
     void setCamera(Camera* camera /Transfer/);
     void setManipulatedFrame(ManipulatedFrame* frame /Transfer/);
-    
+
 public:
     MouseGrabber* mouseGrabber() const;
     void setMouseGrabberIsEnabled(const MouseGrabber * mouseGrabber /In/, bool enabled=true);
     bool mouseGrabberIsEnabled(const MouseGrabber* mouseGrabber /In/);
-    
+
 public slots:
     void setMouseGrabber(MouseGrabber* mouseGrabber /Transfer/);
 
@@ -123,14 +121,14 @@ public:
     bool displaysInStereo() const;
     virtual QSize sizeHint() const;
 
-    
+
 public slots:
     void setFullScreen(bool fullScreen=true);
     void setStereoDisplay(bool stereo=true);
     void toggleFullScreen();
     void toggleStereoDisplay();
     void toggleCameraMode();
-    
+
 public:
     static void drawArrow(qreal length=1.0, qreal radius=-1.0, int nbSubdivisions=12);
     static void drawArrow(const Vec& from, const Vec& to, qreal radius=-1.0, int nbSubdivisions=12);
@@ -149,24 +147,13 @@ protected:
 public:
     int width() const;
     int height() const;
-    virtual void updateGL();
-    static QImage convertToGLFormat(const QImage & image /In/);
-    void qglColor(const QColor& color /In/) const;
-    void qglClearColor(const QColor& color /In/) const;
     bool isValid() const;
-    bool isSharing() const;
     virtual void makeCurrent();
     bool hasMouseTracking () const;
 
 public slots:
     virtual void resize(int width, int height);
     virtual void setMouseTracking(bool enable);
-
-protected:
-    bool autoBufferSwap() const;
-
-protected slots:
-    void setAutoBufferSwap(bool on);
 
 public:
     const QString& snapshotFileName() const;
@@ -175,7 +162,7 @@ public:
     int snapshotQuality();
 
 public slots:
-    void saveSnapshot(bool automatic=true, bool overwrite=false); 
+    void saveSnapshot(bool automatic=true, bool overwrite=false);
     void saveSnapshot(const QString& fileName /In/, bool overwrite=false);
     void setSnapshotFileName(const QString& name /In/);
     void setSnapshotFormat(const QString& format /In/);
@@ -191,7 +178,7 @@ public:
 
 public slots:
     void copyBufferToTexture(GLint internalFormat, GLenum format=GL_NONE);
-      
+
 public:
     bool animationIsStarted() const;
     int animationPeriod() const;
@@ -200,7 +187,7 @@ public slots:
     void setAnimationPeriod(int period);
     virtual void startAnimation();
     virtual void stopAnimation();
-  
+
     virtual void animate();
     void toggleAnimation();
 
@@ -263,56 +250,6 @@ public:
     int selectRegionWidth() const;
     int selectRegionHeight() const;
     void* selectBuffer();
-%MethodCode
-    sipRes = sipCpp->selectBuffer();
-%End
-
-  SIP_PYOBJECT getMultipleSelection() ;
-%MethodCode
-  // Flush GL buffers
-  glFlush();
-
-  // Get the number of objects that were seen through the pick matrix frustum. Reset GL_RENDER mode.
-  GLint nbHits = glRenderMode(GL_RENDER);
-
-  if (nbHits > 0)
-    {
-      sipRes = PyList_New(nbHits);
-      // Interpret results : each object created 4 values in the selectBuffer().
-      // (selectBuffer())[4*i+3] is the id pushed on the stack.
-      GLuint * buffer = sipCpp->selectBuffer();
-      GLuint names;
-      float zmax, zmin;
-      GLuint id;
-      for (int i=0; i<nbHits; ++i)
-      {
-        names = *buffer; ++buffer;
-        zmin = (float)*buffer; ++buffer;
-        zmax = (float)*buffer; ++buffer;
-        PyObject * item = PyTuple_New(3);
-        PyList_SetItem(sipRes,i,item);
-        PyTuple_SetItem(item,0,PyFloat_FromDouble(zmin));
-        PyTuple_SetItem(item,1,PyFloat_FromDouble(zmax));
-        if (names <= 1){
-            id = *buffer; ++buffer;
-            PyTuple_SetItem(item,2,PyLong_FromUnsignedLong(id));
-        }
-        else {
-            PyObject * py_ids = PyList_New(names);
-            for(unsigned int j = 0 ; j < names ; j++){
-                id = *buffer; ++buffer;
-                PyList_SetItem(py_ids,j,PyLong_FromUnsignedLong(id));
-            }
-            PyTuple_SetItem(item,2,py_ids);
-        }
-      }
-    }
-    else { 
-        sipRes = Py_None;
-        Py_INCREF(sipRes);
-    }
-%End
-
 
 public slots:
     virtual void select(const QMouseEvent* event /In/);
@@ -324,7 +261,7 @@ public slots:
     void setSelectedName(int id);
 
  protected:
- 
+
     virtual void beginSelection(const QPoint& point /In/);
     virtual void drawWithNames();
     virtual void endSelection(const QPoint& point /In/);
@@ -335,7 +272,7 @@ public:
                           SAVE_SCREENSHOT, CAMERA_MODE, FULL_SCREEN, STEREO, ANIMATION, HELP, EDIT_CAMERA,
                           MOVE_CAMERA_LEFT, MOVE_CAMERA_RIGHT, MOVE_CAMERA_UP, MOVE_CAMERA_DOWN,
                           INCREASE_FLYSPEED, DECREASE_FLYSPEED, SNAPSHOT_TO_CLIPBOARD
-    }; 
+    };
 
     unsigned int shortcut(KeyboardAction action) const;
 
@@ -378,7 +315,7 @@ public:
                        SCREEN_ROTATE, ROLL, DRIVE,
                        SCREEN_TRANSLATE, ZOOM_ON_REGION };
 
- 
+
     MouseAction mouseAction(unsigned int state) const;
     int mouseHandler(unsigned int state) const;
     int mouseButtonState(MouseHandler handler, MouseAction action, bool withConstraint=true) const;
@@ -408,7 +345,7 @@ public slots:
     void setMouseBinding(unsigned int state, MouseHandler handler, MouseAction action, bool withConstraint=true);
     void setMouseBinding(unsigned int state, ClickAction action, bool doubleClick=false, Qt::MouseButtons buttonsBefore=Qt::NoButton);
     void setMouseBindingDescription(unsigned int state, QString description, bool doubleClick=false, Qt::MouseButtons buttonsBefore=Qt::NoButton);
-    
+
     void setMouseBinding(Qt::KeyboardModifiers modifiers, Qt::MouseButton buttons, MouseHandler handler, MouseAction action, bool withConstraint=true);
     void setMouseBinding(Qt::KeyboardModifiers modifiers, Qt::MouseButton button, ClickAction action, bool doubleClick=false, Qt::MouseButtons buttonsBefore=Qt::NoButton);
     void setWheelBinding(Qt::KeyboardModifiers modifiers, MouseHandler handler, MouseAction action, bool withConstraint=true);
@@ -464,96 +401,10 @@ public:
         long i=0;
         while ((1<<i)<val) i++;
         if (val==(1<<i)) return true;
-        return false;     
+        return false;
      }
 %End
 
-  GLuint bindTexture3D(const QVector<QImage> & images, GLenum target = GL_TEXTURE_3D, GLint format = GL_RGBA );
-%MethodCode
-    
-    sipRes = 0;
-
-#ifdef GL_TEXTURE_3D_NO_DEFAULT_DEFINITION    
-#ifndef APIENTRY
-#define APIENTRY
-#endif
-    typedef void (APIENTRY *_glTexImage3D) (GLenum, GLint, GLint, GLsizei, GLsizei, GLsizei, GLint, GLenum, GLenum, const GLvoid *);
-    static _glTexImage3D glTexImage3D = NULL;
-    if (glTexImage3D == NULL){
-        const QGLContext * context = QGLContext::currentContext();
-        if (context)
-            glTexImage3D = (_glTexImage3D)context->getProcAddress("glTexImage3D");
-    }
-    if (glTexImage3D == NULL){
-        printf("Cannot load 'glTexImage3D' function.\n");
-        sipIsErr = -1;
-    }
-    else {
-#endif    
-    int depth = a0->size();
-    if(depth == 0 || !isPowerOfTwo(depth) ){
-        sipIsErr = -1;
-        printf("Number of images is not a power of two.\n");
-    }
-    else{
-        int w = a0->at(0).width();
-        int h = a0->at(0).height();
-        if( w == 0 || h == 0 || ! isPowerOfTwo(w) || ! isPowerOfTwo(h) ){
-            sipIsErr = -1;
-            printf("Width or height of images are not a power of two.\n");
-        }
-        else{
-             for(QVector<QImage>::const_iterator itImage = a0->begin()+1; (itImage != a0->end()) && (sipIsErr != -1); ++itImage){
-                if (itImage->width() != w || itImage->height() != h){
-                   printf("Width or height of images are not homogeneous.\n");
-                   sipIsErr = -1;
-                }
-             }
-             if (sipIsErr != -1){
-
-                size_t byteperpixel = 4;
-                size_t msize= w*h*depth*byteperpixel;
-                GLubyte * texels = (GLubyte *)malloc(msize);
-                if (texels == NULL) {
-                    printf("Cannot allocate memory for 3D texture.\n");
-                    sipIsErr = -1;
-                }
-                else {
-                    GLubyte * itTexel = texels;
-
-                    for(QVector<QImage>::const_iterator itImage = a0->begin(); itImage != a0->end(); ++itImage){
-                        QImage img = sipCpp->convertToGLFormat(*itImage);
-                        size_t imsize = img.byteCount();
-                        memcpy(itTexel,img.bits(),imsize);
-                        itTexel += imsize;
-                    }
-
-                    if(itTexel != texels+msize) printf("Invalid texture size.\n"); 
-                
-                    glEnable(GL_TEXTURE_3D);
-                    glGenTextures(1, &sipRes);
-                    glBindTexture(GL_TEXTURE_3D, sipRes);
-                    if (sipRes != 0)
-                    {
-                        glTexParameterf(a1, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-                        glTexParameterf(a1, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-                        glTexImage3D(a1, 0, a2, w, h, depth, 0, GL_RGBA, GL_UNSIGNED_BYTE, texels);
-                        GLenum error;
-                        if ((error = glGetError()) != GL_NO_ERROR)
-                            printf("Error with 3D texture creation : %s \n",gluErrorString(error));
-                    }
-                    else {
-                        printf("Cannot generate 3D texture in OpenGL.\n");
-                        sipIsErr = -1;
-                    }
-                    delete [] texels;
-                }
-             }
-#ifdef GL_TEXTURE_3D_NO_DEFAULT_DEFINITION
-        }
-#endif        
-    } }
-%End    
 private:
   QGLViewer(const QGLViewer& v);
 
