@@ -1,0 +1,35 @@
+# do not edit the following line. It will be updated automatically
+{% set version = "1.0.0" %}
+
+package:
+  name: pyqglviewer
+  version: {{ version }}
+
+source:
+  path: ..
+
+
+about:
+  home: https://github.com/fredboudon/PyQGLViewer
+  license: GPL
+  summary: PyQGLViewer is a set of Python bindings for the libQGLViewer C++ library which extends the Qt framework with widgets and tools that eases the creation of OpenGL 3D viewers.
+
+build:
+  number: 1
+
+requirements:
+  build:
+   - python
+   - qt <5
+   - libqglviewer
+   - pyqt
+   - sip
+  run:
+   - qt 
+   - pyqt
+   - libqglviewer
+   - pyopengl
+
+test:
+  imports:
+    - PyQGLViewer

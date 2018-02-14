@@ -1,5 +1,5 @@
-from PyQGLViewer import *
 from PyQt4.QtGui import *
+from PyQGLViewer import *
 import OpenGL.GL as ogl
 import math
 import random as rd
