@@ -7,12 +7,6 @@
 
 PyQGLViewer is a set of Python bindings for the [libQGLViewer](http://artis.imag.fr/~Gilles.Debunne/QGLViewer/) C++ library which extends the Qt framework with widgets and tools that eases the creation of OpenGL 3D viewers. 
 
-{{qglviewer70x75.png|libQGLViewer]]}}
-{{qt.png|TrollTech Qt}}
-{{rb-logo.png|Riverbank PyQt and SIP}}
-{{opengl.png|OpenGL}}
-{{python-powered-w-70x28.png|Python}}
-
   * [libQGLViewer](http://artis.imag.fr/~Gilles.Debunne/QGLViewer/)
   * [Trolltech Qt4](http://www.trolltech.com)
   * [Riverbank PyQt and SIP](http://www.riverbankcomputing.co.uk/pyqt/)
@@ -25,16 +19,39 @@ PyQGLViewer is a set of Python bindings for the [libQGLViewer](http://artis.imag
 PyQGLViewer is licensed under the GPL.
 
 
-## Screenshots =====
-
-See the [[screenshots|Screenshots]]
-
 ## Install
 
-'conda install pyqglviewer -c fredboudon'
-or
-'conda install pyqglviewer -c openalea'
+`conda install pyqglviewer -c fredboudon`
 
+or
+
+`conda install pyqglviewer -c openalea`
+
+## Usage
+
+A simple example of use of PyQGLViewer is
+
+```
+from PyQt4.QtGui import *
+from PyQGLViewer import *
+from qgllogo import draw_qgl_logo
+
+class Viewer(QGLViewer):
+    def __init__(self,parent = None):
+        QGLViewer.__init__(self,parent)
+    def draw(self):
+        draw_qgl_logo()
+  
+def main():
+    qapp = QApplication([])
+    viewer = Viewer()
+    viewer.setWindowTitle("simpleViewer")
+    viewer.show()
+    qapp.exec_()
+
+if __name__ == '__main__':
+    main()
+```
 
 ## Development 
 
