@@ -33,6 +33,39 @@ import optparse
 import sys
 
 
+def in_conda():
+    return 'CONDA_PREFIX' in os.environ or 'PREFIX' in os.environ
+
+def conda_prefix():
+    return os.environ.get('CONDA_PREFIX',os.environ.get('PREFIX','C:'))
+
+def conda_include_prefix():
+    if 'LIBRARY_INC' in os.environ:
+        return os.environ['LIBRARY_INC']
+    else:
+        if sys.platform == 'win32':
+            incsuffix = os.path.join('Library','include')
+        else:
+            incsuffix = 'include'
+        return os.path.join(conda_prefix(),incsuffix)
+
+def conda_lib_prefix():
+    if 'LIBRARY_LIB' in os.environ:
+        return os.environ['LIBRARY_LIB']
+    else:
+        if sys.platform == 'win32':
+            incsuffix = os.path.join('Library','lib')
+        else:
+            incsuffix = 'lib'
+        return os.path.join(conda_prefix(),incsuffix)
+
+def conda_sip_prefix():
+    if sys.platform == 'win32':
+        sipsuffix = 'sip'
+    else:
+        sipsuffix = os.path.join('share','sip')
+    return os.path.join(conda_prefix(),sipsuffix)
+
 ###############################################################################
 # You shouldn't need to modify anything above this line.
 ###############################################################################
@@ -84,7 +117,7 @@ class PyQGLViewerConfiguration(object):
         if target_configuration.py_platform == 'darwin' and target_configuration.qglviewer_framework:
             res.update({'LIBS' : '-F'+ target_configuration.qglviewer_libpath+' -framework '+target_configuration.qglviewer_libs })
         else:
-            res.update({'LIBS' : '-L '+ target_configuration.qglviewer_libpath+' -l'+ target_configuration.qglviewer_libs})
+            res.update({'LIBS' : '-L'+ target_configuration.qglviewer_libpath+' -l'+ target_configuration.qglviewer_libs})
 
 
         print res
@@ -225,8 +258,10 @@ class PackageConfiguration(object):
                 help="disable the installation of the .sip files "
                         "[default: enabled]")
 
-        if sys.platform == 'win32':
-            defaultinstallpathes = [ 'C:']
+        if in_conda():
+            defaultincludepathes = [ conda_include_prefix() ]
+        elif sys.platform == 'win32':
+            defaultincludepathes = [ 'C:']
         else:
             defaultincludepathes = [ '/usr/local/include', '/opt/local/include', '/usr/include']
 
@@ -296,7 +331,7 @@ class PackageConfiguration(object):
             # Get the qglviewer version string.
             QGLVIEWER_VERSION  = eval(read_define(qglviewer_config, "QGLVIEWER_VERSION"))
         else:
-            raise 'Cannot find libQGLViewer headers. Use option -Q for that.'
+            raise ValueError('Cannot find libQGLViewer headers. Use option -Q for that.')
 
         if QGLVIEWER_VERSION_STR is None:
             QGLVIEWER_VERSION_STR = str((QGLVIEWER_VERSION & 0xff0000) >> 16)+'.'+str((QGLVIEWER_VERSION & 0x00ff00) >> 8)+'.'+str((QGLVIEWER_VERSION  & 0x0000ff))
@@ -311,7 +346,7 @@ class PackageConfiguration(object):
         if qglviewer_libpath is None or not os.path.exists(qglviewer_libpath):
             libname = options.qglviewer_libs
             if sys.platform == 'win32':
-                libname += '.dll'
+                libname += '2.lib'
             elif sys.platform == 'darwin':
                 if options.qglviewer_framework:
                     libname += '.framework'
@@ -321,11 +356,17 @@ class PackageConfiguration(object):
                     libname = 'lib'+libname+'.so'            
 
             defaultdir = [ qglviewer_includes, pj(qglviewer_includes, "QGLViewer"), pj(qglviewer_includes,os.path.pardir,'lib'),pj('/','usr','lib'),pj('/','usr','local','lib'),pj('/','opt','local','lib')]
+            if in_conda():
+                defaultdir += [ conda_lib_prefix() ]
+
             for ddir in defaultdir:
-                print 'Testing', pj(ddir, libname)
+                print 'Testing', pj(ddir, libname),
                 if os.path.exists(pj(ddir, libname)):
-                    qglviewer_libpath = ddir
+                    qglviewer_libpath = os.path.abspath(ddir)
+                    print ' ... found.'
                     break
+                else:
+                    print
 
         target_configuration.qglviewer_libpath = qglviewer_libpath
             
@@ -1056,9 +1097,15 @@ class _TargetConfiguration:
                 self.pyqt_sip_dir = opts.pyqt_sip_dir
             else:
                 if self.pyqt_package == 'PyQt4':
-                    import PyQt4.pyqtconfig as pyqtconfig
-                    cfg = pyqtconfig.Configuration()
-                    self.pyqt_sip_dir = cfg.pyqt_sip_dir
+                    try:
+                        import PyQt4.pyqtconfig as pyqtconfig
+                        cfg = pyqtconfig.Configuration()
+                        self.pyqt_sip_dir = cfg.pyqt_sip_dir
+                    except ImportError, ie:
+                        if in_conda():
+                            self.pyqt_sip_dir = os.path.join(conda_sip_prefix(),'PyQt4')
+                        else:
+                            import PyQt4.pyqtconfig as pyqtconfig
                 else:
                     self.pyqt_sip_dir = os.path.join(self.py_sip_dir, self.pyqt_package)
 
