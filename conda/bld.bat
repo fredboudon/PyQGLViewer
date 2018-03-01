@@ -1,12 +1,10 @@
-%PYTHON% configure.py -I $PREFIX/include \
--I $PREFIX/include/Qt -I $PREFIX/include/QtCore -I $PREFIX/include/QtOpenGL -I $PREFIX/include/QtXml -I $PREFIX/include/QtGUI \
--L $PREFIX/lib
+%PYTHON% configureQt5.py --verbose --pyqt=PyQt4
 
 if errorlevel 1 exit 1
 
-nmake
+nmake release
 
 if errorlevel 1 exit 1
 
-COPY src/python/PyQGLViewer.py $SP_DIR
-COPY build/PyQGLViewerQt4/PyQGLViewerQt4.* $SP_DIR
+COPY src\python\PyQGLViewer.py %SP_DIR%
+COPY build\PyQGLViewerQt4\PyQGLViewerQt4.pyd %SP_DIR%

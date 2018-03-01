@@ -22,11 +22,13 @@ requirements:
    - python
    - qt <5
    - libqglviewer
-   - pyqt
+   - pyqt 4.11 [win]
+   - pyqt      [not win]
    - sip
   run:
    - qt 
-   - pyqt
+   - pyqt 4.11 [win]
+   - pyqt      [not win]
    - libqglviewer
    - pyopengl
 
