@@ -31,7 +31,7 @@ or
 
 A simple example of use of PyQGLViewer is
 
-```
+```python
 from PyQt4.QtGui import *
 from PyQGLViewer import *
 from qgllogo import draw_qgl_logo
