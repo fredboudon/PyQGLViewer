@@ -1,7 +1,7 @@
 #!/bin/bash
 
-export CXXFLAGS="-stdlib=libc++ -std=c++17"
-export LINKFLAGS="-stdlib=libc++ -std=c++17"
+export CXXFLAGS="-stdlib=libc++ -std=c++14"
+export LINKFLAGS="-stdlib=libc++ -std=c++14"
 
 if [ "$(uname)" == "Darwin" ];
 then
