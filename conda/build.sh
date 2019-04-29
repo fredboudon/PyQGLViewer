@@ -1,16 +1,18 @@
 #!/bin/bash
 
+export CXXFLAGS="-stdlib=libc++ -std=c++17"
+export LINKFLAGS="-stdlib=libc++ -std=c++17"
+
 if [ "$(uname)" == "Darwin" ];
 then
     export CC=clang
     export CXX=clang++
 
-    export MACOSX_VERSION_MIN=10.7
-    export CXXFLAGS="-mmacosx-version-min=${MACOSX_VERSION_MIN}"
-export CXXFLAGS="${CXXFLAGS} -stdlib=libc++ -std=c++11"
-    export LINKFLAGS="-mmacosx-version-min=${MACOSX_VERSION_MIN}"
-export LINKFLAGS="${LINKFLAGS} -stdlib=libc++ -std=c++11 "
-    export QMAKESPEC=macx-g++
+    export MACOSX_VERSION_MIN=10.11
+	export QMAKESPEC=macx-g++
+	
+    CXXFLAGS="${CXXFLAGS} -mmacosx-version-min=${MACOSX_VERSION_MIN}"
+    LINKFLAGS="${LINKFLAGS} -mmacosx-version-min=${MACOSX_VERSION_MIN}"
 fi
 
 if [ "$(uname)" == "Linux" ];
@@ -26,4 +28,4 @@ $PYTHON configure.py  -I $PREFIX/include \
 make
 
 cp src/python/PyQGLViewer.py $SP_DIR
-cp build/PyQGLViewerQt4/PyQGLViewerQt4.* $SP_DIR
+cp build/PyQGLViewerQt5/PyQGLViewerQt5.* $SP_DIR

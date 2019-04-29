@@ -31,26 +31,29 @@ class QGLViewer : QGLWidget
 #include <QtOpenGL/qgl.h>
 
 #ifdef Q_OS_MAC
-#include <OpenGL/glu.h>
+	#include <OpenGL/glu.h>
 #else
-#include <GL/glu.h>
+	#include <GL/glu.h>
 #endif
 
 #ifdef Q_WS_X11
-#define GL_GLEXT_PROTOTYPES
-#include <GL/glext.h>
+	#define GL_GLEXT_PROTOTYPES
+	#include <GL/glext.h>
 #endif
 
 #ifndef GL_BGRA
-#define GL_BGRA 0x80E1
+	#define GL_BGRA 0x80E1
 #endif
 
 #ifndef GL_TEXTURE_3D
-#define GL_TEXTURE_3D 0x806F
-#define GL_TEXTURE_3D_NO_DEFAULT_DEFINITION
-#ifdef Q_WS_X11
-#warning "No default glTexture3D definition found"
-#endif
+	#define GL_TEXTURE_3D 0x806F
+	#define GL_TEXTURE_3D_NO_DEFAULT_DEFINITION
+	
+	#ifdef Q_WS_X11
+		#warning "No default glTexture3D definition found"
+	#else
+		#pragma message("No default glTexture3D definition found")
+	#endif
 #endif
 
 %End
@@ -473,7 +476,7 @@ public:
     
     sipRes = 0;
 
-#ifdef GL_TEXTURE_3D_NO_DEFAULT_DEFINITION    
+//#ifdef GL_TEXTURE_3D_NO_DEFAULT_DEFINITION    
 #ifndef APIENTRY
 #define APIENTRY
 #endif
@@ -489,7 +492,7 @@ public:
         sipIsErr = -1;
     }
     else {
-#endif    
+//#endif    
     int depth = a0->size();
     if(depth == 0 || !isPowerOfTwo(depth) ){
         sipIsErr = -1;
@@ -549,9 +552,9 @@ public:
                     delete [] texels;
                 }
              }
-#ifdef GL_TEXTURE_3D_NO_DEFAULT_DEFINITION
+//#ifdef GL_TEXTURE_3D_NO_DEFAULT_DEFINITION
         }
-#endif        
+//#endif        
     } }
 %End    
 private:
