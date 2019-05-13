@@ -20,7 +20,7 @@ then
     export QMAKESPEC=linux-g++
 fi
 
-$PYTHON configureQt5.py -I $PREFIX/include -I $PREFIX/include/Qt -I $PREFIX/include/QtCore -I $PREFIX/include/QtOpenGL -I $PREFIX/include/QtXml -I $PREFIX/include/QtGUI -I $PREFIX/include/QtWidgets -L $PREFIX/lib --extra-cxxflags="${CXXFLAGS}" --extra-lflags="${LINKFLAGS}"
+$PYTHON configureQt5.py --verbose --pyqt=PyQt5
 
 make
 
