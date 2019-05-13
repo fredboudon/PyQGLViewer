@@ -1,18 +1,18 @@
 #!/bin/bash
 
-export CXXFLAGS="-stdlib=libc++ -std=c++14"
-export LINKFLAGS="-stdlib=libc++ -std=c++14"
+export CXXFLAGS=""
+export LINKFLAGS=""
 
 if [ "$(uname)" == "Darwin" ];
 then
     export CC=clang
     export CXX=clang++
 
-    export MACOSX_VERSION_MIN=10.11
+    export MACOSX_VERSION_MIN=10.9
 	export QMAKESPEC=macx-g++
 	
-    CXXFLAGS="${CXXFLAGS} -mmacosx-version-min=${MACOSX_VERSION_MIN}"
-    LINKFLAGS="${LINKFLAGS} -mmacosx-version-min=${MACOSX_VERSION_MIN}"
+    CXXFLAGS="${CXXFLAGS} -stdlib=libc++ -mmacosx-version-min=${MACOSX_VERSION_MIN}"
+    LINKFLAGS="${LINKFLAGS} -stdlib=libc++ -mmacosx-version-min=${MACOSX_VERSION_MIN}"
 fi
 
 if [ "$(uname)" == "Linux" ];
