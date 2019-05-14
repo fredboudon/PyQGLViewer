@@ -1580,8 +1580,6 @@ INSTALLS += sip
         exp.write('{ global: %s; local: *; };' % entry_point)
         exp.close()
 
-        pro.write('QMAKE_LFLAGS += -Wl,--version-script=%s.exp\n' % mname)
-
     if target_config.prot_is_public:
         pro.write('DEFINES += SIP_PROTECTED_IS_PUBLIC protected=public\n')
 
