@@ -9,7 +9,7 @@ then
     export CXX=clang++
 
     export MACOSX_VERSION_MIN=10.9
-	export QMAKESPEC=macx-g++
+	export QMAKESPEC=macx-clang
 	
     CXXFLAGS="${CXXFLAGS} -stdlib=libc++ -mmacosx-version-min=${MACOSX_VERSION_MIN}"
     LINKFLAGS="${LINKFLAGS} -stdlib=libc++ -mmacosx-version-min=${MACOSX_VERSION_MIN}"
