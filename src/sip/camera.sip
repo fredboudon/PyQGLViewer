@@ -100,7 +100,7 @@ public:
 	sipCpp->getViewport(viewport);
 	sipRes = PyList_New(4);
 	for(int i = 0; i < 4; ++i)
-		PyList_SetItem(sipRes,i,PyInt_FromLong(viewport[i]));
+		PyList_SetItem(sipRes,i,PyLong_FromLong(viewport[i]));
 %End
 
     qreal pixelGLRatio(Vec position) const;
