@@ -316,11 +316,13 @@ def setup_qglviewer_build(configuration, options, package):
     copy_files(extra_py_files, tmp_dir)
 
     pyqt_sip_flags = configuration.pyqt_sip_flags if type(configuration) != dict else configuration['sip_flags']
-    pyqt_sip_dir = configuration.pyqt_sip_dir.replace('\\', '/')
+    pyqt_sip_dir = configuration.pyqt_sip_dir if type(configuration) != dict else configuration['pyqt_sip_dir']
+    pyqt_sip_dir = pyqt_sip_dir.replace('\\', '/')
+    sip_bin = configuration.sip_bin  if type(configuration) != dict else configuration['sip_bin']
         
     # invoke SIP
     cmd = ' '.join(
-        [configuration.sip_bin,
+        [sip_bin,
          # SIP assumes POSIX style path separators
          '-I', pyqt_sip_dir,
          '-b', build_file,
@@ -447,17 +449,27 @@ def parse_args():
 
     parser = optparse.OptionParser(usage=usage)
 
-    if sys.platform == 'win32':
-        defaultinstallpathes = [ 'C:']
+    if 'CONDA_PREFIX' in os.environ or 'PREFIX' in os.environ :
+        if 'LIBRARY_INC' in os.environ:
+            defaultincludepathes = [ os.environ['LIBRARY_INC']]
+        else:
+            if sys.platform == 'win32':
+                incsuffix = os.path.join('Library','include')
+            else:
+                incsuffix = 'include'
+            defaultincludepathes = [ os.path.join(os.environ.get('CONDA_PREFIX',os.environ.get('CONDA_PREFIX','C:')),incsuffix)]            
+    elif sys.platform == 'win32':
+        defaultincludepathes = [ 'C:']
     else:
-        defaultinstallpathes = [ '/usr/local/include', '/opt/local/include', '/usr/include']
+        defaultincludepathes = [ '/usr/local/include', '/opt/local/include', '/usr/include']
 
-    for installpath in defaultinstallpathes:
+    print(defaultincludepathes)
+    for installpath in defaultincludepathes:
         if os.path.exists(installpath) and os.path.exists(os.path.join(installpath, 'QGLViewer')):
             defaultinstallpath = installpath
             break
     else:
-        defaultinstallpath = defaultinstallpathes[-1]
+        defaultinstallpath = defaultincludepathes[-1]
 
     common_options = optparse.OptionGroup(parser, 'Common options')
     common_options.add_option(
@@ -640,7 +652,10 @@ def main():
         pprint.pprint(options.__dict__)
         print
 
+    #try:
     configuration = get_pyqt_configuration(options)
+    #except:
+    #    configuration = {'sip_flags' : '-x VendorID -t WS_WIN -x PyQt_NoPrintRangeBug -t Qt_4_8_7 -x Py_v3 -g', 'pyqt_sip_dir' : os.path.join(os.environ['CONDA_PREFIX'],'sip','PyQt4'),'sip_bin' : 'sip'}
     
     #options = check_sip(configuration, options)
     options = check_os(configuration, options)

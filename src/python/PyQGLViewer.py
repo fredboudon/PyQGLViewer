@@ -12,6 +12,7 @@ def loaded_api():
     """
     import sys
     if 'PyQt4.QtCore' in sys.modules:
+        print ('qt4.core imported')
         return PYQT4_API
     elif 'PyQt5.QtCore' in sys.modules:
         return PYQT5_API
@@ -21,9 +22,14 @@ def loaded_api():
 
 PYQT_API = loaded_api()
 
-if PYQT_API == PYQT4_API or PYQT_API is None:
+if PYQT_API == PYQT4_API :
     from PyQGLViewerQt4 import *
 elif PYQT_API == PYQT5_API :
     from PyQGLViewerQt5 import *
+elif PYQT_API is None:
+    try:
+        from PyQGLViewerQt4 import *
+    except ImportError as ie:
+        from PyQGLViewerQt5 import *
 else:
     raise ImportError()

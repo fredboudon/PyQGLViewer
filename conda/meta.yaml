@@ -8,7 +8,6 @@ package:
 source:
   path: ..
 
-
 about:
   home: https://github.com/fredboudon/PyQGLViewer
   license: GPL
@@ -20,12 +19,13 @@ build:
 requirements:
   build:
    - python
-   - qt <5
-   - libqglviewer
+   - qt =5
    - pyqt
+   - libqglviewer
    - sip
   run:
-   - qt 
+   - python
+   - qt =5
    - pyqt
    - libqglviewer
    - pyopengl

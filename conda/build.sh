@@ -1,10 +1,28 @@
 #!/bin/bash
 
-export PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig
+export CXXFLAGS=""
+export LINKFLAGS=""
 
-$PYTHON configure.py  
+if [ "$(uname)" == "Darwin" ];
+then
+    export CC=clang
+    export CXX=clang++
+
+    export MACOSX_VERSION_MIN=10.9
+	export QMAKESPEC=macx-clang
+	
+    CXXFLAGS="${CXXFLAGS} -stdlib=libc++ -mmacosx-version-min=${MACOSX_VERSION_MIN}"
+    LINKFLAGS="${LINKFLAGS} -stdlib=libc++ -mmacosx-version-min=${MACOSX_VERSION_MIN}"
+fi
+
+if [ "$(uname)" == "Linux" ];
+then
+    export QMAKESPEC=linux-g++
+fi
+
+$PYTHON configureQt5.py --verbose --pyqt=PyQt5
 
 make
 
 cp src/python/PyQGLViewer.py $SP_DIR
-cp build/PyQGLViewerQt4/PyQGLViewerQt4.* $SP_DIR
+cp build/PyQGLViewerQt5/PyQGLViewerQt5.* $SP_DIR
