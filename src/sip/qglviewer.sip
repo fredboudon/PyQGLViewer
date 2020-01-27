@@ -158,12 +158,12 @@ public:
     void qglClearColor(const QColor& color /In/) const;
     bool isValid() const;
     bool isSharing() const;
-    virtual void makeCurrent();
+    void makeCurrent();
     bool hasMouseTracking () const;
 
 public slots:
-    virtual void resize(int width, int height);
-    virtual void setMouseTracking(bool enable);
+    void resize(int width, int height);
+    void setMouseTracking(bool enable);
 
 protected:
     bool autoBufferSwap() const;
@@ -188,6 +188,8 @@ public slots:
     void snapshotToClipboard();
 
 public:
+    QFont scaledFont(const QFont& font) const;
+
     GLuint bufferTextureId() const;
     qreal bufferTextureMaxU() const;
     qreal bufferTextureMaxV() const;

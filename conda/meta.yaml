@@ -1,5 +1,5 @@
 # do not edit the following line. It will be updated automatically
-{% set version = "1.0.0" %}
+{% set version = "1.1.0" %}
 
 package:
   name: pyqglviewer
@@ -17,18 +17,37 @@ build:
   number: 1
 
 requirements:
+  run_constrained:                                            # [osx]
+    - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
+  host:
+    - python
+    - qt
+    - pyqt
+    - libqglviewer
   build:
-   - python
-   - qt =5
-   - pyqt
-   - libqglviewer
-   - sip
+    - sip
+    - make                               # [unix]
+    - {{ compiler('cxx')}} 
+    - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
+    - {{ cdt('libx11-devel') }}          # [linux]
+    - {{ cdt('libxext-devel') }}         # [linux]
+    - {{ cdt('libxrender-devel') }}      # [linux]
+    - {{ cdt('mesa-libgl-devel') }}      # [linux]
+    - {{ cdt('mesa-libegl-devel') }}     # [linux]
+    - {{ cdt('mesa-dri-drivers') }}      # [linux]
+    - {{ cdt('libxdamage') }}            # [linux]
+    - {{ cdt('libxdamage-devel') }}      # [linux]
+    - {{ cdt('libxfixes') }}             # [linux]
+    - {{ cdt('libxfixes-devel') }}       # [linux]
+    - {{ cdt('libxxf86vm') }}            # [linux]
+    - {{ cdt('libxxf86vm-devel') }}      # [linux]
+    - {{ cdt('libselinux-devel') }}      # [linux]
   run:
-   - python
-   - qt =5
-   - pyqt
-   - libqglviewer
-   - pyopengl
+    - python
+    - qt
+    - pyqt
+    - libqglviewer
+    - pyopengl
 
 test:
   imports:

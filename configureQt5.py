@@ -771,7 +771,6 @@ class _TargetConfiguration:
         """ Initialise the configuration with default values.  pkg_config is
         the package configuration.
         """
-
         # Values based on the host Python configuration.
         py_config = _HostPythonConfiguration()
         self.py_platform = py_config.platform
@@ -782,6 +781,7 @@ class _TargetConfiguration:
         self.py_pylib_dir = py_config.lib_dir
         self.py_sip_dir = os.path.join(py_config.data_dir, 'sip')
         self.sip_inc_dir = py_config.venv_inc_dir
+        self.qmake = pkg_config.qmake if hasattr(pkg_config, 'qmake') else None
 
         # The default qmake spec.
         if self.py_platform == 'win32':
@@ -1484,15 +1484,17 @@ def _generate_pro(target_config, opts, module_config):
     module configuration.
     """
 
-    inform("Generating the .pro file for the %s module..." % module_config.name)
+    profname = os.path.join(target_config.builddir, module_config.name, module_config.name + '.pro')
+    inform("Generating the .pro file for the %s module... %s" % (module_config.name, repr(profname)))
 
     # Without the 'no_check_exist' magic the target.files must exist when qmake
     # is run otherwise the install and uninstall targets are not generated.
 
     qmake_config = module_config.get_qmake_configuration(target_config)
 
-    pro = open(os.path.join(target_config.builddir, module_config.name, module_config.name + '.pro'),
-            'w')
+
+
+    pro = open(profname, 'w')
 
     pro.write('TEMPLATE = lib\n')
 
