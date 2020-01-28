@@ -35,10 +35,11 @@ then
 fi
 
 echo "**** CONFIGURE"
-$PYTHON configureQt5.py --verbose --pyqt=PyQt5 -Q $PREFIX/include --destdir=$SP_DIR --qmake=${PREFIX}/bin/qmake --sip=${PREFIX}/bin/sip
+$PYTHON configureQt5.py --verbose --pyqt=PyQt5 -Q $PREFIX/include --destdir=$SP_DIR --qmake=${PREFIX}/bin/qmake --sip=${PREFIX}/bin/sip --qglviewer-libs=QGLViewer-qt5 --qglviewer-libpath=${PREFIX}/lib
 cat build/PyQGLViewerQt5/PyQGLViewerQt5.pro
 
-qmake build/PyQGLViewerQt5/PyQGLViewerQt5.pro \
+cd build/PyQGLViewerQt5
+qmake PyQGLViewerQt5.pro \
     PREFIX="${PREFIX}"             \
     QTC_PREFIX="${PREFIX}"             \
     QBS_INSTALL_PREFIX="${PREFIX}"     \
@@ -50,11 +51,12 @@ qmake build/PyQGLViewerQt5/PyQGLViewerQt5.pro \
     QMAKE_OBJDUMP=${OBJDUMP} \
     QMAKE_STRIP=${STRIP} \
     QMAKE_AR_CMD="${AR} cqs" \
-    QMAKE_CXXFLAGS_RELEASE="${CXXFLAGS}"
-    QMAKE_CFLAGS_RELEASE="${CFLAGS}"
-    QMAKE_LFLAGS_RELEASE="${LDFLAGS}"
+    QMAKE_CXXFLAGS_RELEASE="${CXXFLAGS}" \
+    QMAKE_CFLAGS_RELEASE="${CFLAGS}" \
+    QMAKE_LFLAGS_RELEASE="${LDFLAGS}" \
     QT_SYSROOT="${CONDA_BUILD_SYSROOT}" \
-    QMAKE_MACOSX_DEPLOYMENT_TARGET="${MACOSX_DEPLOYMENT_TARGET}" \
+    QMAKE_MACOSX_DEPLOYMENT_TARGET="${MACOSX_DEPLOYMENT_TARGET}" 
+cd ../..
 
 echo "**** COMPILE"
 make
