@@ -1,41 +1,19 @@
 #!/bin/bash
 
-#export CXXFLAGS=""
-#export LINKFLAGS=""
-
 if [ "$(uname)" == "Darwin" ];
 then
-    #export CC=clang
-    #export CXX=clang++
-
     export MACOSX_VERSION_MIN=10.9
-	#export QMAKESPEC=macx-clang
-	
-    #CXXFLAGS="${CXXFLAGS} -stdlib=libc++ -mmacosx-version-min=${MACOSX_VERSION_MIN}"
-    export LINKFLAGS="${LINKFLAGS} -undefined dynamic_lookup"  # -stdlib=libc++ -mmacosx-version-min=${MACOSX_VERSION_MIN}"
-    export QTC_PREFIX="${PREFIX}"             
-    export QBS_INSTALL_PREFIX="${PREFIX}"     
-    export LLVM_INSTALL_DIR="${PREFIX}"       
-    export QMAKE_CC=${CC} 
-    export QMAKE_CXX=${CXX} 
-    export QMAKE_LINK=${CXX} 
-    export QMAKE_RANLIB=${RANLIB} 
-    export QMAKE_OBJDUMP=${OBJDUMP} 
-    export QMAKE_STRIP=${STRIP} 
-    export QMAKE_AR="${AR} cqs" 
-
-    alias qmake="${PREFIX}/bin/qmake"
-    export QTDIR=${PREFIX}
-
+    export QGLVIEWER_SUFFIX=''
 fi
 
 if [ "$(uname)" == "Linux" ];
 then
     export QMAKESPEC=linux-g++
+    export QGLVIEWER_SUFFIX='-qt5'
 fi
 
 echo "**** CONFIGURE"
-$PYTHON configureQt5.py --verbose --pyqt=PyQt5 -Q $PREFIX/include --destdir=$SP_DIR --qmake=${PREFIX}/bin/qmake --sip=${PREFIX}/bin/sip --qglviewer-libs=QGLViewer-qt5 --qglviewer-libpath=${PREFIX}/lib
+$PYTHON configureQt5.py --verbose --pyqt=PyQt5 -Q $PREFIX/include --destdir=$SP_DIR --qmake=${PREFIX}/bin/qmake --sip=${PREFIX}/bin/sip --qglviewer-libs=QGLViewer${QGLVIEWER_SUFFIX} --qglviewer-libpath=${PREFIX}/lib
 cat build/PyQGLViewerQt5/PyQGLViewerQt5.pro
 
 cd build/PyQGLViewerQt5
@@ -71,5 +49,12 @@ echo "****** CHECK PYTHON LIB"
 # See https://github.com/conda-forge/boost-feedstock/issues/81
 if [ `uname` = "Darwin" ]; then
     otool -L $SP_DIR/PyQGLViewerQt5.so
+fi
+
+
+if [ "$(uname)" == "Linux" ];
+then
+    ldd $SP_DIR/PyQGLViewerQt5.so
+
 fi
 echo "****** END OF BUILD PROCESS"
