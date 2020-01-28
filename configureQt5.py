@@ -116,10 +116,15 @@ class PyQGLViewerConfiguration(object):
 
         if target_configuration.py_platform == 'darwin' and target_configuration.qglviewer_framework:
             res.update({'LIBS' : '-F'+ target_configuration.qglviewer_libpath+' -framework '+target_configuration.qglviewer_libs })
-        elif sys.platform == 'win32':
-            res.update({'LIBS' : '-L'+ target_configuration.qglviewer_libpath+' -l'+ target_configuration.qglviewer_libs+'2 -lopengl32 -lglu32'})
         else:
-            res.update({'LIBS' : '-L'+ target_configuration.qglviewer_libpath+' -l'+ target_configuration.qglviewer_libs})
+            lib = ''
+            if not target_configuration.qglviewer_libpath is None:
+                lib += '-L'+ target_configuration.qglviewer_libpath
+            lib += ' -l'+ target_configuration.qglviewer_libs
+
+            if sys.platform == 'win32':
+                lib += '2 -lopengl32 -lglu32'
+            res.update({'LIBS' : lib})
 
         print(res)
         return res
@@ -319,7 +324,7 @@ class PackageConfiguration(object):
         qglviewer_includes = options.qglviewer_includes
         if qglviewer_includes is None or not os.path.exists(qglviewer_includes):
             options.qglviewer_includes = None
-            defaultdir = [pj('/','usr','include'),pj('/','usr','local','include'),pj('/','opt','local','include')]
+            defaultdir = [ conda_include_prefix() , pj('/','usr','include'),pj('/','usr','local','include'),pj('/','opt','local','include')]
             for ddir in defaultdir:
                 if os.path.exists(pj(ddir, "QGLViewer")):
                     qglviewer_includes = ddir
