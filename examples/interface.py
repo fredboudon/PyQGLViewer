@@ -1,5 +1,5 @@
-from PyQt4.QtGui import *
-from PyQt4 import uic
+from PyQt5.QtGui import *
+from PyQt5 import uic
 import os
 
 help_str = """<h2>I n t e r f a c e</h2>

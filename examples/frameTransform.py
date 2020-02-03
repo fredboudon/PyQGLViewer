@@ -1,4 +1,4 @@
-from PyQt4.QtGui import *
+from PyQt5.QtGui import *
 from PyQGLViewer import *
 import OpenGL.GL as ogl
 from math import sin,cos,pi

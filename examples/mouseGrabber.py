@@ -1,4 +1,4 @@
-from PyQt4.QtGui import *
+from PyQt5.QtGui import *
 from PyQGLViewer import *
 from qgllogo import *
 import OpenGL.GL as ogl
