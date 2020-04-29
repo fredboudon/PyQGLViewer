@@ -1,0 +1,3 @@
+*.pyc
+.*.xml
+src/sip/QGLViewerModuleConfig.sip
