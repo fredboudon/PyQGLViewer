@@ -1,4 +1,4 @@
-language: python
+language: cpp
 
 os:
   - linux
@@ -12,10 +12,10 @@ services:
 env:
  - CONDA_RECIPE=conda
    CONDA_VERSION=3
-   PYTHON_VERSION=3.7   
+   CONDA_PY=37   
  - CONDA_RECIPE=conda
    CONDA_VERSION=3
-   PYTHON_VERSION=3.8
+   CONDA_PY=38
 
 install:
   - git clone https://github.com/openalea/travis-ci.git
