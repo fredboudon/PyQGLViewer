@@ -10,12 +10,15 @@ services:
   - docker
 
 env:
- - CONDA_RECIPE=conda
-   CONDA_VERSION=3
-   CONDA_PY=37   
- - CONDA_RECIPE=conda
-   CONDA_VERSION=3
-   CONDA_PY=38
+  global:
+      - CONDA_RECIPE=conda CONDA_VERSION=3 
+  jobs:
+      - CONDA_PY=37   
+      - CONDA_PY=38 
+      - CONDA_PY=39 
+#jobs :
+#    allow_failures:
+#    - env : CONDA_RECIPE=conda CONDA_VERSION=3 CONDA_PY=39
 
 install:
   - git clone https://github.com/openalea/travis-ci.git
