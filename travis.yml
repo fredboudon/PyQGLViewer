@@ -21,6 +21,7 @@ env:
 #    - env : CONDA_RECIPE=conda CONDA_VERSION=3 CONDA_PY=39
 
 install:
+  - source conda/downloadsdk.sh
   - git clone https://github.com/openalea/travis-ci.git
   - cd travis-ci
   - source install.sh
