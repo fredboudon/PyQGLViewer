@@ -1,5 +1,5 @@
 # do not edit the following line. It will be updated automatically
-{% set version = "1.1.0" %}
+{% set version = "1.1.1" %}
 
 package:
   name: pyqglviewer
