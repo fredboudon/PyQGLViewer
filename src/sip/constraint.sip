@@ -129,5 +129,8 @@ public:
 
     const Camera* camera() const ;
 
+private:
+  CameraConstraint(const CameraConstraint& v);
+
 };
 
