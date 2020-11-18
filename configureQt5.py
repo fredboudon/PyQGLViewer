@@ -1399,9 +1399,8 @@ def _generate_code(target_config, opts, pkg_config, module_config):
         argv.extend(target_config.pyqt_sip_flags.split())
 
         # Add the backstop version.
-        argv.append('-B')
-        argv.append('Qt_6_0_0' if target_config.pyqt_package == 'PyQt5'
-                else 'Qt_5_0_0')
+        # argv.append('-B')
+        # argv.append('Qt_6_0_0' if target_config.pyqt_package == 'PyQt5' else 'Qt_5_0_0')
 
         # Add PyQt's .sip files to the search path.
         argv.append('-I')
@@ -1431,7 +1430,7 @@ def _generate_code(target_config, opts, pkg_config, module_config):
         argv.append('-r')
 
     argv.append('-c')
-    argv.append(outdir)
+    argv.append('"'+outdir+'"')
 
     # This assumes that, for multi-module packages, all modules's .sip files
     # will be rooted in a common root directory.

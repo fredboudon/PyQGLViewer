@@ -2,14 +2,14 @@ platform:
   - x64
 
 environment:
+  CONDA_RECIPE: conda
+  CONDA_VERSION: 3
+
   matrix:
   # Add here environement variables to control the Travis CI build
-    - CONDA_RECIPE: conda
-      CONDA_VERSION: 3
-      CONDA_PY: 37
-    - CONDA_RECIPE: conda
-      CONDA_VERSION: 3
-      CONDA_PY: 38
+    - CONDA_PY: 37
+    - CONDA_PY: 38
+    - CONDA_PY: 39
 
 install:
   - call "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x64
