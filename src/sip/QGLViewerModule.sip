@@ -34,7 +34,8 @@
 		   QGLViewer_2_3_10 QGLViewer_2_3_11 QGLViewer_2_3_12 QGLViewer_2_3_13
 		   QGLViewer_2_3_14 QGLViewer_2_3_15 QGLViewer_2_3_16 QGLViewer_2_3_17
            QGLViewer_2_4_0 QGLViewer_2_4_1 QGLViewer_2_5_0 QGLViewer_2_5_1 QGLViewer_2_5_2 QGLViewer_2_5_3 QGLViewer_2_5_4
-           QGLViewer_2_6_0 QGLViewer_2_6_1 QGLViewer_2_6_2 QGLViewer_2_6_3 QGLViewer_2_6_4}
+           QGLViewer_2_6_0 QGLViewer_2_6_1 QGLViewer_2_6_2 QGLViewer_2_6_3 QGLViewer_2_6_4
+           QGLViewer_2_7_0 QGLViewer_2_7_1 QGLViewer_2_7_2 QGLViewer_2_7_3}
 %Feature FRIEND_EQUAL_SUPPORT
 
 %Copying
@@ -55,6 +56,7 @@ This file is part of PyQGLViewer.
 %Include manipulatedFrame.sip
 %Include manipulatedCameraFrame.sip
 %Include camera.sip
-%Include qglviewer.sip
 %Include domUtils.sip
 %Include qglviewerversion.sip
+%Include qglviewer.sip
+// %Include qglviewer-qglwidget.sip
