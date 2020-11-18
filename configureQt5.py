@@ -1539,6 +1539,8 @@ greaterThan(QT_MAJOR_VERSION, 4) {
     mname = module_config.name
 
     if not opts.static:
+        installpath = pj(os.path.dirname(__file__),'src','PyQGLViewer')
+        lmname = pj(installpath,mname)
         pro.write('''
 win32 {
     PY_MODULE = %s.pyd
@@ -1550,7 +1552,7 @@ win32 {
 }
 
 target.CONFIG = no_check_exist
-''' % (mname, mname, quote(target_config.py_pylib_dir), mname, mname))
+''' % (lmname, lmname, quote(target_config.py_pylib_dir), lmname, lmname))
 
     pro.write('''
 target.path = %s
@@ -1614,9 +1616,9 @@ INSTALLS += sip
     if not opts.static:
         pro.write('''
 win32 {
-    QMAKE_POST_LINK = $(COPY_FILE) $(DESTDIR_TARGET) %s\\$$PY_MODULE
+    QMAKE_POST_LINK = $(COPY_FILE) $(DESTDIR_TARGET) $$PY_MODULE
 } else {
-    QMAKE_POST_LINK = $(COPY_FILE) $(TARGET) %s/$$PY_MODULE
+    QMAKE_POST_LINK = $(COPY_FILE) $(TARGET) $$PY_MODULE
 }
 
 macx {
@@ -1627,7 +1629,7 @@ macx {
             QMAKE_RPATHDIR += $$[QT_INSTALL_LIBS]
         }
     }
-''' % (pj(os.path.dirname(__file__),'src','PyQGLViewer')))
+''' )
 
         dylib = module_config.get_mac_wrapped_library_file(target_config)
 
