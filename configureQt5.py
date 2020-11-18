@@ -31,6 +31,7 @@ import glob
 import os
 import optparse
 import sys
+pj = os.path.join
 
 
 def in_conda():
@@ -1225,7 +1226,7 @@ def _create_optparser(target_config, pkg_config):
                     (pkg_name, 'build'))
 
     p.add_option('--destdir', '-d', dest='destdir', type='string',
-            default=None, action='callback', callback=optparser_store_abspath,
+            default=pj(os.path.dirname(__file__),'src','PyQGLViewer'), action='callback', callback=optparser_store_abspath,
             metavar="DIR",
             help="install %s in DIR [default: %s]" %
                     (pkg_name, target_config.module_dir))
@@ -1513,6 +1514,8 @@ def _generate_pro(target_config, opts, module_config):
     if config:
         pro.write('CONFIG += %s\n' % config)
 
+    pro.write('CONFIG += nostrip\n')
+
     # Work around QTBUG-39300.
     pro.write('CONFIG -= android_install\n')
 
@@ -1611,9 +1614,9 @@ INSTALLS += sip
     if not opts.static:
         pro.write('''
 win32 {
-    QMAKE_POST_LINK = $(COPY_FILE) $(DESTDIR_TARGET) $$PY_MODULE
+    QMAKE_POST_LINK = $(COPY_FILE) $(DESTDIR_TARGET) %s\\$$PY_MODULE
 } else {
-    QMAKE_POST_LINK = $(COPY_FILE) $(TARGET) $$PY_MODULE
+    QMAKE_POST_LINK = $(COPY_FILE) $(TARGET) %s/$$PY_MODULE
 }
 
 macx {
@@ -1624,7 +1627,7 @@ macx {
             QMAKE_RPATHDIR += $$[QT_INSTALL_LIBS]
         }
     }
-''')
+''' % (pj(os.path.dirname(__file__),'src','PyQGLViewer')))
 
         dylib = module_config.get_mac_wrapped_library_file(target_config)
 
@@ -1842,7 +1845,7 @@ def _main(argv, pkg_config):
 
     # Concatenate any .api files.
     if pkg_config.qscintilla_api_file and target_config.api_dir != '':
-        inform("Generating the QScintilla API file...")
+        inform("Generating the PyQGLViewer API file...")
         f = open(pkg_config.qscintilla_api_file + '.api', 'w')
 
         for module_config in pkg_config.modules:

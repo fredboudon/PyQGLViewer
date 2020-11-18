@@ -23,13 +23,13 @@ def loaded_api():
 PYQT_API = loaded_api()
 
 if PYQT_API == PYQT4_API :
-    from PyQGLViewerQt4 import *
+    from .PyQGLViewerQt4 import *
 elif PYQT_API == PYQT5_API :
-    from PyQGLViewerQt5 import *
+    from .PyQGLViewerQt5 import *
 elif PYQT_API is None:
     try:
-        from PyQGLViewerQt4 import *
+        from .PyQGLViewerQt4 import *
     except ImportError as ie:
-        from PyQGLViewerQt5 import *
+        from .PyQGLViewerQt5 import *
 else:
     raise ImportError()

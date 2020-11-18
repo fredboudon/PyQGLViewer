@@ -12,5 +12,7 @@ nmake release
 
 if errorlevel 1 exit 1
 
-COPY src\python\PyQGLViewer.py %SP_DIR%
-COPY build\PyQGLViewerQt5\PyQGLViewerQt5.pyd %SP_DIR%
+%PYTHON% setup.py install --prefix=${PREFIX}
+
+:: COPY src\python\PyQGLViewer.py %SP_DIR%
+:: COPY build\PyQGLViewerQt5\PyQGLViewerQt5.pyd %SP_DIR%

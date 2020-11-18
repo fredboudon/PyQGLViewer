@@ -40,21 +40,22 @@ echo "**** COMPILE"
 make
 
 echo "**** INSTALL"
-cp src/python/PyQGLViewer.py $SP_DIR
-cp build/PyQGLViewerQt5/PyQGLViewerQt5.so $SP_DIR
+$PYTHON setup.py install --prefix=${PREFIX}
+#cp src/python/PyQGLViewer.py $SP_DIR
+#cp build/PyQGLViewerQt5/PyQGLViewerQt5.so $SP_DIR
 echo
 echo "****** CHECK PYTHON LIB"
 
 # To check if Python lib is not in the dependencies with conda-forge distribution.
 # See https://github.com/conda-forge/boost-feedstock/issues/81
 if [ `uname` = "Darwin" ]; then
-    otool -L $SP_DIR/PyQGLViewerQt5.so
+    otool -L `${PYTHON} -c "import PyQGLViewer.PyQGLViewerQt5 as pyqgl ; print(pyqgl.__file__)"`
 fi
 
 
 if [ "$(uname)" == "Linux" ];
 then
-    ldd $SP_DIR/PyQGLViewerQt5.so
+    ldd `${PYTHON} -c "import PyQGLViewer.PyQGLViewerQt5 as pyqgl ; print(pyqgl.__file__)"`
 
 fi
 echo "****** END OF BUILD PROCESS"
