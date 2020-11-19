@@ -1544,7 +1544,7 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 
     if not opts.static:
         installpath = pj(os.path.dirname(__file__),'src','PyQGLViewer')
-        lmname = pj(installpath,mname)
+        lmname = os.path.abspath(pj(installpath,mname))
         pro.write('''
 win32 {
     PY_MODULE = %s.pyd
