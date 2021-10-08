@@ -56,6 +56,14 @@ if __name__ == '__main__':
 
 The sources are hosted on [GitHub](https://github.com/fredboudon/PyQGLViewer). 
 
+To compile the project:
+
+```
+python configureQt5.py
+make
+python setup.py install
+```
+
 
 ## Issues
 
