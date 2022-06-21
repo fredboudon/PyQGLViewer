@@ -6,7 +6,7 @@ build-backend = "sipbuild.api"
 # Specify the PEP 566 metadata for the project.
 [tool.sip.metadata]
 name = "PyQGLViewer"
-version = "1.2.1"
+version = "1.3.0"
 summary = "Python bindings for the libQGViewer widget"
 home-page = "https://github.com/fredboudon/PyQGLViewer"
 author = "Frederic Boudon"
@@ -18,6 +18,7 @@ requires-dist = "PyQt5 (>=5.12)"
 [tool.sip.project]
 sip-module="PyQt5.sip"
 #abi-version='12'
+minimum-macos-version='10.9'
 
 [tool.sip.bindings.PyQGLViewer]
 include-dirs=['$(CONDA_PREFIX)/include']

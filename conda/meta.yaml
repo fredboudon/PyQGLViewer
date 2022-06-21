@@ -31,6 +31,7 @@ requirements:
     - {{ cdt('libxxf86vm') }}            # [linux]
   build:
     - sip
+    - pyqt-builder
     - make                               # [unix]
     - {{ compiler('cxx')}} 
 

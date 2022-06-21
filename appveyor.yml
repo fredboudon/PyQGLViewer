@@ -10,6 +10,7 @@ environment:
     - CONDA_PY: 37
     - CONDA_PY: 38
     - CONDA_PY: 39
+    - CONDA_PY: 310
 
 install:
   - call "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x64

@@ -35,11 +35,12 @@
 		   QGLViewer_2_3_14 QGLViewer_2_3_15 QGLViewer_2_3_16 QGLViewer_2_3_17
            QGLViewer_2_4_0 QGLViewer_2_4_1 QGLViewer_2_5_0 QGLViewer_2_5_1 QGLViewer_2_5_2 QGLViewer_2_5_3 QGLViewer_2_5_4
            QGLViewer_2_6_0 QGLViewer_2_6_1 QGLViewer_2_6_2 QGLViewer_2_6_3 QGLViewer_2_6_4
-           QGLViewer_2_7_0 QGLViewer_2_7_1 QGLViewer_2_7_2 QGLViewer_2_7_3}
+           QGLViewer_2_7_0 QGLViewer_2_7_1 QGLViewer_2_7_2 
+           QGLViewer_2_8_0}
 %Feature FRIEND_EQUAL_SUPPORT
 
 %Copying
-Copyright (c) 2006-2016
+Copyright (c) 2006-2022
 	F. Boudon, V. Plants Team
 
 This file is part of PyQGLViewer.
@@ -59,4 +60,3 @@ This file is part of PyQGLViewer.
 %Include domUtils.sip
 %Include qglviewerversion.sip
 %Include qglviewer.sip
-// %Include qglviewer-qglwidget.sip
