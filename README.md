@@ -61,11 +61,7 @@ The sources are hosted on [GitHub](https://github.com/fredboudon/PyQGLViewer).
 
 To build and install the project, the following command lines should be used.
 
-`python configureQt5.py -Q"/path/to/libqglviewer"`
-
-`make`
-
-`python setup.py install`
+`sip-build`
 
 
 ## Issues

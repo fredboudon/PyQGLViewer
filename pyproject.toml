@@ -21,9 +21,9 @@ sip-module="PyQt5.sip"
 minimum-macos-version='10.9'
 
 [tool.sip.bindings.PyQGLViewer]
-include-dirs=['$(CONDA_PREFIX)/include']
-extra-compile-args=['-I$(CONDA_PREFIX)/include']
+include-dirs=['$(CONDA_PREFIX)/include','$(PREFIX)/include']
+extra-compile-args=['-I$(CONDA_PREFIX)/include','-I$(PREFIX)/include']
 qmake-QT = ['xml opengl gui widgets']
 libraries = ['QGLViewer']
-library-dirs=['$(CONDA_PREFIX)/lib']
-extra-link-args=['-L$(CONDA_PREFIX)/lib']
+library-dirs=['$(CONDA_PREFIX)/lib','$(PREFIX)/lib']
+extra-link-args=['-L$(CONDA_PREFIX)/lib','-L$(PREFIX)/lib']
