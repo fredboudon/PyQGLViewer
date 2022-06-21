@@ -280,6 +280,18 @@ protected:
     virtual void initializeGL();
 
     virtual void init();
+%VirtualCatcherCode
+        glGetError();
+        PyObject * result = sipCallMethod(&sipIsErr, sipMethod, "");
+
+        if (result != NULL)
+        {
+            Py_DECREF(result);
+        }
+%End
+%VirtualCallCode
+        glGetError();
+%End
 
     virtual void paintGL();
     virtual void preDraw();
@@ -508,6 +520,7 @@ public:
         return false;     
      }
 %End
+
 
 private:
   QGLViewer(const QGLViewer& v);

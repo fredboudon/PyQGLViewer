@@ -1,8 +1,9 @@
 # -*- python -*-
 # -*- coding: latin-1 -*-
 
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 from PyQGLViewer import *
 import OpenGL.GL as ogl
 import OpenGL.GLU as glu
@@ -141,14 +142,19 @@ class Viewer(QGLViewer):
     def init(self):
         self.restoreStateFromFile()
         self.setManipulatedFrame( self.camera().frame() )
-        # Preserve CAMERA bindings, see setHandlerKeyboardModifiers documentation.
-        self.setHandlerKeyboardModifiers(QGLViewer.CAMERA, Qt.AltModifier)
-        # The frames can be move without any key pressed
-        self.setHandlerKeyboardModifiers(QGLViewer.FRAME, Qt.NoModifier)
-        # The camera can always be moved with the Control key.
-        self.setHandlerKeyboardModifiers(QGLViewer.CAMERA, Qt.ControlModifier)        
+        self.setMouseBinding(Qt.AltModifier, Qt.LeftButton, QGLViewer.CAMERA, QGLViewer.ROTATE)
+        self.setMouseBinding(Qt.AltModifier, Qt.RightButton, QGLViewer.CAMERA, QGLViewer.TRANSLATE)
+        self.setMouseBinding(Qt.AltModifier, Qt.MidButton, QGLViewer.CAMERA, QGLViewer.ZOOM)
+        self.setWheelBinding(Qt.AltModifier, QGLViewer.CAMERA, QGLViewer.ZOOM)
+
+        self.setMouseBinding(Qt.NoModifier, Qt.LeftButton, QGLViewer.FRAME, QGLViewer.ROTATE)
+        self.setMouseBinding(Qt.NoModifier, Qt.RightButton, QGLViewer.FRAME, QGLViewer.TRANSLATE)
+        self.setMouseBinding(Qt.NoModifier, Qt.MidButton, QGLViewer.FRAME, QGLViewer.ZOOM)
+        self.setWheelBinding(Qt.NoModifier, QGLViewer.FRAME, QGLViewer.ZOOM)
+
         self.initSpotLight()
         self.help()
+        
     def draw(self):
         self.luxo.draw()
         # Draw the ground

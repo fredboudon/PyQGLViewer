@@ -1,5 +1,6 @@
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 from PyQGLViewer import *
 from qgllogo import *
 import OpenGL.GL as ogl
@@ -170,8 +171,8 @@ def main():
     observer.showEntireScene()
 
     # Make sure every culling Camera movement updates the outer viewer
-    QObject.connect(viewer.camera().frame(), SIGNAL("manipulated()"), observer.updateGL)
-    QObject.connect(viewer.camera().frame(), SIGNAL("spun()"), observer.updateGL)
+    viewer.camera().frame().manipulated.connect(observer.update)
+    viewer.camera().frame().spun.connect(observer.update)
     
     viewer.help()
     hSplit.setWindowTitle("frustumCulling")

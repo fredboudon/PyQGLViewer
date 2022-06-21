@@ -1,5 +1,6 @@
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 from PyQGLViewer import *
 from qgllogo import *
 import OpenGL.GL as ogl
@@ -11,8 +12,8 @@ class Scene:
         draw_qgl_logo()
 
 class Viewer(QGLViewer):
-    def __init__(self,scene, view_type, parent, shareWidget = None):
-        QGLViewer.__init__(self,parent,shareWidget)
+    def __init__(self,scene, view_type, parent):
+        QGLViewer.__init__(self,parent)
         self.setStateFileName('.multiView.xml')        
         self.__scene = scene
         self.setAxisIsDrawn()
@@ -46,9 +47,9 @@ def main():
 
     # Instantiate the viewers.
     side  = Viewer(scene,0,vSplit1)
-    top   = Viewer(scene,1,vSplit1, side)
-    front = Viewer(scene,2,vSplit2, side)
-    persp = Viewer(scene,3,vSplit2, side)
+    top   = Viewer(scene,1,vSplit1)
+    front = Viewer(scene,2,vSplit2)
+    persp = Viewer(scene,3,vSplit2)
     
     hSplit.setWindowTitle("multiView")    
     hSplit.show()

@@ -1,5 +1,6 @@
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 from PyQGLViewer import *
 from qgllogo import *
 import OpenGL.GL as ogl
@@ -72,6 +73,8 @@ class CameraViewer (QGLViewer):
 
 
 class Viewer(QGLViewer):
+    cameraChanged = pyqtSignal()
+
     def __init__(self,camera,parent = None):
         QGLViewer.__init__(self,parent)
         self.setStateFileName('.standardCamera.xml')        
@@ -81,7 +84,7 @@ class Viewer(QGLViewer):
     def init(self):
         if not self.restoreStateFromFile():
             self.showEntireScene()
-
+    
         self.setKeyDescription(Qt.Key_T, "Toggles camera type (perspective or orthographic)")
         self.setKeyDescription(Qt.Key_M, "Toggles camera mode (standard or QGLViewer)")
         self.setMouseBindingDescription(Qt.SHIFT + Qt.MidButton, "Change frustum size (for standard camera in orthographic mode)")
@@ -111,8 +114,8 @@ class Viewer(QGLViewer):
     def wheelEvent (self,e):
         if self.camera().type() == Camera.ORTHOGRAPHIC and self.camera().isStandard() and (e.modifiers() & Qt.ShiftModifier) :
             self.camera().changeOrthoFrustumSize(e.delta())
-            self.emit(SIGNAL("cameraChanged()"))
-            self.updateGL()
+            self.cameraChanged.emit()
+            self.update()
         else:
             QGLViewer.wheelEvent(self,e)
     def __showMessage(self):
@@ -125,7 +128,7 @@ class Viewer(QGLViewer):
         else :
             camera_type = "Orthographic"
         self.displayMessage(std + " - " + camera_type)
-        self.emit(SIGNAL("cameraChanged()"))
+        self.cameraChanged.emit()
 
 def main(singleWidget = True):
     qapp = QApplication([])
@@ -140,10 +143,10 @@ def main(singleWidget = True):
     cviewer = CameraViewer(sc,hSplit)
     
     # Make sure every v camera movement updates the camera viewer
-    QObject.connect(viewer.camera().frame(), SIGNAL("manipulated()"), cviewer.updateGL)
-    QObject.connect(viewer.camera().frame(), SIGNAL("spun()"), cviewer.updateGL)
+    viewer.camera().frame().manipulated.connect(cviewer.update)
+    viewer.camera().frame().spun.connect(cviewer.update)
     # Also update on camera change (type or mode)
-    QObject.connect(viewer, SIGNAL("cameraChanged()"), cviewer.updateGL)
+    viewer.cameraChanged.connect(cviewer.update)
   
     if singleWidget :
         hSplit.setWindowTitle("standardCamera")

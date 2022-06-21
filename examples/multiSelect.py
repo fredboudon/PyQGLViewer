@@ -1,5 +1,6 @@
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 from PyQGLViewer import *
 from qgllogo import *
 import OpenGL.GL as ogl
@@ -39,6 +40,7 @@ class ManipulatedFrameSetConstraint (Constraint):
     def constrainTranslation(self,translation, frame):
         for i in self.objects:
             i.frame.translate(translation)
+        return translation
     def constrainRotation(self,rotation, frame):
         # A little bit of math. Easy to understand, hard to guess (tm).
         # rotation is expressed in the frame local coordinates system. Convert it back to world coordinates.
@@ -53,6 +55,7 @@ class ManipulatedFrameSetConstraint (Constraint):
             qWorld = Quaternion(worldAxis, angle)
             # Rotation around frame world position (pos)
             it.frame.setPosition(pos + qWorld.rotate(it.frame.position() - pos))
+        return rotation
 
 
 class Viewer(QGLViewer):
@@ -139,7 +142,7 @@ class Viewer(QGLViewer):
         if self.__selectionMode != Viewer.NONE:
             # Updates rectangle_ coordinates and redraws rectangle
             self.__rectangle.setBottomRight(e.pos())
-            self.updateGL()
+            self.update()
         else:
             QGLViewer.mouseMoveEvent(self,e)
     def mouseReleaseEvent(self,e):
@@ -153,7 +156,7 @@ class Viewer(QGLViewer):
             # Compute rectangle center and perform selection
             self.select(self.__rectangle.center())
             # Update display to show new selected objects
-            self.updateGL()
+            self.update()
         else:
             QGLViewer.mouseReleaseEvent(self,e)
     def __startManipulation(self):

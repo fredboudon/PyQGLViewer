@@ -1,4 +1,6 @@
-from PyQt5.Qt import *
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 from openalea.plantgl.all import *
 from PyQGLViewer import *
 s = Scene()
