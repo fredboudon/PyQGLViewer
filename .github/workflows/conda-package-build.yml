@@ -2,7 +2,7 @@ name: Building Package using Conda
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, setup ]
   pull_request:
     branches: [ master ]
 

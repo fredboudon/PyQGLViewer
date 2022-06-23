@@ -7,7 +7,7 @@ description = 'Python bindings of libQGLViewer.'
 long_description= 'PyQGLViewer is a set of Python bindings for the libQGLViewer C++ library which extends the Qt framework with widgets and tools that eases the creation of OpenGL 3D viewers.'
 authors = 'Frédéric Boudon'
 authors_email = 'frederic.boudon@cirad.fr'
-url= 'http://pyqglviewer.gforge.inria.fr/'
+url= 'https://github.com/fredboudon/PyQGLViewer'
 # LGPL compatible INRIA license
 license = 'Cecill-C'
 
@@ -17,7 +17,7 @@ license = 'Cecill-C'
 
 # check that meta version is updated
 def get_version():
-    versionfile = open(pj(os.path.dirname(__file__),'src', 'sip', 'qglviewerversion.sip')).read()
+    versionfile = open(pj(os.path.dirname(__file__),'sip', 'PyQGLViewer', 'qglviewerversion.sip')).read()
     lid = versionfile.index('#define PYQGLVIEWER_VERSION')
     version = int(versionfile[lid:versionfile.index('\n',lid)].split()[2],16)
     major = (version & 0xff0000) >> 16

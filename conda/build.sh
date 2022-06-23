@@ -10,10 +10,17 @@ then
     export QMAKESPEC=linux-g++
 fi
 
+alias qmake='${CONDA_PREFIX}/bin/qmake'
+
+export SIP_DIR="${PREFIX}/lib/python${PY_VER}/site-packages/PyQt5/bindings"
+echo "
+sip-include-dirs = [\"${SIP_DIR}\", \"${PREFIX}/share/sip\"]
+" >> pyproject.toml
+
+
 echo "**** BUILD"
 sip-install
 
-#$PYTHON setup.py install --prefix=${PREFIX}
 echo
 echo "****** CHECK PYTHON LIB"
 
