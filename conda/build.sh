@@ -19,7 +19,7 @@ sip-include-dirs = [\"${SIP_DIR}\", \"${PREFIX}/share/sip\"]
 
 
 echo "**** BUILD"
-sip-install
+sip-install -v
 
 echo
 echo "****** CHECK PYTHON LIB"
