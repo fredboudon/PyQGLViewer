@@ -28,7 +28,8 @@ requirements:
     - {{ cdt('libselinux') }}            # [linux]
     - {{ cdt('libxdamage') }}            # [linux]
     - {{ cdt('libxxf86vm') }}            # [linux]
-
+    - {{ cdt('libxext') }}               # [linux]
+    # from https://conda-forge.org/docs/maintainer/knowledge_base.html#libgl
   host:
     - python
     - pip
