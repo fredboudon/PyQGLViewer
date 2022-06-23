@@ -1,1 +1,1 @@
-sip-install
+sip-install -v
