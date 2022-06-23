@@ -1,0 +1,13 @@
+name: qglviewer
+channels:
+  - conda-forge
+dependencies:
+    - python
+    - pip
+    - qt-main
+    - pyqt
+    - libqglviewer
+    - sip
+    - pyqt5-sip
+    - xorg-libxfixes  # [linux]
+    - pyqt-builder
