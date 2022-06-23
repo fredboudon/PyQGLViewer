@@ -50,10 +50,7 @@ jobs:
           echo "CONDA_PY is not defined"
           exit -1
         fi
-        if [[ "$CONDA_NPY" = "" ]]; then
-          echo "CONDA_NPY is not defined"
-          exit -1
-        fi
+
         export PYTHON_VERSION=${CONDA_PY:0:1}.${CONDA_PY:1:1}
 
         export BUILD_CMD="sudo conda build . --python=$PYTHON_VERSION"
