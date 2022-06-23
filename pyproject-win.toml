@@ -17,15 +17,11 @@ requires-dist = "PyQt5 (>=5.12)"
 
 [tool.sip.bindings.PyQGLViewer]
 qmake-QT = ['xml opengl gui widgets']
-libraries = ['QGLViewer2']
-#include-dirs=['${CONDA_PREFIX}/include','${PREFIX}/include']
-#library-dirs=['${CONDA_PREFIX}/lib','${PREFIX}/lib']
-#extra-compile-args=['-I${CONDA_PREFIX}/include','-I${PREFIX}/include']
-#extra-link-args=['-L${CONDA_PREFIX}/lib','-L${PREFIX}/lib']
-include-dirs=['%CONDA_PREFIX%/include','%PREFIX%/include']
-library-dirs=['%CONDA_PREFIX%/lib','%PREFIX%/lib']
-extra-compile-args=['-I%CONDA_PREFIX%/include','-I%PREFIX%/include']
-extra-link-args=['-L%CONDA_PREFIX%/lib','-L%PREFIX%/lib']
+libraries = ['QGLViewer2','opengl32']
+include-dirs=['%CONDA_PREFIX%/Library/include','%PREFIX%/Library/include']
+library-dirs=['%CONDA_PREFIX%/Library/lib','%PREFIX%/Library/lib']
+extra-compile-args=['-I%CONDA_PREFIX%/Library/include','-I%PREFIX%/Library/include']
+extra-link-args=['-L%CONDA_PREFIX%/Library/lib','-L%PREFIX%/Library/lib']
 
 
 [tool.sip.project]
