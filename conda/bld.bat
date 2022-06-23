@@ -1,1 +1,1 @@
-sip-install -v
+sip-install --verbose
