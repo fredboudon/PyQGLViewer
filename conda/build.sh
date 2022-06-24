@@ -8,6 +8,7 @@ fi
 if [ "$(uname)" == "Linux" ];
 then
     export QMAKESPEC=linux-g++
+    mv pyproject-linux.toml pyproject.toml
 fi
 
 alias qmake='${CONDA_PREFIX}/bin/qmake'
