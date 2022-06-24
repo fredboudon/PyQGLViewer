@@ -20,9 +20,9 @@ qmake-QT = ['xml opengl gui widgets']
 libraries = ['QGLViewer']
 include-dirs=['${CONDA_PREFIX}/include','${PREFIX}/include']
 library-dirs=['${CONDA_PREFIX}/lib','${PREFIX}/lib']
-extra-compile-args=['-I${CONDA_PREFIX}/include','-I${PREFIX}/include','--sysroot=${BUILD_PREFIX}/${HOST}/sysroot']
+extra-compile-args=['-I${CONDA_PREFIX}/include','-I${PREFIX}/include','-I${BUILD_PREFIX}/${HOST}/sysroot/usr/include']
 extra-link-args=['-L${CONDA_PREFIX}/lib','-L${PREFIX}/lib','--sysroot=${BUILD_PREFIX}/${HOST}/sysroot']
-#,'-I${BUILD_PREFIX}/${HOST}/sysroot/usr/include'
+
 #, '-L${BUILD_PREFIX}/${HOST}/sysroot/usr/lib','-L${BUILD_PREFIX}/${HOST}/sysroot/usr/lib64','-L${BUILD_PREFIX}/${HOST}/sysroot/lib','-L${BUILD_PREFIX}/${HOST}/sysroot/lib64'
 
 [tool.sip.project]
