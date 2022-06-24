@@ -18,6 +18,7 @@ requires-dist = "PyQt5 (>=5.12)"
 [tool.sip.bindings.PyQGLViewer]
 qmake-QT = ['xml opengl gui widgets']
 libraries = ['QGLViewer2','opengl32']
+tags = ['QGLViewer_2_8_0']
 #include-dirs=['%CONDA_PREFIX%/Library/include','%PREFIX%/Library/include']
 #library-dirs=['%CONDA_PREFIX%/Library/lib','%PREFIX%/Library/lib']
 extra-compile-args=['-I%CONDA_PREFIX%/Library/include','-I%PREFIX%/Library/include']
