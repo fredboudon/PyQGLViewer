@@ -73,10 +73,10 @@ public:
 
 
     explicit QGLViewer(QGLContext *context, 
-                       QWidget* parent /TransferThis/=0, const QGLWidget* shareWidget=0, Qt::WindowFlags flags=0);
+                       QWidget* parent /TransferThis/=0, const QGLWidget* shareWidget=0, Qt::WindowFlags flags=Qt::WindowFlags());
 
     explicit QGLViewer(const QGLFormat& format, 
-                       QWidget* parent /TransferThis/=0, const QGLWidget* shareWidget=0, Qt::WindowFlags flags=0);
+                       QWidget* parent /TransferThis/=0, const QGLWidget* shareWidget=0, Qt::WindowFlags flags=Qt::WindowFlags());
 
     virtual ~QGLViewer();
     
