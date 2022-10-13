@@ -8,7 +8,7 @@
 PyQGLViewer is a set of Python bindings for the [libQGLViewer](http://artis.imag.fr/~Gilles.Debunne/QGLViewer/) C++ library which extends the Qt framework with widgets and tools that eases the creation of OpenGL 3D viewers. 
 
   * [libQGLViewer](http://artis.imag.fr/~Gilles.Debunne/QGLViewer/)
-  * [Trolltech Qt4](http://www.trolltech.com)
+  * [Trolltech Qt](http://www.trolltech.com)
   * [Riverbank PyQt and SIP](http://www.riverbankcomputing.co.uk/pyqt/)
   * [PyOpenGL](http://pyopengl.sourceforge.net/)
   * [Python](http://www.python.org)
@@ -21,18 +21,17 @@ PyQGLViewer is licensed under the GPL.
 
 ## Install
 
-`conda install pyqglviewer -c fredboudon`
+A conda version compatible with PyQt5 and Python 3 is available in the channel fredboudon:
 
-or
+`conda install pyqglviewer -c fredboudon -c conda-forge`
 
-`conda install pyqglviewer -c openalea`
 
 ## Usage
 
 A simple example of use of PyQGLViewer is
 
 ```python
-from PyQt4.QtGui import *
+from PyQt5.QtGui import *
 from PyQGLViewer import *
 from qgllogo import draw_qgl_logo
 
@@ -56,6 +55,18 @@ if __name__ == '__main__':
 ## Development 
 
 The sources are hosted on [GitHub](https://github.com/fredboudon/PyQGLViewer). 
+
+To create a conda environment with all dependencies:
+
+```
+conda env create -f environment.yml
+```
+
+To compile the project:
+
+```
+sip-install
+```
 
 
 ## Issues
