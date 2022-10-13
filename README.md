@@ -56,12 +56,16 @@ if __name__ == '__main__':
 
 The sources are hosted on [GitHub](https://github.com/fredboudon/PyQGLViewer). 
 
+To create a conda environment with all dependencies:
+
+```
+conda env create -f environment.yml
+```
+
 To compile the project:
 
 ```
-python configureQt5.py
-make
-python setup.py install
+sip-install
 ```
 
 
