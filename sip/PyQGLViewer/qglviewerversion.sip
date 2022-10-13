@@ -28,7 +28,7 @@
 
 %ModuleCode
 
-#define PYQGLVIEWER_VERSION 0x010001
+#define PYQGLVIEWER_VERSION 0x010300
 
 static const char * PyQGLViewerVersionString(){
   return qPrintable(QString::number((PYQGLVIEWER_VERSION & 0xff0000) >> 16) + "." +

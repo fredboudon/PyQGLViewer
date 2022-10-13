@@ -1,5 +1,6 @@
-from PyQt4.QtGui import *
-from PyQt4.QtCore import *
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 from PyQGLViewer import *
 from qgllogo import *
 import OpenGL.GL as ogl
@@ -21,7 +22,7 @@ class Viewer(QGLViewer):
         self.orig= Vec()
         self.dir= Vec()
         self.selectedPoint = Vec()
-        QObject.connect(self,SIGNAL("pointSelected(QMouseEvent*)"),self.mypostSelection)
+        self.pointSelected.connect(self.mypostSelection)
     def draw(self):
         # Draw ten spirals
         for i in range(self.nb):
@@ -52,7 +53,7 @@ class Viewer(QGLViewer):
             ogl.glPopName()
 
             ogl.glPopMatrix()
-    def mypostSelection(self,event):
+    def mypostSelection(self):
         point = event.pos()
         # Compute orig and dir, used to draw a representation of the intersecting line
         self.orig, self.dir = self.camera().convertClickToLine(point)

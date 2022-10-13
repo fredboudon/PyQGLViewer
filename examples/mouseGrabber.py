@@ -1,4 +1,6 @@
+from PyQt5.QtCore import *
 from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 from PyQGLViewer import *
 from qgllogo import *
 import OpenGL.GL as ogl
@@ -84,7 +86,7 @@ class Viewer(QGLViewer):
         # Create a scene with several spirals.
         nbSpirals = 7
         self.spiral = []
-        for i in range(-nbSpirals/2, nbSpirals/2+1):
+        for i in range(int(-nbSpirals/2), int(nbSpirals/2+1)):
             s = Spiral()
             s.setPosition(Vec(1.8*i/nbSpirals, 0.0, 0.0))
             self.spiral.append(s)

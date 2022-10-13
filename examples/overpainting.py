@@ -1,4 +1,7 @@
-from PyQt5.Qt import *
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtOpenGL import *
 from PyQGLViewer import *
 from qgllogo import *
 from OpenGL.GL import *
@@ -22,14 +25,14 @@ class Viewer(QGLViewer):
         if helpwidget.isVisible() :
             helpwidget.hide()
         QGLViewer.closeEvent(self,event)
-    def drawOverpaint(self,painter):
+    def drawOverpaint(self, painter):
         painter.save()
         painter.translate(self.width()/2, self.height()/2)
         radialGrad = QRadialGradient(QPointF(-40, -40), 100)
         radialGrad.setColorAt(0, QColor(255, 255, 255, 100))
         radialGrad.setColorAt(1, QColor(200, 200, 0, 100))
         painter.setBrush(QBrush(radialGrad))
-        painter.drawRoundRect(-100, -100, 200, 200)
+        painter.drawRoundedRect(-100, -100, 200, 200, 10, 10)
         painter.restore()
     def paintEvent(self,event):
         #Q_UNUSED(event)
@@ -53,7 +56,8 @@ class Viewer(QGLViewer):
         glEnable(GL_MULTISAMPLE)
         lightPosition = [ 1.0, 5.0, 5.0, 1.0 ]
         glLightfv(GL_LIGHT0, GL_POSITION, lightPosition)
-        self.qglClearColor(self.backgroundColor())
+        glClearColor(self.backgroundColor().redF(), self.backgroundColor().greenF(),
+                     self.backgroundColor().blueF(), self.backgroundColor().alphaF())
     
         # Classical 3D drawing, usually performed by paintGL().
         self.preDraw()

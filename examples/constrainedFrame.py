@@ -1,5 +1,6 @@
-from PyQt5.QtGui import *
 from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 from PyQGLViewer import *
 from qgllogo import *
 
@@ -52,17 +53,24 @@ class Viewer(QGLViewer):
         self.__frame = ManipulatedFrame()
         self.setManipulatedFrame(self.__frame)
         self.__frame.setConstraint(self.__constraints[self.__activeConstraint])
+
+        self.setMouseBinding(Qt.AltModifier, Qt.LeftButton, QGLViewer.CAMERA, QGLViewer.ROTATE)
+        self.setMouseBinding(Qt.AltModifier, Qt.RightButton, QGLViewer.CAMERA, QGLViewer.TRANSLATE)
+        self.setMouseBinding(Qt.AltModifier, Qt.MidButton, QGLViewer.CAMERA, QGLViewer.ZOOM)
+        self.setWheelBinding(Qt.AltModifier, QGLViewer.CAMERA, QGLViewer.ZOOM)
+
+        self.setMouseBinding(Qt.NoModifier, Qt.LeftButton, QGLViewer.FRAME, QGLViewer.ROTATE)
+        self.setMouseBinding(Qt.NoModifier, Qt.RightButton, QGLViewer.FRAME, QGLViewer.TRANSLATE)
+        self.setMouseBinding(Qt.NoModifier, Qt.MidButton, QGLViewer.FRAME, QGLViewer.ZOOM)
+        self.setWheelBinding(Qt.NoModifier, QGLViewer.FRAME, QGLViewer.ZOOM)
+
+        self.setMouseBinding(Qt.ShiftModifier, Qt.LeftButton, QGLViewer.FRAME, QGLViewer.ROTATE, False)
+        self.setMouseBinding(Qt.ShiftModifier, Qt.RightButton, QGLViewer.FRAME, QGLViewer.TRANSLATE, False)
+        self.setMouseBinding(Qt.ShiftModifier, Qt.MidButton, QGLViewer.FRAME, QGLViewer.ZOOM, False)
+        self.setWheelBinding(Qt.ShiftModifier, QGLViewer.FRAME, QGLViewer.ZOOM, False)
+
         self.setAxisIsDrawn()
-        
-        self.setHandlerKeyboardModifiers(QGLViewer.CAMERA, Qt.AltModifier)
-        self.setHandlerKeyboardModifiers(QGLViewer.FRAME, Qt.NoModifier)
-        self.setHandlerKeyboardModifiers(QGLViewer.CAMERA, Qt.ControlModifier)
-        
-        self.setMouseBinding(int(Qt.ShiftModifier) | Qt.LeftButton,  QGLViewer.FRAME, QGLViewer.ROTATE,    False)
-        self.setMouseBinding(int(Qt.ShiftModifier) | Qt.RightButton, QGLViewer.FRAME, QGLViewer.TRANSLATE, False)
-        self.setMouseBinding(int(Qt.ShiftModifier) | Qt.MidButton,   QGLViewer.FRAME, QGLViewer.ZOOM,      False)
-        self.setWheelBinding(Qt.ShiftModifier,                  QGLViewer.FRAME, QGLViewer.ZOOM,      False)
-        
+               
         self.setKeyDescription(Qt.Key_G, "Change translation constraint direction")
         self.setKeyDescription(Qt.Key_D, "Change rotation constraint direction")
         self.setKeyDescription(Qt.Key_Space, "Change constraint reference")
@@ -94,10 +102,11 @@ class Viewer(QGLViewer):
         dir = Vec(0.0, 0.0, 0.0)
         dir[self.__rotDir] = 1.0
         self.__constraints[self.__activeConstraint].setRotationConstraintDirection(dir)
-        self.updateGL()
+        self.update()
         
     def displayText(self):
-        self.qglColor(self.foregroundColor())
+        ogl.glColor4f(self.foregroundColor().redF(), self.foregroundColor().greenF(),
+            self.foregroundColor().blueF(), self.foregroundColor().alphaF())
         ogl.glDisable(ogl.GL_LIGHTING)
         self.drawText(10,self.height()-30, "TRANSLATION :")
         self.displayDir(self.__transDir, 190, self.height()-30, 'G')
@@ -114,22 +123,15 @@ class Viewer(QGLViewer):
             self.drawText(20,20, "Constraint direction defined w/r to CAMERA (SPACE)")
         ogl.glEnable(ogl.GL_LIGHTING)
     def displayType(self,constraint_type, x, y, c):
-        if constraint_type == AxisPlaneConstraint.FREE:  
-            text = QString("FREE (%1)").arg(c)
-        elif constraint_type == AxisPlaneConstraint.PLANE: 
-            text = QString("PLANE (%1)").arg(c)
-        elif constraint_type == AxisPlaneConstraint.AXIS:
-            text = QString("AXIS (%1)").arg(c)
-        elif constraint_type == AxisPlaneConstraint.FORBIDDEN: 
-            text = QString("FORBIDDEN (%1)").arg(c)
+        label = {AxisPlaneConstraint.FREE : "FREE", 
+                 AxisPlaneConstraint.PLANE : "PLANE", 
+                 AxisPlaneConstraint.AXIS : "AXIS",
+                 AxisPlaneConstraint.FORBIDDEN : "FORBIDDEN"}
+        text = label[constraint_type]+ ' ({0})'.format(c)        
         self.drawText(x, y, text)
     def displayDir(self,dir, x, y, c):
-        if dir == 0: 
-            text = QString("X (%1)").arg(c)
-        elif dir == 1: 
-            text = QString("Y (%1)").arg(c)
-        elif dir == 2: 
-            text = QString("Z (%1)").arg(c)
+        label = {0 : "X", 1 : "Y", 2 : "Z"}
+        text = label[dir]+" ({0})".format(c)
         self.drawText(x, y, text)
     def __changeConstraint(self):
         previous = self.__activeConstraint

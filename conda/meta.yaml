@@ -1,9 +1,9 @@
 # do not edit the following line. It will be updated automatically
-{% set version = "1.1.1" %}
+{% set data = load_setup_py_data() %}
 
 package:
   name: pyqglviewer
-  version: {{ version }}
+  version: {{ data.get('version') }}
 
 source:
   path: ..
@@ -14,31 +14,40 @@ about:
   summary: PyQGLViewer is a set of Python bindings for the libQGLViewer C++ library which extends the Qt framework with widgets and tools that eases the creation of OpenGL 3D viewers.
 
 build:
-  number: 2
+  number: 0
 
 requirements:
-  run_constrained:                                            # [osx]
-    - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
-  host:
-    - python
-    - qt
-    - pyqt
-    - libqglviewer
+  # run_constrained:                                            # [osx]
+  #  - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
+  build:
+    - {{ compiler('cxx')}} 
+    - make                               # [unix]
+    - sysroot_linux-64 2.17              # [linux64]
     - {{ cdt('mesa-libgl-devel') }}      # [linux]
     - {{ cdt('mesa-dri-drivers') }}      # [linux]
     - {{ cdt('libselinux') }}            # [linux]
     - {{ cdt('libxdamage') }}            # [linux]
     - {{ cdt('libxxf86vm') }}            # [linux]
-  build:
+    - {{ cdt('libxext') }}               # [linux]
+    # from https://conda-forge.org/docs/maintainer/knowledge_base.html#libgl
+  host:
+    - python
+    - pip
+    - qt-main
+    - pyqt
+    - libqglviewer
     - sip
-    - make                               # [unix]
-    - {{ compiler('cxx')}} 
+    - pyqt5-sip
+    - xorg-libxfixes  # [linux]
+    - pyqt-builder
+
+
 
   run:
     - python
-    - qt
-    - pyqt
-    - libqglviewer
+    - {{ pin_compatible('qt',                 max_pin='x.x') }} 
+    - {{ pin_compatible('pyqt',               max_pin='x.x') }} 
+    - {{ pin_compatible('libqglviewer',       max_pin='x.x') }} 
     - pyopengl
     - xorg-libxfixes  # [linux]
 

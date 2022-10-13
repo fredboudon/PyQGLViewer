@@ -1,4 +1,6 @@
+from PyQt5.QtCore import *
 from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 from PyQGLViewer import *
 from qgllogo import *
 import OpenGL.GL as ogl
@@ -26,12 +28,14 @@ class Viewer(QGLViewer):
         for i in range(self.nbSaucers):
             ogl.glPushMatrix()
             ogl.glMultMatrixd(self.saucerPos[i].matrix())
-            self.qglColor(self.saucerColor[i])
+            ogl.glColor4f(self.saucerColor[i].redF(), self.saucerColor[i].greenF(),
+            self.saucerColor[i].blueF(), self.saucerColor[i].alphaF())
             self.__drawSaucer()
             ogl.glPopMatrix()
 
         # Draw the arrows
-        self.qglColor(self.foregroundColor())
+        ogl.glColor4f(self.foregroundColor().redF(), self.foregroundColor().greenF(),
+            self.foregroundColor().blueF(), self.foregroundColor().alphaF())
         self.startScreenCoordinatesSystem()
         for i in range(self.nbSaucers):
             ogl.glBegin(ogl.GL_POLYGON)

@@ -62,7 +62,7 @@ To create a conda environment with all dependencies:
 conda env create -f environment.yml
 ```
 
-To compile the project:
+To build and install the project:
 
 ```
 sip-install

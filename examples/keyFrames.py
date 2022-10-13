@@ -1,5 +1,6 @@
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 from PyQGLViewer import *
 import OpenGL.GL as ogl
 
@@ -17,8 +18,8 @@ Press <b>Control</b> to move it or simply hover over it."""
 class Viewer(QGLViewer):
     def __init__(self):
         QGLViewer.__init__(self)
-        self.setStateFileName('.keyFrames.xml')        
-        self.restoreStateFromFile()
+        #self.setStateFileName('.keyFrames.xml')        
+        #self.restoreStateFromFile()
         self.nbKeyFrames = 4
         self.myFrame = Frame()
         self.kfi = KeyFrameInterpolator()
@@ -29,7 +30,7 @@ class Viewer(QGLViewer):
             kf.setPosition(-1.0 + 2.0*i/(self.nbKeyFrames-1), 0.0, 0.0)
             self.kfi.addKeyFrame(kf)
         self.currentKF = 0
-        self.setManipulatedFrame(self.keyFrame[self.currentKF])
+        #self.setManipulatedFrame(self.keyFrame[self.currentKF])
 
         # Enable direct frame manipulation when the mouse hovers.
         self.setMouseTracking(True)
@@ -40,8 +41,10 @@ class Viewer(QGLViewer):
         self.setKeyDescription(Qt.Key_Right, "Selects next key frame")
         self.setKeyDescription(Qt.Key_Return, "Starts/stops interpolation")
         self.help()
-        QObject.connect(self.kfi, SIGNAL("interpolated()"), self.updateGL)
+        self.kfi.interpolated.connect(self.update)
         self.kfi.startInterpolation()
+    def init(self):
+        pass
     def draw(self):
         # Draw interpolated frame
         ogl.glPushMatrix()
@@ -66,11 +69,11 @@ class Viewer(QGLViewer):
         if e.key() == Qt.Key_Left :
             self.currentKF = (self.currentKF+self.nbKeyFrames-1) % self.nbKeyFrames
             self.setManipulatedFrame(self.keyFrame[self.currentKF])
-            self.updateGL()
+            self.update()
         elif e.key() == Qt.Key_Right :
             self.currentKF = (self.currentKF+1) % self.nbKeyFrames
             self.setManipulatedFrame(self.keyFrame[self.currentKF])
-            self.updateGL()
+            self.update()
         elif e.key() == Qt.Key_Return :
             self.kfi.toggleInterpolation()
         elif e.key() == Qt.Key_Plus :

@@ -1,5 +1,6 @@
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 from PyQGLViewer import *
 from qgllogo import *
 import OpenGL.GL as ogl
@@ -23,6 +24,14 @@ class Viewer(QGLViewer):
         self.__wireframe = False
         self.__flatShading = False
     def draw(self):
+        if self.__wireframe:
+            ogl.glPolygonMode(ogl.GL_FRONT_AND_BACK, ogl.GL_LINE)
+        else:
+            ogl.glPolygonMode(ogl.GL_FRONT_AND_BACK, ogl.GL_FILL)
+        if self.__flatShading:
+            ogl.glShadeModel(ogl.GL_FLAT)
+        else:
+            ogl.glShadeModel(ogl.GL_SMOOTH)
         draw_qgl_logo()
     def init(self):
         self.restoreStateFromFile()
@@ -40,14 +49,14 @@ class Viewer(QGLViewer):
         #         Mouse bindings customization
         #     Changes standard action mouse bindings
         # Left and right buttons together make a camera zoom : emulates a mouse third button if needed.
-        self.setMouseBinding(Qt.LeftButton | Qt.RightButton, QGLViewer.CAMERA, QGLViewer.ZOOM)
+        self.setMouseBinding(Qt.Key_Z, Qt.NoModifier, Qt.LeftButton, QGLViewer.CAMERA, QGLViewer.ZOOM)
         # Disable previous TRANSLATE mouse binding (and remove it from help mouse tab).
-        self.setMouseBinding(Qt.RightButton, QGLViewer.NO_CLICK_ACTION)
-        self.setMouseBinding(int(Qt.ControlModifier) | Qt.ShiftModifier | Qt.RightButton, QGLViewer.SELECT)
+        self.setMouseBinding(Qt.NoModifier, Qt.RightButton, QGLViewer.NO_CLICK_ACTION)
+        self.setMouseBinding(Qt.ControlModifier | Qt.ShiftModifier, Qt.RightButton, QGLViewer.SELECT)
         self.setWheelBinding(Qt.AltModifier, QGLViewer.CAMERA, QGLViewer.MOVE_FORWARD)
-        self.setMouseBinding(int(Qt.AltModifier) | Qt.LeftButton, QGLViewer.CAMERA, QGLViewer.TRANSLATE)
+        self.setMouseBinding(Qt.AltModifier, Qt.LeftButton, QGLViewer.CAMERA, QGLViewer.TRANSLATE)
         # Add custom mouse bindings description (see mousePressEvent())
-        self.setMouseBindingDescription(Qt.RightButton, "Opens a camera path context menu")
+        self.setMouseBindingDescription(Qt.NoModifier, Qt.RightButton, "Opens a camera path context menu")
         # Display the help window. The help window tabs are automatically updated when you define new
         # standard key or mouse bindings (as is done above). Custom bindings descriptions are added using
         # setKeyDescription() and setMouseBindingDescription().
@@ -65,28 +74,21 @@ class Viewer(QGLViewer):
         # With a switch, it would have been impossible to separate 'F' from 'CTRL+F'.
         # That's why we use imbricated if...else and a "handled" boolean.
         handled = False
-        if ((e.key()==Qt.Key_W) and (modifiers==Qt.NoModifier)):
-            self.__wireframe = not self.__wireframe
-            if self.__wireframe:
-                ogl.glPolygonMode(ogl.GL_FRONT_AND_BACK, ogl.GL_LINE)
-            else:
-                ogl.glPolygonMode(ogl.GL_FRONT_AND_BACK, ogl.GL_FILL)
-            handled = True
-            self.updateGL()
-        elif (e.key()==Qt.Key_F) and (modifiers==Qt.NoModifier):
-            self.__flatShading = not self.__flatShading
-            if self.__flatShading:
-                ogl.glShadeModel(ogl.GL_FLAT)
-            else:
-                ogl.glShadeModel(ogl.GL_SMOOTH)
-            handled = True
-            self.updateGL()
-        # ... and so on with other elif blocks.
+        if modifiers == Qt.NoModifier:
+            if e.key()==Qt.Key_W:
+                self.__wireframe = not self.__wireframe
+                handled = True
+                self.update()
+            elif e.key()==Qt.Key_F:
+                self.__flatShading = not self.__flatShading
+                handled = True
+                self.update()
+            # ... and so on with other elif blocks.
         
         if not handled:
             QGLViewer.keyPressEvent(self,e)
     def mousePressEvent(self,e):
-        if (e.button() == Qt.RightButton) and (e.modifiers() == Qt.NoModifier):
+        if (e.button() == Qt.RightButton) and (e.modifiers() == Qt.NoButton):
             menu= QMenu( self )
             menu.addAction("Camera positions")
             menu.addSeparator()

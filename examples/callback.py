@@ -1,5 +1,6 @@
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 import PyQGLViewer as pq
 from qgllogo import *
 
@@ -16,13 +17,13 @@ def help():
 class Scene (QObject):
     def __init__(self,gqlviewer):
         QObject.__init__(self)
-        self.connect(gqlviewer, SIGNAL("drawNeeded()"), self.draw)
-        self.connect(gqlviewer, SIGNAL("FPSIsDisplayedChanged(bool)"), self.fps)
+        gqlviewer.drawNeeded.connect(self.draw)
+        gqlviewer.FPSIsDisplayedChanged.connect(self.fps)
     def fps(self,val):
         if val:
-            print "FPS is displayed"
+            print("FPS is displayed")
         else:
-            print "FPS is not displayed"
+            print("FPS is not displayed")
     def draw(self):
         draw_qgl_logo()
 
@@ -35,7 +36,7 @@ def main():
     qapp = QApplication([])
     viewer = pq.QGLViewer()
     viewer.setStateFileName('.callback.xml')        
-    viewer.restoreStateFromFile()
+    #viewer.restoreStateFromFile()
     s = Scene(viewer)
     viewer.setWindowTitle("callback")
     help()

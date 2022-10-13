@@ -1,0 +1,31 @@
+ # Specify the build system.
+[build-system]
+requires = ["sip >=6.0.2, <7", "PyQt-builder >=1.6, <2"]
+build-backend = "sipbuild.api"
+
+# Specify the PEP 566 metadata for the project.
+[tool.sip.metadata]
+name = "PyQGLViewer"
+version = "1.3.0"
+summary = "Python bindings for the libQGViewer widget"
+home-page = "https://github.com/fredboudon/PyQGLViewer"
+author = "Frederic Boudon"
+author-email = "frederic.boudon@cirad.fr"
+license = "GPL v3"
+#description-file = "README"
+requires-dist = "PyQt5 (>=5.12)"
+
+[tool.sip.bindings.PyQGLViewer]
+qmake-QT = ['xml opengl gui widgets']
+libraries = ['QGLViewer']
+tags = ['QGLViewer_2_8_0']
+#include-dirs=['${CONDA_PREFIX}/include','${PREFIX}/include']
+#library-dirs=['${CONDA_PREFIX}/lib','${PREFIX}/lib']
+extra-compile-args=['-I${CONDA_PREFIX}/include','-I${PREFIX}/include']
+extra-link-args=['-L${CONDA_PREFIX}/lib','-L${PREFIX}/lib']
+
+
+[tool.sip.project]
+sip-module="PyQt5.sip"
+abi-version='12'
+
