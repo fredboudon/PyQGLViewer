@@ -33,9 +33,9 @@ requirements:
   host:
     - python
     - pip
-    - qt-main
+    - qt-main >= 5.15
     - pyqt
-    - libqglviewer
+    - libqglviewer >= 2.8
     - sip
     - pyqt5-sip
     - xorg-libxfixes  # [linux]
