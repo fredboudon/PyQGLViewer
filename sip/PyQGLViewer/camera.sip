@@ -94,6 +94,7 @@ public:
     qreal aspectRatio() const;
     int screenWidth() const;
     int screenHeight() const;
+    qreal devicePixelRatio() const;
     SIP_PYOBJECT getViewport() const;
 %MethodCode	
 	GLint viewport[4];
@@ -135,6 +136,7 @@ public:
     void setAspectRatio(qreal aspect);
 
     void setScreenWidthAndHeight(int width, int height);
+    void setDevicePixelRatio(qreal ratio);
     void setZNearCoefficient(qreal coef);
     void setZClippingCoefficient(qreal coef);
 

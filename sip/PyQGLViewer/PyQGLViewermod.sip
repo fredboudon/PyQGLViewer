@@ -36,7 +36,7 @@
            QGLViewer_2_4_0 QGLViewer_2_4_1 QGLViewer_2_5_0 QGLViewer_2_5_1 QGLViewer_2_5_2 QGLViewer_2_5_3 QGLViewer_2_5_4
            QGLViewer_2_6_0 QGLViewer_2_6_1 QGLViewer_2_6_2 QGLViewer_2_6_3 QGLViewer_2_6_4
            QGLViewer_2_7_0 QGLViewer_2_7_1 QGLViewer_2_7_2 
-           QGLViewer_2_8_0}
+           QGLViewer_2_8_0 QGLViewer_2_9_0 QGLViewer_2_9_1}
 %Feature FRIEND_EQUAL_SUPPORT
 
 %Copying
