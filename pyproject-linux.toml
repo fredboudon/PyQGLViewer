@@ -6,7 +6,7 @@ build-backend = "sipbuild.api"
 # Specify the PEP 566 metadata for the project.
 [tool.sip.metadata]
 name = "PyQGLViewer"
-version = "1.3.0"
+version = "1.3.1"
 summary = "Python bindings for the libQGViewer widget"
 home-page = "https://github.com/fredboudon/PyQGLViewer"
 author = "Frederic Boudon"
@@ -21,7 +21,7 @@ libraries = ['QGLViewer','GLU']
 tags = ['QGLViewer_2_9_1']
 #include-dirs=['${CONDA_PREFIX}/include','${PREFIX}/include']
 #library-dirs=['${CONDA_PREFIX}/lib','${PREFIX}/lib']
-extra-compile-args=['-I${CONDA_PREFIX}/include','-I${PREFIX}/include','-I${BUILD_PREFIX}/${HOST}/sysroot/usr/include']
+extra-compile-args=['-I${CONDA_PREFIX}/include','-I${PREFIX}/include','-I${BUILD_PREFIX}/${HOST}/sysroot/usr/include','--sysroot=${BUILD_PREFIX}/${HOST}/sysroot']
 extra-link-args=['-L${CONDA_PREFIX}/lib','-L${PREFIX}/lib','--sysroot=${BUILD_PREFIX}/${HOST}/sysroot']
 
 [tool.sip.project]
