@@ -15,11 +15,9 @@ license = "GPL v3"
 #description-file = "README"
 requires-dist = "PyQt5 (>=5.12)"
 
-[tool.sip.builder]
-qmake-settings = ['CONFIG += c++14']
-
 [tool.sip.bindings.PyQGLViewer]
 qmake-QT = ['xml opengl gui widgets']
+qmake-CONFIG = ['c++14']
 libraries = ['QGLViewer','GLU']
 tags = ['QGLViewer_2_9_1']
 #include-dirs=['${CONDA_PREFIX}/include','${PREFIX}/include']
