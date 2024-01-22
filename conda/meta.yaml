@@ -23,6 +23,9 @@ requirements:
     - python
     - {{ compiler('cxx')}} 
     - make                               # [unix]
+    - sip
+    - pyqt5-sip
+    - pyqt-builder
     - pkg-config                         # [linux]
     - sysroot_linux-64 2.17              # [linux64]
     - binutils_impl_linux-64             # [linux]
