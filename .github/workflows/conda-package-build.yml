@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest , macos-latest , windows-latest]
+        os: [ ubuntu-latest ] #, macos-latest , windows-latest]
         python-minor-version: [8, 9, 10, 11]
         isMaster:
           - ${{ github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/dev') }}
@@ -44,7 +44,7 @@ jobs:
             python-minor-version: 10            
 
     steps:
-    - name: Chekout
+    - name: Checkout
       uses: actions/checkout@v3
     - name: Determine publish
       uses: haya14busa/action-cond@v1
