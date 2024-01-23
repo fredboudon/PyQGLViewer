@@ -22,7 +22,7 @@ libraries = ['QGLViewer','GLU']
 tags = ['QGLViewer_2_9_1']
 #include-dirs=['${CONDA_PREFIX}/include','${PREFIX}/include']
 #library-dirs=['${CONDA_PREFIX}/lib','${PREFIX}/lib']
-extra-compile-args=['-I${CONDA_PREFIX}/include','-I${PREFIX}/include','-I${BUILD_PREFIX}/${HOST}/sysroot/usr/include','-nostdinc++','-nostdinc', '--sysroot=${BUILD_PREFIX}/${HOST}/sysroot']
+extra-compile-args=['-I${CONDA_PREFIX}/include','-I${PREFIX}/include','-I${BUILD_PREFIX}/${HOST}/sysroot/usr/include', '--sysroot=${BUILD_PREFIX}/${HOST}/sysroot']
 extra-link-args=['-L${CONDA_PREFIX}/lib','-L${PREFIX}/lib','--sysroot=${BUILD_PREFIX}/${HOST}/sysroot']
 
 [tool.sip.project]
