@@ -11,12 +11,7 @@ then
     mv pyproject-linux.toml pyproject.toml
 
     export PATH=${PWD}:${PATH}
-
-    SYSROOT_FLAGS="-L ${BUILD_PREFIX}/${HOST}/sysroot/usr/lib64 -L ${BUILD_PREFIX}/${HOST}/sysroot/usr/lib"
-    export CFLAGS="$SYSROOT_FLAGS $CFLAGS"
-    export CXXFLAGS="$SYSROOT_FLAGS $CXXFLAGS"
-    export LDFLAGS="$SYSROOT_FLAGS $LDFLAGS"
-
+    export SYSROOT="${CONDA_BUILD_SYSROOT}"
 fi
 
 alias qmake='${CONDA_PREFIX}/bin/qmake'
