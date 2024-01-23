@@ -10,6 +10,15 @@ then
     export QMAKESPEC=linux-g++
     mv pyproject-linux.toml pyproject.toml
 
+    ln -s ${GXX} g++ || true
+    ln -s ${GCC} gcc || true
+    ln -s ${USED_BUILD_PREFIX}/bin/${HOST}-gcc-ar gcc-ar || true
+
+    export LD=${GXX}
+    export CC=${GCC}
+    export CXX=${GXX}
+    export PKG_CONFIG_EXECUTABLE=$(basename $(which pkg-config))
+
     export PATH=${PWD}:${PATH}
     export SYSROOT="${CONDA_BUILD_SYSROOT}"
 fi
