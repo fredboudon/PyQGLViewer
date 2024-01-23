@@ -59,7 +59,6 @@ jobs:
         conda: conda
         mamba: true
         python: ${{ matrix.python-minor-version }}
-        numpy: '22.0'
         channels: fredboudon, conda-forge
         token: ${{ secrets.ANACONDA_TOKEN }}
         publish: ${{ steps.publish.outputs.value }}
