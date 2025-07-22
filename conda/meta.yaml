@@ -1,9 +1,10 @@
 # do not edit the following line. It will be updated automatically
 {% set data = load_setup_py_data() %}
+{% set version = environ.get('SETUPTOOLS_SCM_PRETEND_VERSION', "0.0.0.dev") %}
 
 package:
   name: pyqglviewer
-  version: {{ data.get('version') }}
+  version: {{ version }}
 
 source:
   path: ..
@@ -14,6 +15,7 @@ about:
   summary: PyQGLViewer is a set of Python bindings for the libQGLViewer C++ library which extends the Qt framework with widgets and tools that eases the creation of OpenGL 3D viewers.
 
 build:
+  string: py{{ PY_VER }}
   number: 2
 
 requirements:
