@@ -23,7 +23,7 @@ requirements:
     - {{ compiler('cxx')}} 
     - make                               # [unix]
     - pkg-config                         # [linux]
-    - sysroot_linux-64 2.17              # [linux64]
+    - sysroot_linux-64                   # [linux64]
     - binutils_impl_linux-64             # [linux]
     - {{ cdt('mesa-libgl-devel') }}      # [linux]
     - {{ cdt('mesa-dri-drivers') }}      # [linux]
