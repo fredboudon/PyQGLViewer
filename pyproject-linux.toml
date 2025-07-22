@@ -27,5 +27,5 @@ extra-link-args=['-L${CONDA_PREFIX}/lib','-L${PREFIX}/lib']
 
 [tool.sip.project]
 sip-module="PyQt5.sip"
-abi-version='12'
+abi-version='12.8'
 
