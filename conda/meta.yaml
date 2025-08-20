@@ -26,6 +26,7 @@ requirements:
     - {{ stdlib("c") }}
     - make                               # [unix]
     - pkg-config                         # [linux]
+    - {{ cdt('mesa-libgl-devel') }}      # [linux]
     # from https://conda-forge.org/docs/maintainer/knowledge_base.html#libgl
     - python                             # [build_platform != target_platform]
     - sip                                # [build_platform != target_platform]
@@ -39,6 +40,7 @@ requirements:
     - sip
     - pyqt5-sip
     - pyqt-builder
+    - {{ cdt('mesa-libgl-devel') }}      # [linux]
     - libxcb                             # [linux]
     - pthread-stubs                      # [linux]
     - xorg-libxfixes                    # [linux]
