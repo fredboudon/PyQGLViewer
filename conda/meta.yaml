@@ -23,18 +23,10 @@ requirements:
     - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
   build:
     - {{ compiler('cxx')}} 
+    - {{ stdlib("c") }}
     - make                               # [unix]
     - pkg-config                         # [linux]
-    - sysroot_linux-64                   # [linux64]
-    - binutils_impl_linux-64             # [linux]
     - {{ cdt('mesa-libgl-devel') }}      # [linux]
-    - {{ cdt('mesa-dri-drivers') }}      # [linux]
-    - {{ cdt('libxext') }}               # [linux]
-    - {{ cdt('libselinux') }}            # [linux]
-    - {{ cdt('libxdamage') }}            # [linux]
-    - {{ cdt('libxxf86vm') }}            # [linux]
-    - {{ cdt('libxfixes') }}             # [linux]
-    - {{ cdt('libxcb') }}                # [linux]
     # from https://conda-forge.org/docs/maintainer/knowledge_base.html#libgl
     - python                             # [build_platform != target_platform]
     - sip                                # [build_platform != target_platform]
@@ -42,15 +34,15 @@ requirements:
   host:
     - python
     - pip
-    - qt-main >=5.15
+    - qt-main
     - pyqt
-    - libqglviewer >=2.8
+    - libqglviewer
     - sip
     - pyqt5-sip
     - pyqt-builder
+    - {{ cdt('mesa-libgl-devel') }}      # [linux]
     - libxcb                             # [linux]
     - pthread-stubs                      # [linux]
-    - {{ cdt('mesa-libgl-devel') }}      # [linux]
     - xorg-libxfixes                    # [linux]
 
 
