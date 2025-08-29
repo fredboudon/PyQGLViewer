@@ -38,5 +38,6 @@ def test_pyqglviewer(qtbot):
         viewer.setWindowTitle("simpleViewer")
         viewer.show()
         qtbot.addWidget(viewer)
+        assert viewer.isVisible()
 
     main()
