@@ -59,6 +59,7 @@ test:
   requires:
     - pytest
     - pytest-qt
+    - pytest-xvfb
   imports:
     - PyQGLViewer
   source_files:
