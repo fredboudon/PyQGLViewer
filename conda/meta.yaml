@@ -56,5 +56,13 @@ requirements:
     - xorg-libxfixes  # [linux]
 
 test:
+  requires:       # [unix]
+    - pytest      # [unix]
+    - pytest-qt   # [unix]
+    - pytest-xvfb # [unix]
   imports:
     - PyQGLViewer
+  source_files:   # [unix]
+    - test/*.py   # [unix]
+  commands:       # [unix]
+   - pytest -v    # [unix]
