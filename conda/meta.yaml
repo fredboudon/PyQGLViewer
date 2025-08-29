@@ -19,8 +19,6 @@ build:
   number: 2
 
 requirements:
-  run_constrained:                                            # [osx and x86_64]
-    - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
   build:
     - {{ compiler('cxx')}} 
     - {{ stdlib("c") }}
@@ -37,23 +35,15 @@ requirements:
     - qt-main
     - pyqt
     - libqglviewer
-    - sip
     - pyqt5-sip
     - pyqt-builder
-    - {{ cdt('mesa-libgl-devel') }}      # [linux]
-    - libxcb                             # [linux]
-    - pthread-stubs                      # [linux]
-    - xorg-libxfixes                    # [linux]
-
-
 
   run:
     - python
-    - {{ pin_compatible('qt-main',            max_pin='x.x') }} 
-    - {{ pin_compatible('pyqt',               max_pin='x.x') }} 
-    - {{ pin_compatible('libqglviewer',       max_pin='x.x') }} 
+    - pyqt
+    - qt-main
+    - libqglviewer
     - pyopengl
-    - xorg-libxfixes  # [linux]
 
 test:
   imports:
