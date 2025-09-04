@@ -21,6 +21,9 @@ build:
 requirements:
   run_constrained:                                            # [osx and x86_64]
     - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
+    # import of qt6 in same env clobber qt5 install
+    - pyside6 <0a0
+    - qt6-main <0a0
   build:
     - {{ compiler('cxx')}} 
     - {{ stdlib("c") }}
