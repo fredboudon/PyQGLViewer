@@ -41,7 +41,7 @@ libraries = ['QGLViewer ; platform_system != "Windows"',
 
 tags = ['QGLViewer_2_9_1']
 extra-compile-args=['-I${CONDA_PREFIX}/include ; platform_system != "Windows"' , 
-                    '-I${PREFIX}/include ; platform_system != "Windows"'
+                    '-I${PREFIX}/include ; platform_system != "Windows"',
                     '-I${BUILD_PREFIX}/${HOST}/sysroot/usr/include ; platform_system != "Linux"' ]
 
 extra-link-args=['-L${CONDA_PREFIX}/lib ; platform_system != "Windows"',
