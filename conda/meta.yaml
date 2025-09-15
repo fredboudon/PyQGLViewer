@@ -21,8 +21,8 @@ build:
 
 requirements:
   build:
-    #- {{ compiler('cxx')}} 
-    #- {{ stdlib("c") }}
+    - {{ compiler('cxx')}} 
+    - {{ stdlib("c") }}
     - make                               # [unix]
     - pkg-config                         # [linux]
     - {{ cdt('mesa-libgl-devel') }}      # [linux]
