@@ -31,19 +31,19 @@ sip-files-dir = "sip"
 
 [tool.sip.bindings.PyQGLViewer]
 qmake-QT = ['xml opengl gui widgets']
-qmake-CONFIG = ['c++14 ; platform_system == "Linux"']
-libraries = ['QGLViewer ; platform_system != "Windows"', 
-             'QGLViewer2 ; platform_system == "Windows"',
-             'opengl32 ; platform_system == "Windows"',
-             'glu32 ; platform_system == "Windows"',
-             'GLU ; platform_system == "Linux"'] 
+qmake-CONFIG = ["c++14 ; platform_system == \"Linux\""]
+libraries = ["QGLViewer ; platform_system != \"Windows\"", 
+             "QGLViewer2 ; platform_system == \"Windows\"",
+             "opengl32 ; platform_system == \"Windows\"",
+             "glu32 ; platform_system == \"Windows\"",
+             "GLU ; platform_system == \"Linux\""] 
 
 tags = ['QGLViewer_2_9_1']
-extra-compile-args=['-I${CONDA_PREFIX}/include ; platform_system != "Windows"' , 
-                    '-I${PREFIX}/include ; platform_system != "Windows"',
-                    '-I${BUILD_PREFIX}/${HOST}/sysroot/usr/include ; platform_system != "Linux"' ]
+extra-compile-args=["-I${CONDA_PREFIX}/include ; platform_system != \"Windows\"" , 
+                    "-I${PREFIX}/include ; platform_system != \"Windows\"",
+                    "-I${BUILD_PREFIX}/${HOST}/sysroot/usr/include ; platform_system != \"Linux\"" ]
 
-extra-link-args=['-L${CONDA_PREFIX}/lib ; platform_system != "Windows"',
-                 '-L${PREFIX}/lib ; platform_system != "Windows"']
+extra-link-args=["-L${CONDA_PREFIX}/lib ; platform_system != \"Windows\"",
+                 "-L${PREFIX}/lib ; platform_system != \"Windows\""]
 
 
