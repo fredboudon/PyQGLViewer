@@ -8,7 +8,6 @@ fi
 if [ "$(uname)" == "Linux" ];
 then
     export QMAKESPEC=linux-g++
-    mv pyproject-linux.toml pyproject.toml
 
     ln -s ${GXX} g++ || true
     ln -s ${GCC} gcc || true
@@ -32,7 +31,7 @@ sip-include-dirs = [\"${SIP_DIR}\", \"${PREFIX}/share/sip\"]
 
 
 echo "**** BUILD"
-sip-install --verbose
+pip install -v .
 
 echo
 echo "****** CHECK PYTHON LIB"

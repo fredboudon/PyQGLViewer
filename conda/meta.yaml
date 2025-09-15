@@ -1,9 +1,10 @@
 # do not edit the following line. It will be updated automatically
-{% set data = load_setup_py_data() %}
+#{% set data = load_setup_py_data() %}
+{% set version = environ.get('SETUPTOOLS_SCM_PRETEND_VERSION', "0.0.0.dev") %}
 
 package:
   name: pyqglviewer
-  version: {{ data.get('version') }}
+  version: {{ version }}
 
 source:
   path: ..
@@ -17,22 +18,12 @@ build:
   number: 2
 
 requirements:
-  run_constrained:                                            # [osx and x86_64]
-    - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
   build:
     - {{ compiler('cxx')}} 
+    - {{ stdlib("c") }}
     - make                               # [unix]
     - pkg-config                         # [linux]
-    - sysroot_linux-64                   # [linux64]
-    - binutils_impl_linux-64             # [linux]
     - {{ cdt('mesa-libgl-devel') }}      # [linux]
-    - {{ cdt('mesa-dri-drivers') }}      # [linux]
-    - {{ cdt('libxext') }}               # [linux]
-    - {{ cdt('libselinux') }}            # [linux]
-    - {{ cdt('libxdamage') }}            # [linux]
-    - {{ cdt('libxxf86vm') }}            # [linux]
-    - {{ cdt('libxfixes') }}             # [linux]
-    - {{ cdt('libxcb') }}                # [linux]
     # from https://conda-forge.org/docs/maintainer/knowledge_base.html#libgl
     - python                             # [build_platform != target_platform]
     - sip                                # [build_platform != target_platform]
@@ -40,27 +31,33 @@ requirements:
   host:
     - python
     - pip
-    - qt-main >=5.15
+    - qt-main
     - pyqt
-    - libqglviewer >=2.8
+    - libqglviewer
     - sip
     - pyqt5-sip
     - pyqt-builder
+    - {{ cdt('mesa-libgl-devel') }}      # [linux]
     - libxcb                             # [linux]
     - pthread-stubs                      # [linux]
-    - {{ cdt('mesa-libgl-devel') }}      # [linux]
     - xorg-libxfixes                    # [linux]
-
 
 
   run:
     - python
-    - {{ pin_compatible('qt-main',            max_pin='x.x') }} 
     - {{ pin_compatible('pyqt',               max_pin='x.x') }} 
     - {{ pin_compatible('libqglviewer',       max_pin='x.x') }} 
     - pyopengl
     - xorg-libxfixes  # [linux]
 
 test:
+  requires:       # [unix]
+    - pytest      # [unix]
+    - pytest-qt   # [unix]
+    - pytest-xvfb # [unix]
   imports:
     - PyQGLViewer
+  source_files:   # [unix]
+    - test/*.py   # [unix]
+  commands:       # [unix]
+    - pytest -v    # [unix]
