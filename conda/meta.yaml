@@ -28,7 +28,7 @@ requirements:
     - {{ cdt('mesa-libgl-devel') }}      # [linux]
     # from https://conda-forge.org/docs/maintainer/knowledge_base.html#libgl
     - python                             # [build_platform != target_platform]
-    - sip                                # [build_platform != target_platform]
+    - sip>=6.12                       # [build_platform != target_platform]
     - pyqt-builder                       # [build_platform != target_platform]
   host:
     - python
@@ -36,7 +36,7 @@ requirements:
     - qt-main
     - pyqt
     - libqglviewer
-    - sip
+    - sip>=6.12
     - pyqt5-sip
     - pyqt-builder
     - {{ cdt('mesa-libgl-devel') }}      # [linux]
