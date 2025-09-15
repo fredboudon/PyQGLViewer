@@ -21,7 +21,7 @@ sip-module = "PyQt5.sip"
 sip-files-dir = "sip"
 
 # Optional: version will be injected dynamically by setuptools_scm
-dynamic = [ "version" ]
+version = "1.3.3.dev"
 
 # ------------------------------
 # SIP bindings
