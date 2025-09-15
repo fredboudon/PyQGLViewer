@@ -36,7 +36,7 @@ qmake-CONFIG = ['c++14 ; platform_system == "Linux']
 libraries = ['QGLViewer ; platform_system != "Windows"', 
              'QGLViewer2 ; platform_system == "Windows"',
              'opengl32 ; platform_system == "Windows"',
-             'glu32 ; platform_system == "Windows"'
+             'glu32 ; platform_system == "Windows"',
              'GLU ; platform_system == "Linux"'] 
 
 tags = ['QGLViewer_2_9_1']
