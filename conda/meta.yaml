@@ -16,6 +16,7 @@ about:
 
 build:
   number: 2
+  string: py{{ PY_VER }}
 
 requirements:
   build:
