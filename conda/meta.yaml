@@ -17,9 +17,12 @@ about:
 build:
   number: 2
   string: py{{ PY_VER }}
-  script: sip-install --verbose
+  script: 
+    - sip-install --verbose    
   script_env:
-   - SETUPTOOLS_SCM_PRETEND_VERSION
+    - QMAKESPEC=linux-g++ # [linux]
+    - SETUPTOOLS_SCM_PRETEND_VERSION
+
   #script: {{ PYTHON }} -m pip install . --no-deps -vv
 
 requirements:
@@ -30,7 +33,7 @@ requirements:
     - {{ cdt('mesa-libgl-devel') }}      # [linux]
     # from https://conda-forge.org/docs/maintainer/knowledge_base.html#libgl
     - python                             # [build_platform != target_platform]
-    - sip                       # [build_platform != target_platform]
+    - sip                                # [build_platform != target_platform]
     - pyqt-builder                       # [build_platform != target_platform]
   host:
     - python
@@ -44,7 +47,7 @@ requirements:
     - {{ cdt('mesa-libgl-devel') }}      # [linux]
     - libxcb                             # [linux]
     - pthread-stubs                      # [linux]
-    - xorg-libxfixes                    # [linux]
+    - xorg-libxfixes                     # [linux]
 
 
   run:
