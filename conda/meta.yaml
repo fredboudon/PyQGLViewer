@@ -22,10 +22,6 @@ build:
   script_env:
     - SETUPTOOLS_SCM_PRETEND_VERSION
     - CONDA_BUILD_SYSROOT                # [linux]
-    - CFLAGS                             # [linux]
-    - CXXFLAGS                           # [linux]
-    - LDFLAGS                            # [linux]
-  #script: {{ PYTHON }} -m pip install . --no-deps -vv
 
 requirements:
   build:
