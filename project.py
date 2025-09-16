@@ -88,7 +88,6 @@ class PyQGLViewerBindings(PyQtBindings):
             self.libraries.append('GLU')
             if not CONDA_BUILD_SYSROOT is None :
                 self.include_dirs.append(f'{CONDA_BUILD_SYSROOT}/usr/include')
-            self.compile_args.append("-D_GLIBCXX_USE_CLOCK_REALTIME=0")
 
         elif platform.system() == 'Windows':
             self.libraries.append('QGLViewer2')
