@@ -1,6 +1,5 @@
 # PyQGLViewer
-
-[![Build Status](https://travis-ci.org/fredboudon/PyQGLViewer.svg?branch=master)](https://travis-ci.org/fredboudon/PyQGLViewer) [![Build status](https://ci.appveyor.com/api/projects/status/7jo1h7frejsot8uh/branch/master?svg=true)](https://ci.appveyor.com/project/fredboudon/pyqglviewer/branch/master)
+![ workflow](https://github.com/openalea/PyQGLViewer/actions/workflows/conda-package-build.yml/badge.svg)
 
 ## Presentation
 

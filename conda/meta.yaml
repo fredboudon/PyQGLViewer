@@ -22,7 +22,7 @@ build:
 
 requirements:
   build:
-    - {{ compiler('cxx')}} 
+    - {{ compiler('cxx')}}
     - make                               # [unix]
     - pkg-config                         # [linux]
     - {{ cdt('mesa-libgl-devel') }}      # [linux]
@@ -62,4 +62,4 @@ test:
   source_files:   # [unix]
     - test/*.py   # [unix]
   commands:       # [unix]
-    - pytest -v    # [unix]
+    - pytest -v   # [unix]
