@@ -18,6 +18,8 @@ build:
   number: 2
   string: py{{ PY_VER }}
   script: {{ PYTHON }} -m pip install . --no-deps -vv
+  script_env:
+   - SETUPTOOLS_SCM_PRETEND_VERSION
 
 requirements:
   build:
@@ -30,7 +32,6 @@ requirements:
     - sip                       # [build_platform != target_platform]
     - pyqt-builder                       # [build_platform != target_platform]
   host:
-    - {{ stdlib("c") }}
     - python
     - pip
     - qt-main

@@ -37,20 +37,6 @@ class PyQGLViewerProject(PyQtProject):
 
         self.bindings_factories = [PyQGLViewerBindings]
 
-    #def apply_user_defaults(self, tool):
-    #    """ Set default values for user options that haven't been set yet. """
-    #
-    #    super().apply_user_defaults(tool)
-
-
-    #def get_options(self):
-    #    """ Return the list of configurable options. """
-    #
-    #    options = super().get_options()
-    #
-    #    return options
-
-
     def get_metadata_overrides(self):
         import os, subprocess
         
@@ -67,9 +53,6 @@ class PyQGLViewerProject(PyQtProject):
         return {
             "version" : version
         }
-
-
-
 
 class PyQGLViewerBindings(PyQtBindings):
     def __init__(self, project):
