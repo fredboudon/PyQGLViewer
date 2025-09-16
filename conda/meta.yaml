@@ -18,8 +18,7 @@ build:
   number: 2
   string: py{{ PY_VER }}
   script: |
-    export SYSROOT="${CONDA_BUILD_SYSROOT}"                        # [Linux]
-    export PKG_CONFIG_EXECUTABLE=$(basename $(which pkg-config))   # [Linux]
+    export PATH=${PWD}:${PATH}   # [linux]
     sip-install --verbose    
   script_env:
     - SETUPTOOLS_SCM_PRETEND_VERSION
