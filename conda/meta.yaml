@@ -18,7 +18,7 @@ build:
   number: 2
   string: py{{ PY_VER }}
   script: |
-    export CXXFLAGS="$CXXFLAGS -D_GLIBCXX_USE_CLOCK_REALTIME=0" # [Linux] 
+    export SYSROOT="${CONDA_BUILD_SYSROOT}"  # [Linux]     
     sip-install --verbose    
   script_env:
     - SETUPTOOLS_SCM_PRETEND_VERSION
