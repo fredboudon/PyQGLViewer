@@ -29,16 +29,63 @@
 %ModuleCode
 
 #ifndef PYQGLVIEWER_VERSION
-#define PYQGLVIEWER_VERSION 0x010400
+#define PYQGLVIEWER_VERSION 0.0.0
 #endif
 
+#define QUOTE(x) #x
+#define STR(x) QUOTE(x)
+
+#define PYQGLVIEWER_VERSION_STR STR(PYQGLVIEWER_VERSION)
+#include <string>
+#include <vector>
+
+unsigned int version_to_hex(const std::string& version) {
+    std::vector<int> parts;
+    std::string number;
+
+    for (char c : version) {
+        if (std::isdigit(static_cast<unsigned char>(c))) {
+            number.push_back(c);              // accumuler les chiffres
+        } else {
+            if (!number.empty()) {
+                parts.push_back(std::stoi(number));
+                number.clear();
+            }
+        }
+    }
+    if (!number.empty()) {
+        parts.push_back(std::stoi(number));
+    }
+
+    // ajustement à 3 éléments (majeur, mineur, revision)
+    while (parts.size() < 3) {
+        parts.push_back(0);
+    }
+    if (parts.size() > 3) {
+        parts.resize(3);
+    }
+
+    // format : 0xMMmmrrdd
+    unsigned int hex_version = 0;
+    hex_version |= (parts[0] & 0xFF) << 16; // majeur
+    hex_version |= (parts[1] & 0xFF) << 8;  // mineur
+    hex_version |= (parts[2] & 0xFF);       // révision
+
+    return hex_version;
+}
+
+/*
 static const char * PyQGLViewerVersionString(){
   return qPrintable(QString::number((PYQGLVIEWER_VERSION & 0xff0000) >> 16) + "." +
                      QString::number((PYQGLVIEWER_VERSION & 0x00ff00) >> 8) + "." +
                      QString::number(PYQGLVIEWER_VERSION  & 0x0000ff));
 }
+*/
+static const char * PyQGLViewerVersionString(){
+  return STR(PYQGLVIEWER_VERSION);
+}
 
-static const int __version__ = PYQGLVIEWER_VERSION;
+static const int __version__ = version_to_hex(STR(PYQGLVIEWER_VERSION));
 
 static const char * QGLViewerVersionString(){
   return qPrintable(QString::number((QGLVIEWER_VERSION & 0xff0000) >> 16) + "." +
