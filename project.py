@@ -57,8 +57,14 @@ class PyQGLViewerProject(PyQtProject):
 class PyQGLViewerBindings(PyQtBindings):
     def __init__(self, project):
         """ Initialise the project. """
+        import platform
 
-        super().__init__(project, 'PyQGLViewer')
+        if platform.system() == 'Linux':
+            qmake_CONFIG = ['c++14']
+        else:
+            qmake_CONFIG = []
+
+        super().__init__(project, 'PyQGLViewer', qmake_CONFIG=qmake_CONFIG)
 
         print("Instanciation of the PyQGLViewerBindings ")
 
@@ -83,7 +89,6 @@ class PyQGLViewerBindings(PyQtBindings):
             self.libraries.append('GLU')
             if not BUILD_PREFIX is None and not HOST is None:
                 self.include_dirs.append(f'{BUILD_PREFIX}/{HOST}/sysroot/usr/include')
-            # bindings.qmake['CONFIG'] = [ "c++14" ]
         elif platform.system() == 'Windows':
             self.libraries.append('QGLViewer2')
             self.libraries.append('opengl32')
