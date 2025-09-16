@@ -32,6 +32,3 @@ sip-files-dir = "sip"
 [tool.sip.bindings.PyQGLViewer]
 qmake-QT = ['xml', 'opengl', 'gui', 'widgets']
 tags = ['QGLViewer_2_9_1']
-libraries = [ 'QGLViewer2  ; platform_system == "Windows"', 'opengl32 ; platform_system == "Windows"', 'glu32 ; platform_system == "Windows"' ]
-extra-compile-args=['-I${CONDA_PREFIX}/include  ; platform_system == "Darwin"','-I${PREFIX}/include ; platform_system == "Darwin"']
-extra-link-args=['-L${CONDA_PREFIX}/lib ; platform_system == "Darwin"','-L${PREFIX}/lib ; platform_system == "Darwin"']
