@@ -32,3 +32,4 @@ sip-files-dir = "sip"
 [tool.sip.bindings.PyQGLViewer]
 qmake-QT = ['xml', 'opengl', 'gui', 'widgets']
 tags = ['QGLViewer_2_9_1']
+qmake-CONFIG = ['c++14']

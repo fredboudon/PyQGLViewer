@@ -1,7 +1,0 @@
-c_compiler_version:
-  - 10
-cxx_compiler_version:
-  - 10
-
-sysroot_linux_64:
-  - 2.17
