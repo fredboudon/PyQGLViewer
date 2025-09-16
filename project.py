@@ -22,6 +22,29 @@ import os
 
 from pyqtbuild import PyQtBindings, PyQtProject
 
+
+def determine_pyqglviewer_version():
+        import os, subprocess
+                
+        version = os.environ.get("SETUPTOOLS_SCM_PRETEND_VERSION",None)
+        if version is None:
+            try:
+                version = subprocess.check_output(['git','describe','--tags','--long', '--match', 'v[0-9]*' ], stderr=subprocess.DEVNULL).decode()
+                version, devnum, tag = version.split('-')
+                vcomponents = version.strip()[1:].split('.')
+                if int(devnum) != 0:
+                    vcomponents[2] = str(int(vcomponents[2])+1)
+                    version = '.'.join(vcomponents)
+                    version = version+'.dev'+devnum
+            except Exception as e:
+                version = '0.0.0.dev'
+        print('FOUND VERSION :', version)
+        return version
+
+PYQGLVIEWER_VERSION = determine_pyqglviewer_version()
+
+
+
 class PyQGLViewerProject(PyQtProject):
     """ The libQGLViewer project. """
 
@@ -35,20 +58,7 @@ class PyQGLViewerProject(PyQtProject):
         self.bindings_factories = [PyQGLViewerBindings]
 
     def get_metadata_overrides(self):
-        import os, subprocess
-                
-        version = os.environ.get("SETUPTOOLS_SCM_PRETEND_VERSION",None)
-        if version is None:
-            try:
-                version = subprocess.check_output(['git','describe','--tags','--abbrev=0'], stderr=subprocess.DEVNULL)
-                version = version.decode().strip()[1:]+'.dev'
-            except Exception as e:
-                version = '0.0.0dev'
-        print('FOUND VERSION :', version)
-
-        return {
-            "version" : version
-        }
+        return { "version" : PYQGLVIEWER_VERSION }
 
 class PyQGLViewerBindings(PyQtBindings):
     def __init__(self, project):
@@ -59,6 +69,7 @@ class PyQGLViewerBindings(PyQtBindings):
 
     def apply_user_defaults(self, tool):
         import platform, os
+
 
         CONDA_PREFIX = os.environ.get('CONDA_PREFIX',None)
         PREFIX = os.environ.get('PREFIX',None)
@@ -82,5 +93,7 @@ class PyQGLViewerBindings(PyQtBindings):
             self.libraries.append('QGLViewer2')
             self.libraries.append('opengl32')
             self.libraries.append('glu32')
+        
+        self.define_macros.append('PYQGLVIEWER_VERSION="'+PYQGLVIEWER_VERSION+'"')
         
         super().apply_user_defaults(tool)
