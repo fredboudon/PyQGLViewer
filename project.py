@@ -21,9 +21,8 @@
 import os
 
 from pyqtbuild import PyQtBindings, PyQtProject
-from sipbuild import Option
 
-class libQGLViewer(PyQtProject):
+class PyQGLViewerProject(PyQtProject):
     """ The libQGLViewer project. """
 
     def __init__(self):
@@ -31,20 +30,57 @@ class libQGLViewer(PyQtProject):
 
         super().__init__()
 
-        #self.bindings_factories = [PyQGLViewer]
+        print("Instanciation of the PyQGLViewerProject ")
+
+        self.bindings_factories = [PyQGLViewerBindings]
+
+    def get_metadata_overrides(self):
+        import os, subprocess
+                
+        version = os.environ.get("SETUPTOOLS_SCM_PRETEND_VERSION",None)
+        if version is None:
+            try:
+                version = subprocess.check_output(['git','describe','--tags','--abbrev=0'], stderr=subprocess.DEVNULL)
+                version = version.decode().strip()[1:]+'.dev'
+            except Exception as e:
+                version = '0.0.0dev'
+        print('FOUND VERSION :', version)
+
+        return {
+            "version" : version
+        }
+
+class PyQGLViewerBindings(PyQtBindings):
+    def __init__(self, project):
+        """ Initialise the project. """
+        super().__init__(project, 'PyQGLViewer')
+
+        print("Instanciation of the PyQGLViewerBindings ")
 
     def apply_user_defaults(self, tool):
-        """ Set default values for user options that haven't been set yet. """
+        import platform, os
 
+        CONDA_PREFIX = os.environ.get('CONDA_PREFIX',None)
+        PREFIX = os.environ.get('PREFIX',None)
+        CONDA_BUILD_SYSROOT = os.environ.get('CONDA_BUILD_SYSROOT',None)
+
+        if platform.system() in ['Darwin','Linux'] :
+            self.libraries.append('QGLViewer')
+            if not CONDA_PREFIX is None:
+                self.include_dirs.append(f'{CONDA_PREFIX}/include')
+                self.library_dirs.append(f'{CONDA_PREFIX}/lib')
+            if not PREFIX is None:
+                self.include_dirs.append(f'{PREFIX}/include')
+                self.library_dirs.append(f'{PREFIX}/lib')
+
+        if platform.system() == 'Linux':
+            self.libraries.append('GLU')
+            if not CONDA_BUILD_SYSROOT is None :
+                self.include_dirs.append(f'{CONDA_BUILD_SYSROOT}/usr/include')
+
+        elif platform.system() == 'Windows':
+            self.libraries.append('QGLViewer2')
+            self.libraries.append('opengl32')
+            self.libraries.append('glu32')
+        
         super().apply_user_defaults(tool)
-
-
-    def get_options(self):
-        """ Return the list of configurable options. """
-
-        options = super().get_options()
-
-        return options
-
-
-

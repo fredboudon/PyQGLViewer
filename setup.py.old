@@ -33,13 +33,13 @@ from setuptools import setup
 
 setup(
     name='PyQGLViewer',
-    version=version,
-    description=description,
-    long_description=long_description,
-    author=authors,
-    author_email=authors_email,
-    url=url,
-    license=license,
+    # version=version,
+    # description=description,
+    # long_description=long_description,
+    # authors=authors,
+    # author_email=authors_email,
+    # url=url,
+    # license=license,
 
     use_scm_version=True,
     setup_requires=['setuptools_scm'],
