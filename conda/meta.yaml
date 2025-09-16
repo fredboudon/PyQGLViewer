@@ -22,21 +22,21 @@ build:
 requirements:
   build:
     - {{ compiler('cxx')}} 
-    - {{ stdlib("c") }}
     - make                               # [unix]
     - pkg-config                         # [linux]
     - {{ cdt('mesa-libgl-devel') }}      # [linux]
     # from https://conda-forge.org/docs/maintainer/knowledge_base.html#libgl
     - python                             # [build_platform != target_platform]
-    - sip>=6.12                       # [build_platform != target_platform]
+    - sip                       # [build_platform != target_platform]
     - pyqt-builder                       # [build_platform != target_platform]
   host:
+    - {{ stdlib("c") }}
     - python
     - pip
     - qt-main
     - pyqt
     - libqglviewer
-    - sip>=6.12
+    - sip
     - pyqt5-sip
     - pyqt-builder
     - {{ cdt('mesa-libgl-devel') }}      # [linux]

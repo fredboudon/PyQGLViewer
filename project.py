@@ -35,7 +35,7 @@ class PyQGLViewerProject(PyQtProject):
 
         print("Instanciation of the PyQGLViewerProject ")
 
-        #self.bindings_factories = [PyQGLViewer]
+        self.bindings_factories = [PyQGLViewerBindings]
 
     #def apply_user_defaults(self, tool):
     #    """ Set default values for user options that haven't been set yet. """
@@ -52,35 +52,58 @@ class PyQGLViewerProject(PyQtProject):
 
 
     def get_metadata_overrides(self):
-        import platform, os
-        #raise ValueError()
+        import os, subprocess
+        
+        
+        version = os.environ.get("SETUPTOOLS_SCM_PRETEND_VERSION",None)
+        if version is None:
+            try:
+                version = subprocess.check_output(['git','describe','--tags','--abbrev=0'], stderr=subprocess.DEVNULL)
+                version = version.decode().strip()[1:]+'.dev'
+            except Exception as e:
+                version = '0.0.0dev'
+        print('FOUND VERSION :', version)
 
-        bindings = {}
-        CONDA_PREFIX = os.environ.get('CONDA_PREFIX','')
-        PREFIX = os.environ.get('PREFIX','')
-        BUILD_PREFIX = os.environ.get('BUILD_PREFIX','')
-        HOST = os.environ.get('HOST','')
+        return {
+            "version" : version
+        }
 
-        if platform.system() == 'Darwin':
-            #bindings['libraries'] = "QGLViewer" 
-            bindings['extra_compile_args'] = f'-I{CONDA_PREFIX}/include -I{PREFIX}/include'
-            bindings['extra-link-args'] = f'-L{CONDA_PREFIX}/lib -L{PREFIX}/lib'
-        elif platform.system() == 'Linux':
-            bindings.libraries = [ "QGLViewer", "GLU" ] 
-            bindings.qmake['CONFIG'] = [ "c++14" ]
-            bindings.extra_compile_args = [f'-I{CONDA_PREFIX}/include',f'-I{PREFIX}/include',f'-I{BUILD_PREFIX}/{HOST}/sysroot/usr/include']
-            bindings.extra_link_args = [f'-L{CONDA_PREFIX}/lib',f'-L{PREFIX}/lib']
-        elif platform.system() == 'Windows':
-            bindings.libraries = [ "QGLViewer2", "opengl32", "glu32" ]
-        return bindings
 
 
 
 class PyQGLViewerBindings(PyQtBindings):
-    def __init__(self):
+    def __init__(self, project):
         """ Initialise the project. """
 
-        super().__init__()
+        super().__init__(project, 'PyQGLViewer')
 
         print("Instanciation of the PyQGLViewerBindings ")
 
+    def apply_user_defaults(self, tool):
+        import platform, os
+
+        CONDA_PREFIX = os.environ.get('CONDA_PREFIX',None)
+        PREFIX = os.environ.get('PREFIX',None)
+        BUILD_PREFIX = os.environ.get('BUILD_PREFIX',None)
+        HOST = os.environ.get('HOST',None)
+
+        if platform.system() in ['Darwin','Linux'] :
+            self.libraries.append('QGLViewer')
+            if not CONDA_PREFIX is None:
+                self.include_dirs.append(f'{CONDA_PREFIX}/include')
+                self.library_dirs.append(f'{CONDA_PREFIX}/lib')
+            if not PREFIX is None:
+                self.include_dirs.append(f'{PREFIX}/include')
+                self.library_dirs.append(f'{PREFIX}/lib')
+
+        if platform.system() == 'Linux':
+            self.libraries.append('GLU')
+            if not BUILD_PREFIX is None and not HOST is None:
+                self.include_dirs.append(f'{BUILD_PREFIX}/{HOST}/sysroot/usr/include')
+            # bindings.qmake['CONFIG'] = [ "c++14" ]
+        elif platform.system() == 'Windows':
+            self.libraries.append('QGLViewer2')
+            self.libraries.append('opengl32')
+            self.libraries.append('glu32')
+        
+        super().apply_user_defaults(tool)
