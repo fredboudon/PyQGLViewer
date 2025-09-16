@@ -17,9 +17,10 @@ about:
 build:
   number: 2
   string: py{{ PY_VER }}
-  script: {{ PYTHON }} -m pip install . --no-deps -vv
+  script: sip-install --verbose
   script_env:
    - SETUPTOOLS_SCM_PRETEND_VERSION
+  #script: {{ PYTHON }} -m pip install . --no-deps -vv
 
 requirements:
   build:
