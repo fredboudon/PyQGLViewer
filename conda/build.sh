@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Inspired from https://github.com/conda-forge/pyqt-feedstock/tree/main/recipe
+
 if [ "$(uname)" == "Linux" ];
 then
     USED_BUILD_PREFIX=${BUILD_PREFIX:-${PREFIX}}
