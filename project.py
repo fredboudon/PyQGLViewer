@@ -73,8 +73,7 @@ class PyQGLViewerBindings(PyQtBindings):
 
         CONDA_PREFIX = os.environ.get('CONDA_PREFIX',None)
         PREFIX = os.environ.get('PREFIX',None)
-        BUILD_PREFIX = os.environ.get('BUILD_PREFIX',None)
-        HOST = os.environ.get('HOST',None)
+        CONDA_BUILD_SYSROOT = os.environ.get('CONDA_BUILD_SYSROOT',None)
 
         if platform.system() in ['Darwin','Linux'] :
             self.libraries.append('QGLViewer')
@@ -87,8 +86,9 @@ class PyQGLViewerBindings(PyQtBindings):
 
         if platform.system() == 'Linux':
             self.libraries.append('GLU')
-            if not BUILD_PREFIX is None and not HOST is None:
-                self.include_dirs.append(f'{BUILD_PREFIX}/{HOST}/sysroot/usr/include')
+            if not CONDA_BUILD_SYSROOT is None :
+                self.include_dirs.append(f'{CONDA_BUILD_SYSROOT}/usr/include')
+
         elif platform.system() == 'Windows':
             self.libraries.append('QGLViewer2')
             self.libraries.append('opengl32')

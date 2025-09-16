@@ -20,7 +20,7 @@ build:
   script: 
     - sip-install --verbose    
   script_env:
-    - QMAKESPEC=linux-g++ # [linux]
+    - CONDA_BUILD_SYSROOT
     - SETUPTOOLS_SCM_PRETEND_VERSION
 
   #script: {{ PYTHON }} -m pip install . --no-deps -vv
