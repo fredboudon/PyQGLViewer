@@ -21,9 +21,6 @@
 import os
 
 from pyqtbuild import PyQtBindings, PyQtProject
-from sipbuild import Option
-
-print("project.py")
 
 class PyQGLViewerProject(PyQtProject):
     """ The libQGLViewer project. """
@@ -39,8 +36,7 @@ class PyQGLViewerProject(PyQtProject):
 
     def get_metadata_overrides(self):
         import os, subprocess
-        
-        
+                
         version = os.environ.get("SETUPTOOLS_SCM_PRETEND_VERSION",None)
         if version is None:
             try:
@@ -57,14 +53,7 @@ class PyQGLViewerProject(PyQtProject):
 class PyQGLViewerBindings(PyQtBindings):
     def __init__(self, project):
         """ Initialise the project. """
-        import platform
-
-        if platform.system() == 'Linux':
-            qmake_CONFIG = ['c++14']
-        else:
-            qmake_CONFIG = []
-
-        super().__init__(project, 'PyQGLViewer', qmake_CONFIG=qmake_CONFIG)
+        super().__init__(project, 'PyQGLViewer')
 
         print("Instanciation of the PyQGLViewerBindings ")
 
