@@ -25,7 +25,7 @@ requirements:
     - {{ compiler('cxx')}}
     - make                               # [unix]
     - pkg-config                         # [linux]
-    - {{ cdt('mesa-libgl-devel') }}      # [linux]
+    - {{ cdt('mesa-libgl-devel') }}      # [linux]  # match libqglviewer CDT GL strategy
     # from https://conda-forge.org/docs/maintainer/knowledge_base.html#libgl
     - python                             # [build_platform != target_platform]
     - sip                                # [build_platform != target_platform]
@@ -47,8 +47,8 @@ requirements:
 
   run:
     - python
-    - {{ pin_compatible('pyqt',               max_pin='x.x') }} 
-    - {{ pin_compatible('libqglviewer',       max_pin='x.x') }} 
+    - {{ pin_compatible('pyqt', max_pin='x.x') }}
+    - {{ pin_compatible('libqglviewer', max_pin='x.x') }}
     - pyopengl
     - xorg-libxfixes  # [linux]
 
