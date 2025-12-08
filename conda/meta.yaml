@@ -10,7 +10,7 @@ source:
   path: ..
 
 about:
-  home: https://github.com/fredboudon/PyQGLViewer
+  home: https://github.com/openalea/PyQGLViewer
   license: GPL
   summary: PyQGLViewer is a set of Python bindings for the libQGLViewer C++ library which extends the Qt framework with widgets and tools that eases the creation of OpenGL 3D viewers.
 
