@@ -3,6 +3,7 @@
 # Inspired from https://github.com/conda-forge/pyqt-feedstock/tree/main/recipe
 
 if [ "$(uname)" == "Linux" ]; then
+	# expose compilers to qmake
     GXX_PATH=$(command -v "${GXX}")
     GCC_PATH=$(command -v "${GCC}")
     GCC_AR_PATH=$(command -v "${GCC_AR}")
@@ -17,9 +18,7 @@ if [ "$(uname)" == "Linux" ]; then
 
     chmod +x g++ gcc gcc-ar
     export PATH=${PWD}:${PATH}
-
-	export LDFLAGS="-L${BUILD_PREFIX}/${HOST}/sysroot/usr/lib64 -L${BUILD_PREFIX}/${HOST}/sysroot/usr/lib ${LDFLAGS}"
-
+	
     echo "CC=${CC}"
     echo "CXX=${CXX}"
     echo "GCC=${GCC}"
