@@ -1,7 +1,7 @@
  # Specify the build system.
 [build-system]
 # "setuptools", "setuptools-scm" not used
-requires = ["sip<=6.10", "PyQt-builder"]
+requires = ["sip<=6.10", "PyQt-builder=1.18"]
 build-backend = "sipbuild.api"
 
 
@@ -16,7 +16,6 @@ authors = [
     { name = "Frederic Boudon", email = "frederic.boudon@cirad.fr" }
 ]
 dependencies = [
-    "sip<=6.10",
     "PyQt5",
     "PyQt5-sip"
 ]
@@ -28,8 +27,7 @@ sip-files-dir = "sip"
 [tool.sip.bindings.PyQGLViewer]
 qmake-QT = ['xml', 'opengl', 'gui', 'widgets']
 tags = ['QGLViewer_2_9_1']
-# include-dirs=['${CONDA_PREFIX}/include']
-# library-dirs=['${CONDA_PREFIX}/lib']
+
 
 # Could specified directly with new construct but currently only working on MacOS. Instead options set in project.py
 # libraries = ['QGLViewer ; system_platform == "Linux"','GLU  ; system_platform == "Linux"']
