@@ -18,10 +18,7 @@ if [ "$(uname)" == "Linux" ]; then
     chmod +x g++ gcc gcc-ar
     export PATH=${PWD}:${PATH}
 
-    SYSROOT_FLAGS="-L ${BUILD_PREFIX}/${HOST}/sysroot/usr/lib64 -L ${BUILD_PREFIX}/${HOST}/sysroot/usr/lib"
-    export CFLAGS="$SYSROOT_FLAGS $CFLAGS"
-    export CXXFLAGS="$SYSROOT_FLAGS $CXXFLAGS"
-    export LDFLAGS="$SYSROOT_FLAGS $LDFLAGS"
+	export LDFLAGS="-L${BUILD_PREFIX}/${HOST}/sysroot/usr/lib64 -L${BUILD_PREFIX}/${HOST}/sysroot/usr/lib ${LDFLAGS}"
 
     echo "CC=${CC}"
     echo "CXX=${CXX}"
