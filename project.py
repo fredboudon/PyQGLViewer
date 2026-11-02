@@ -19,13 +19,13 @@
 
 
 import os
+import platform
+import subprocess
 
 from pyqtbuild import PyQtBindings, PyQtProject
 
 
 def determine_pyqglviewer_version():
-        import os, subprocess
-                
         version = os.environ.get("SETUPTOOLS_SCM_PRETEND_VERSION",None)
         if version is None:
             try:
@@ -68,28 +68,20 @@ class PyQGLViewerBindings(PyQtBindings):
         print("Instanciation of the PyQGLViewerBindings ")
 
     def apply_user_defaults(self, tool):
-        import platform, os
 
-
-        CONDA_PREFIX = os.environ.get('CONDA_PREFIX',None)
-        PREFIX = os.environ.get('PREFIX',None)
-        CONDA_BUILD_SYSROOT = os.environ.get('CONDA_BUILD_SYSROOT',None)
-
-        if platform.system() in ['Darwin','Linux'] :
+        system = platform.system()
+        prefix = os.environ.get("PREFIX") or os.environ.get("CONDA_PREFIX")
+        
+        if system in ('Darwin','Linux') :
             self.libraries.append('QGLViewer')
-            if not CONDA_PREFIX is None:
-                self.include_dirs.append(f'{CONDA_PREFIX}/include')
-                self.library_dirs.append(f'{CONDA_PREFIX}/lib')
-            if not PREFIX is None:
-                self.include_dirs.append(f'{PREFIX}/include')
-                self.library_dirs.append(f'{PREFIX}/lib')
+            if prefix:
+                self.include_dirs.append(f'{prefix}/include')
+                self.library_dirs.append(f'{prefix}/lib')
 
-        if platform.system() == 'Linux':
+        if system == 'Linux':
             self.libraries.append('GLU')
-            if not CONDA_BUILD_SYSROOT is None :
-                self.include_dirs.append(f'{CONDA_BUILD_SYSROOT}/usr/include')
 
-        elif platform.system() == 'Windows':
+        elif system == 'Windows':
             self.libraries.append('QGLViewer2')
             self.libraries.append('opengl32')
             self.libraries.append('glu32')
