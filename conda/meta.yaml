@@ -19,36 +19,44 @@ build:
   string: py{{ PY_VER }}
   script_env:
     - SETUPTOOLS_SCM_PRETEND_VERSION
+  # script:
+  #   - sip-install --verbose
+    # - {{ PYTHON }} -m pip install . -v --no-build-isolation --no-deps --ignore-installed
 
 requirements:
   build:
-    - {{ compiler('cxx')}}
+    - {{ compiler('cxx') }}
+    - {{ stdlib('c') }}                    # [osx and win]
     - make                               # [unix]
-    - pkg-config                         # [linux]
-    - {{ cdt('mesa-libgl-devel') }}      # [linux]  # match libqglviewer CDT GL strategy
-    # from https://conda-forge.org/docs/maintainer/knowledge_base.html#libgl
-    - python                             # [build_platform != target_platform]
-    - sip                                # [build_platform != target_platform]
-    - pyqt-builder                       # [build_platform != target_platform]
+    - pkg-config                         # [unix]
+    # - libgl-devel                        # [linux]  # match libqglviewer CDT GL strategy
+    # # from https://conda-forge.org/docs/maintainer/knowledge_base.html#libgl
+    # - python
+    # - sip           
+    # - pyqt
+    # - pyqt-builder                    
   host:
     - python
     - pip
-    - qt-main
+    - sip<=6.10
     - pyqt
-    - libqglviewer
-    - sip
     - pyqt5-sip
-    - pyqt-builder
-    - {{ cdt('mesa-libgl-devel') }}      # [linux]
+    - pyqt-builder=1.18
+    - packaging
+    - qt-main
+    - libqglviewer
+    - libgl-devel                        # [linux]
     - libxcb                             # [linux]
     - pthread-stubs                      # [linux]
+    - sysroot_linux-64                   # [linux]
     - xorg-libxfixes                     # [linux]
 
 
   run:
     - python
-    - {{ pin_compatible('pyqt', max_pin='x.x') }}
-    - {{ pin_compatible('libqglviewer', max_pin='x.x') }}
+    - sip<=6.10
+    - pyqt
+    - libqglviewer
     - pyopengl
     - xorg-libxfixes  # [linux]
 
