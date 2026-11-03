@@ -55,11 +55,14 @@ if __name__ == '__main__':
 
 The sources are hosted on [GitHub](https://github.com/fredboudon/PyQGLViewer). 
 
-To create a conda environment with all dependencies:
+To create and activate a conda environment with all dependencies, using `environment-linux.yml`, `environment-macos.yml` or `environment-windows.yml` for your platform:
 
 ```
-conda env create -f environment.yml
+conda env create -f environment-linux.yml
+conda activate qglviewer
 ```
+
+macOS also requires the Xcode Command Line Tools, and Windows Visual Studio 2022 with the C++ tools.
 
 To build and install the project:
 

@@ -1,0 +1,27 @@
+# Windows developer environment, mirroring conda/meta.yaml.
+# Versions follow conda-forge. Only sip and pyqt-builder are pinned as in the
+# recipe.
+#
+# Visual Studio 2022 with the C++ tools is required: activation of the env sets
+# up its compiler and nmake.
+name: qglviewer
+channels:
+  - conda-forge
+dependencies:
+    # compiler('cxx') from the recipe
+    - cxx-compiler
+    # host
+    - python
+    - pip
+    - sip<=6.10
+    - pyqt
+    - pyqt5-sip
+    - pyqt-builder=1.18.*
+    - packaging
+    - qt-main
+    - libqglviewer
+    # run
+    - pyopengl
+    # test
+    - pytest
+    - pytest-qt
