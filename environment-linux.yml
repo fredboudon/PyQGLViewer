@@ -6,8 +6,8 @@ channels:
   - conda-forge
 dependencies:
     # compiler('cxx') and stdlib('c') from the recipe. cxx-compiler provides g++
-    # without target prefix, as called by qmake (conda/build.sh creates the same
-    # link with conda-build). g++ finds this sysroot by itself.
+    # without target prefix, as called by qmake (gxx in the recipe does the same).
+    # g++ finds this sysroot by itself.
     - cxx-compiler
     - sysroot_linux-64=2.17
     - make

@@ -16,6 +16,10 @@ about:
 
 build:
   number: 2
+  script:
+    - readlink -f "$(which g++)"         # [linux]
+    - g++ --version                      # [linux]
+    - sip-install --verbose
   script_env:
     - SETUPTOOLS_SCM_PRETEND_VERSION
 
@@ -23,6 +27,8 @@ requirements:
   build:
     - {{ compiler('cxx') }}
     - {{ stdlib('c') }}
+    # on linux qmake calls g++ by its plain name, that compiler('cxx') does not provide
+    - gxx                                # [linux]
     - make                               # [unix]
     - pkg-config                         # [unix]                 
   host:
@@ -46,13 +52,14 @@ requirements:
     - xorg-libxfixes  # [linux]
 
 test:
-  requires:       # [unix]
-    - pytest      # [unix]
-    - pytest-qt   # [unix]
-    - pytest-xvfb # [unix]
+  requires:
+    - pytest
+    - pytest-qt
+    - pytest-xvfb # [linux]
   imports:
     - PyQGLViewer
-  source_files:   # [unix]
-    - test/*.py   # [unix]
-  commands:       # [unix]
-    - pytest -v   # [unix]
+  source_files:
+    - test/*.py
+  commands:
+    - set QT_QPA_PLATFORM=offscreen # [win]
+    - pytest -v
