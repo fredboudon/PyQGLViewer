@@ -1,0 +1,32 @@
+# Linux developer environment, mirroring conda/meta.yaml.
+# Versions follow conda-forge. Only sip and pyqt-builder are pinned as in the
+# recipe, and sysroot as in conda-forge-pinning.
+name: qglviewer
+channels:
+  - conda-forge
+dependencies:
+    # compiler('cxx') and stdlib('c') from the recipe. cxx-compiler provides g++
+    # without target prefix, as called by qmake (conda/build.sh creates the same
+    # link with conda-build). g++ finds this sysroot by itself.
+    - cxx-compiler
+    - sysroot_linux-64=2.17
+    - make
+    - pkg-config
+    # host
+    - python
+    - pip
+    - sip<=6.10
+    - pyqt
+    - pyqt5-sip
+    - pyqt-builder=1.18.*
+    - packaging
+    - qt-main
+    - libqglviewer
+    - libgl-devel
+    - xorg-libxfixes
+    # run
+    - pyopengl
+    # test
+    - pytest
+    - pytest-qt
+    - pytest-xvfb
