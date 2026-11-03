@@ -3,39 +3,13 @@
 # Inspired from https://github.com/conda-forge/pyqt-feedstock/tree/main/recipe
 
 if [ "$(uname)" == "Linux" ]; then
-	# expose compilers to qmake
-    GXX_PATH=$(command -v "${GXX}")
-    GCC_PATH=$(command -v "${GCC}")
-    GCC_AR_PATH=$(command -v "${GCC_AR}")
-    ln -sf "${GXX_PATH}" g++
-    ln -sf "${GCC_PATH}" gcc
-    ln -sf "${GCC_AR_PATH}" gcc-ar
-
-    export LD=${GXX}
-    export CC=${GCC}
-    export CXX=${GXX}
-    export PKG_CONFIG_EXECUTABLE=$(basename $(which pkg-config))
-
-    chmod +x g++ gcc gcc-ar
+    # qmake calls g++ by its plain name, that the conda compiler does not provide
+    ln -sf "$(command -v "${GXX}")" g++
     export PATH=${PWD}:${PATH}
-	
-    echo "CC=${CC}"
-    echo "CXX=${CXX}"
-    echo "GCC=${GCC}"
-    echo "GXX=${GXX}"
 
-    which gcc
-    which g++
-
-    readlink -f "$(which gcc)" || true
-    readlink -f "$(which g++)" || true
-    readlink -f "$GCC" || true
-    readlink -f "$GXX" || true
-
-    "${CC}" --version
-    "${CXX}" --version
-
-    "$GXX" -v -E -x c++ /dev/null
+    # check that qmake gets the conda compiler, not the one of the runner
+    readlink -f "$(which g++)"
+    g++ --version
 fi
 
 echo "**** BUILD"
