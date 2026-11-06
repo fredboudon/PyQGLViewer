@@ -16,50 +16,50 @@ about:
 
 build:
   number: 2
-  string: py{{ PY_VER }}
+  script:
+    - readlink -f "$(which g++)"         # [linux]
+    - g++ --version                      # [linux]
+    - sip-install --verbose
   script_env:
     - SETUPTOOLS_SCM_PRETEND_VERSION
 
 requirements:
   build:
-    - {{ compiler('cxx')}}
+    - {{ compiler('cxx') }}
+    - {{ stdlib('c') }}
+    # on linux qmake calls g++ by its plain name, that compiler('cxx') does not provide
+    - gxx                                # [linux]
     - make                               # [unix]
-    - pkg-config                         # [linux]
-    - {{ cdt('mesa-libgl-devel') }}      # [linux]  # match libqglviewer CDT GL strategy
-    # from https://conda-forge.org/docs/maintainer/knowledge_base.html#libgl
-    - python                             # [build_platform != target_platform]
-    - sip                                # [build_platform != target_platform]
-    - pyqt-builder                       # [build_platform != target_platform]
+    - pkg-config                         # [unix]                 
   host:
     - python
     - pip
-    - qt-main
+    - sip<=6.10
     - pyqt
-    - libqglviewer
-    - sip
     - pyqt5-sip
-    - pyqt-builder
-    - {{ cdt('mesa-libgl-devel') }}      # [linux]
-    - libxcb                             # [linux]
-    - pthread-stubs                      # [linux]
+    - pyqt-builder 1.18.*
+    - packaging
+    - qt-main
+    - libqglviewer
+    - libgl-devel                        # [linux]
     - xorg-libxfixes                     # [linux]
-
 
   run:
     - python
-    - {{ pin_compatible('pyqt', max_pin='x.x') }}
-    - {{ pin_compatible('libqglviewer', max_pin='x.x') }}
+    - pyqt
+    - libqglviewer
     - pyopengl
     - xorg-libxfixes  # [linux]
 
 test:
-  requires:       # [unix]
-    - pytest      # [unix]
-    - pytest-qt   # [unix]
-    - pytest-xvfb # [unix]
+  requires:
+    - pytest
+    - pytest-qt
+    - pytest-xvfb # [linux]
   imports:
     - PyQGLViewer
-  source_files:   # [unix]
-    - test/*.py   # [unix]
-  commands:       # [unix]
-    - pytest -v   # [unix]
+  source_files:
+    - test/*.py
+  commands:
+    - set QT_QPA_PLATFORM=offscreen # [win]
+    - pytest -v

@@ -1,0 +1,30 @@
+# macOS developer environment (Intel and Apple Silicon), mirroring conda/meta.yaml.
+# Versions follow conda-forge. Only sip and pyqt-builder are pinned as in the
+# recipe.
+#
+# Xcode Command Line Tools are required: qmake gets the SDK path from xcrun.
+name: qglviewer
+channels:
+  - conda-forge
+dependencies:
+    # clang++ as called by qmake. The clangxx_osx-* wrappers of compiler('cxx')
+    # are arch specific and only set env flags, that qmake does not read.
+    - cxx-compiler
+    - make
+    - pkg-config
+    # host
+    - python
+    - pip
+    - sip<=6.10
+    - pyqt
+    - pyqt5-sip
+    - pyqt-builder=1.18.*
+    - packaging
+    - qt-main
+    - libqglviewer
+    # run
+    - pyopengl
+    # test
+    - pytest
+    - pytest-qt
+    - pytest-xvfb
