@@ -69,23 +69,16 @@ class PyQGLViewerBindings(PyQtBindings):
 
     def apply_user_defaults(self, tool):
 
+        # Libraries are declared in pyproject.toml. Qt only adds its own include
+        # dirs and links its libraries by full path, so the dirs of the conda env
+        # are needed to find libQGLViewer and GLU headers and libraries.
         system = platform.system()
         prefix = os.environ.get("PREFIX") or os.environ.get("CONDA_PREFIX")
-        
-        if system in ('Darwin','Linux') :
-            self.libraries.append('QGLViewer')
-            if prefix:
-                self.include_dirs.append(f'{prefix}/include')
-                self.library_dirs.append(f'{prefix}/lib')
 
-        if system == 'Linux':
-            self.libraries.append('GLU')
+        if system in ('Darwin','Linux') and prefix:
+            self.include_dirs.append(f'{prefix}/include')
+            self.library_dirs.append(f'{prefix}/lib')
 
-        elif system == 'Windows':
-            self.libraries.append('QGLViewer2')
-            self.libraries.append('opengl32')
-            self.libraries.append('glu32')
-        
         self.define_macros.append('PYQGLVIEWER_VERSION="'+PYQGLVIEWER_VERSION+'"')
         
         super().apply_user_defaults(tool)

@@ -1,7 +1,9 @@
  # Specify the build system.
 [build-system]
 # "setuptools", "setuptools-scm" not used
-requires = ["sip<=6.10", "PyQt-builder=1.18"]
+# Not installed nor checked by pip with --no-build-isolation: the versions that work
+# (sip<=6.10, PyQt-builder 1.18.*) are pinned in conda/meta.yaml
+requires = ["sip", "PyQt-builder"]
 build-backend = "sipbuild.api"
 
 
@@ -27,7 +29,12 @@ sip-files-dir = "sip"
 [tool.sip.bindings.PyQGLViewer]
 qmake-QT = ['xml', 'opengl', 'gui', 'widgets']
 tags = ['QGLViewer_2_9_1']
-
-
-# Could specified directly with new construct but currently only working on MacOS. Instead options set in project.py
-# libraries = ['QGLViewer ; system_platform == "Linux"','GLU  ; system_platform == "Linux"']
+# Markers must follow the name without space ('name;marker'): sip keeps spaces in the
+# value. Include and library dirs of the conda env are added in project.py.
+libraries = [
+    'QGLViewer;sys_platform != "win32"',
+    'GLU;sys_platform == "linux"',
+    'QGLViewer2;sys_platform == "win32"',
+    'opengl32;sys_platform == "win32"',
+    'glu32;sys_platform == "win32"',
+]
