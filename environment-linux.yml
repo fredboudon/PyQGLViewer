@@ -23,7 +23,6 @@ dependencies:
     - qt-main
     - libqglviewer
     - libgl-devel
-    - xorg-libxfixes
     # run
     - pyopengl
     # test

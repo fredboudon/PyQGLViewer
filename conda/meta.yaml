@@ -42,14 +42,12 @@ requirements:
     - qt-main
     - libqglviewer
     - libgl-devel                        # [linux]
-    - xorg-libxfixes                     # [linux]
 
   run:
     - python
     - pyqt
     - libqglviewer
     - pyopengl
-    - xorg-libxfixes  # [linux]
 
 test:
   requires:
